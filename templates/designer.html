@@ -10,7 +10,6 @@
 <script src="/static/js/jscolor.js"></script>
 
 
-
  <script type="text/javascript" src="/static/js/NicEdit.js"></script> <script type="text/javascript">
 //<![CDATA[
         bkLib.onDomLoaded(function() {
@@ -96,6 +95,13 @@ $(function(){
             width: '560',
             height:'510',
         });
+
+        $("#wait").hide();
+
+$("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
+
+
+
 });
 
 </script>
@@ -114,13 +120,30 @@ url: <span id="music_url"></span>   title: <span id="music_title"></span> author
 <button onclick='Index(1);'>Up</button>
 <button onclick='Index(-1);'>Down</button>
 <button onclick='$("#comments").dialog("open")'>Comment</button>
+<button onclick='$("#myframe")[0].contentDocument.getElementsByTagName("body")[0].innerHTML = $("#undo")[0].innerHTML;'>Undo</button>
+<button onclick='Clone("")'>Clone</button>
 <button onclick='Preview("");'>Preview</button>
 <button onclick='HTML("");'>Html</button>
-<button onclick = "Publisher('');">screen</button>
+<button onclick = "Publisher('');">Publish</button>
+<span id="wait"><img src="/static/images/wait.gif" width="20" height="20"></span>
 
- <iframe id= "myframe" src="/designer_body" width="1250" height="650" align="left">
+<div id = "myframe_conteiner" style="border: .1em solid black; width :900px; height :450px">
+ <iframe id= "myframe" src="/designer_body"  frameborder="no" width="100%" height="100%" align="left" >
     Ваш браузер не поддерживает плавающие фреймы!
  </iframe>
+</div>
+
+ <script>
+ $('#myframe_conteiner')
+    .resizable({
+        stop: function(e, ui) {
+
+            BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
+            BodyF.width = ui.size['width'];
+            BodyF.height = ui.size['height'];
+            }
+    });
+ </script>
 
  	<div id="type_select_image" style="visibility:hidden"></div>
 
@@ -192,7 +215,7 @@ url: <span id="music_url"></span>   title: <span id="music_title"></span> author
 <button onclick='$("#text_edite").dialog("close");'>Close</button>
  </div>
 
-
+<div id = "undo" style="visibility:hidden"></div>
 
 </body>
 </html>

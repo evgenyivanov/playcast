@@ -12,23 +12,54 @@ function NewId(){
 
 
 
-function Screen(){
+function Put(){
+    $("#wait").show();
+    var MyDict = {'title': $("#title")[0].val(),'body': $('#myframe').contents().find("body").html(),'mtitle': $("#music_title")[0].html(),'murl': $("#music_url")[0].html(),'mauthor': $("#music_url")[0].html(),'mperformer': $("#music_performer")[0].html()};
+$.ajax({
+  type: "POST",
+  url: "/put/",
+  data: MyDict,
+  success: function(msg){
+alert(msg);
+Screen(msg);
+  },
+  error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+     document.body.innerHTML = XMLHttpRequest.responseText;
+  }
+});
+
+
+    $("#wait").hide();
+}
+
+function Screen(arg){
     html2canvas(document.body, {
   onrendered: function(canvas) {
     document.body.appendChild(canvas);
     dataURL = canvas.toDataURL("image/png");
 
-        alert(dataURL);
+
         obj=$(canvas);
 obj.remove();
-  },
 
+
+
+$.ajax({
+  type: "POST",
+  url: "/save/",
+  data: {'id':arg,'imageData':dataURL},
+  success: function(msg){
+
+  },
+  error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+     document.body.innerHTML = XMLHttpRequest.responseText;
+  }
 });
 
-
-//[0].getImageData();
-//alert(ImageData);
-}
+}}
+)}
 
 function Publisher(){
   document.getElementById('myframe').contentWindow.Screen();
@@ -41,17 +72,22 @@ body =  $('#myframe').contents().find("body").html();
 newwindow=window.open("",title);
 newdocument=newwindow.document;
 newdocument.write('<head><script src="/static/js/audio.min.js"></script><script> audiojs.events.ready(function() {var as = audiojs.createAll(); });</script></head>');
+BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
+mystyle = BodyF.style.cssText;
+obj = $('#myframe_conteiner')[0];
+w = obj.style.width;
+h = obj.style.height;
 newdocument.write('<BODY>');
+st = "<div style='"+mystyle+" width :"+w+"; height :"+h+";'>";
+alert(st);
+newdocument.write(st);
 
 newdocument.write('<title>'+title+'</title>');
 newdocument.write('<div>'+body+'</div><br />');
-hh = document.body.scrollHeight;
-hh = hh + 1;
-newdocument.write('<div style="position: absolute; top : '+hh.toString()+'px;"><audio  preload="auto" src=/media/'+$("#music_url")[0].innerHTML+'  /><br /></div>');
-hh = hh + 50;
+newdocument.write('</div>');
+newdocument.write('<br /><audio  preload="auto" src=/media/'+$("#music_url")[0].innerHTML+'  /><br />');
 comment = myNicEditor3.instanceById('comments_text').getContent();
-
-newdocument.write('<div style="position: absolute; top : '+hh.toString()+'px;">'+comment+'</div>');
+newdocument.write('<div>'+comment+'</div>');
 newdocument.write('</BODY>');
 newdocument.close();
 }
@@ -67,9 +103,11 @@ $("#select_music").dialog("close");
 
 function AddImage(arg){
 
+$("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
+
 if ($("#type_select_image").html() === '0'){
-obj= $('#myframe').contents().find('#background');
-obj.css('background-image', 'url(' + arg + ')');
+obj= $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
+obj.style.backgroundImage = 'url(' + arg + ')';
 $("#dialog").dialog("close");
 }
 
@@ -82,11 +120,14 @@ st = st + '"Select(';
 st = st +"'"+today+"');"
 st = st +'" onclick="Select(';
 st = st +"'"+today+"');";
-st = st +'" id="'+today+'_container" style="position: absolute; z-index: 4;" />   <img src="'+arg+'" width="50" height="50" alt="" id="'+today;
+st = st +'" id="'+today+'_container" style="position: absolute; z-index: 4;" />   <img  src="'+arg+'" width="50" height="50" alt="" id="'+today;
 st = st +'" style=""></div>';
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
 
+obj = $("#myframe")[0].contentDocument.getElementById(today.toString());
+obj.width = 50*obj.naturalWidth/obj.naturalHeight;
+$("#select_image").dialog("close");
 }
 }
 
@@ -125,7 +166,7 @@ if (myItem === ''){
 }
 
 function DeleteItem(){
-myItem = obj = $('#myframe').contents().find('#mybox')[0].innerHTML;
+myItem =  $('#myframe').contents().find('#mybox')[0].innerHTML;
 
 if (myItem === ''){
     return;
@@ -160,30 +201,28 @@ BodyF.innerHTML = st + BodyF.innerHTML;
 }
 
 function ColorBackground(){
+
+$("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
+
 var color = $("#selectedColor")[0].value;
-obj = $('#myframe').contents().find('#background');
-obj[0].style.backgroundColor = '#'+color;
+obj =  $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
+obj.style.backgroundColor = '#'+color;
 $("#dialog").dialog("close");
 
 }
 
-function BackgroundReSize(){
-
-    var   elem = $('#background');
-    elem.resizable({
-			aspectRatio: true,
-			handles:     'ne, nw, se, sw'
-		});
-		elem.parent().draggable();
-}
 
 function Select(arg){
+
+
+
 
     var mybox =$('#mybox')[0];
     if (mybox.innerHTML == (arg)){
             return;
          }
 
+parent.document.getElementById("undo").innerHTML = document.body.innerHTML;
    $('#mybox')[0].innerHTML = arg;
 
 
@@ -228,5 +267,19 @@ top2 = offset.top.toString();
 //elem.draggable();
     }
 
+
+function Clone(){
+
+    myItem =  $('#myframe').contents().find('#mybox')[0].innerHTML;
+
+if (myItem === ''){
+    return;
+}
+
+  obj = $('#myframe').contents().find('#'+myItem);
+  AddImage(obj[0].src);
+
+
+}
 ////////////////////////////////////////////////////////////////////////////////
 

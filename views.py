@@ -9,6 +9,8 @@ from django.forms.util import ErrorList
 from django.shortcuts import render_to_response
 import datetime
 from models import Picture, Music
+import os, re
+from PIL import Image
 
 class DivErrorList(ErrorList):
     def __unicode__(self):
@@ -19,21 +21,47 @@ class DivErrorList(ErrorList):
 
 
 ############################################################################
-#@csrf_exempt
-def screen(request):
+@csrf_exempt
+def put(request):
+
     if request.method == "POST":
+        obj = Playcast()
+        obj.title = request.POST['title']
+        obj.body = request.POST['body']
+        obj.murl = request.POST['murl']
+        obj.mauthor = request.POST['mauthor']
+        obj.mperformer = request.POST['mperformer']
+        obj.user = request.user
+        obj.datetime = datetime.datetime.now()
+        obj.last = datetime.datetime.now()
+        obj.save()
+        return HttpResponse(obj.id)
+
+
+
+
+@csrf_exempt
+def save(request):
+
+    if request.method == "POST":
+
 
         #path = os.path.join(os.path.dirname(__file__), 'static').replace('\\','/')
         #path = os.path.join(path, 'img').replace('\\','/')
-        path = '/home/evgenyivanov/playcast/media/screenshot/'
-        name = str(request.session['id_picture']) + '.jpg'
+        path = '/home/evgenyivanov/playcast/media/screen/'
+        name = str(request.POST['id']) + '.jpg'
         path = os.path.join(path, name).replace('\\','/')
         fl = request.POST['imageData']
         imgstr = re.search(r'base64,(.*)', fl).group(1)
         output = open(path, 'wb')
         output.write(imgstr.decode('base64'))
         output.close()
-        return HttpResponse('Image saved')
+        img = Image.open(path)
+        size = 420, 420
+        img.thumbnail(size, Image.ANTIALIAS)
+        img.save(path, "JPEG")
+
+        return HttpResponse(path)
 
 def select_music(request):
     d = {}

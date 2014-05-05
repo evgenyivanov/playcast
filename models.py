@@ -2,6 +2,19 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import permalink
 
+class Playcast(models.Model):
+
+    title = models.CharField(max_length=200)
+    body =  models.TextField()
+    mtitle = models.CharField(max_length=200)
+    murl = models.CharField(max_length=200)
+    mauthor = models.CharField(max_length=200)
+    mperformer = models.CharField(max_length=200)
+    comment =  models.TextField()
+    user = models.ForeignKey(User, editable = False)
+    datetime = models.DateTimeField()
+    last = models.DateTimeField()
+
 
 class Picture(models.Model):
 

@@ -16,7 +16,8 @@ urlpatterns = patterns('',
      url(r'^upload_music/', 'playcast.views.upload_music'),
      url(r'^music_list/', 'playcast.views.music_list'),
      url(r'^select_music/', 'playcast.views.select_music'),
-     url(r'^screen/', 'playcast.views.screen'),
+     url(r'^save/', 'playcast.views.save'),
+      url(r'^put/', 'playcast.views.put'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
