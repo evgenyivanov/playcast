@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.forms.util import ErrorList
 from django.shortcuts import render_to_response
 import datetime
-from models import Picture, Music
+from models import Picture, Music,Playcast
 import os, re
 from PIL import Image
 
@@ -21,6 +21,32 @@ class DivErrorList(ErrorList):
 
 
 ############################################################################
+def playcast_list(request):
+    list = Playcast.objects.all().order_by('-datetime')[0:10]
+    L = []
+    for i in list:
+        L.append(i)
+    d = {'L':L}
+    t = get_template("playcast_list.html")
+    c = Context(d)
+    html = t.render(c)
+    return HttpResponse(html)
+
+
+def playcast(request,id):
+
+    obj = Playcast.objects.get(id=id)
+    d = {'p':obj}
+    t = get_template("playcast.html")
+    c = Context(d)
+    html = t.render(c)
+    return HttpResponse(html)
+
+
+
+
+
+
 @csrf_exempt
 def put(request):
 
@@ -29,6 +55,10 @@ def put(request):
         obj.title = request.POST['title']
         obj.body = request.POST['body']
         obj.murl = request.POST['murl']
+        obj.mtitle = request.POST['mtitle']
+        obj.style = request.POST['style']
+        obj.width = request.POST['width']
+        obj.height = request.POST['height']
         obj.mauthor = request.POST['mauthor']
         obj.mperformer = request.POST['mperformer']
         obj.user = request.user
@@ -124,11 +154,18 @@ def select_image(request):
     html = t.render(c)
     return HttpResponse(html)
 
+class Img():
+    url = ''
+    width = ''
+
 def images_list(request):
     L=[]
-    list = Picture.objects.all()
+    list = Picture.objects.all().order_by('-datetime')
     for i in list:
-        L.append('/media/'+str(i.image))
+        obj = Img()
+        obj.url = '/media/'+ str(i.image)
+        obj.width = str(102* i.image.width/i.image.height)
+        L.append(obj)
     d = {'L':L}
     t = get_template("imageslist.html")
     c = Context(d)

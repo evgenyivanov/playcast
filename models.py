@@ -6,6 +6,9 @@ class Playcast(models.Model):
 
     title = models.CharField(max_length=200)
     body =  models.TextField()
+    width = models.CharField(max_length=4)
+    height = models.CharField(max_length=4)
+    style = models.CharField(max_length=400)
     mtitle = models.CharField(max_length=200)
     murl = models.CharField(max_length=200)
     mauthor = models.CharField(max_length=200)
@@ -23,6 +26,8 @@ class Picture(models.Model):
     key_words = models.CharField(max_length=100, blank=True)
     user = models.ForeignKey(User, editable = False, blank=True)
     datetime = models.DateTimeField()
+
+
 
     class Meta:
         ordering = ['title']

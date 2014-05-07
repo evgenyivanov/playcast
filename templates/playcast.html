@@ -1,0 +1,19 @@
+<head>
+<title>{{p.title}}</title>
+<script src="/static/js/audio.min.js"></script>
+<script> audiojs.events.ready(function() {var as = audiojs.createAll(); });</script>
+</head>
+
+<body>
+
+<h3>"{{p.title}}" author: {{p.user.first_name}} {{p.user.last_name}} {{p.author}}</h3>
+<br />
+<div style="{{p.style}} width : {{p.width}}; height :{{p.height}};">{{p.body|safe}}</div>
+<div><audio   src=/media/{{p.murl}} preload="auto" /></div>
+<div>
+<br />
+Music "{{p.mtitle}}" autor's - {{p.mauthor}} performer - {{p.mperformer}}<br />
+{{p.comment}}
+last edition {{p.last}}
+</div>
+</body>

@@ -10,18 +10,47 @@ function NewId(){
   return st;
 }
 
+function VideoSet(arg){
+    $('#mybox')[0].innerHTML = arg;
+   obj = $("#"+arg);
+   obj.resizable();
+   obj.draggable();
+   obj.rotatable();
 
+}
+
+function AddVideo(){
+url = $("#select_video_url")[0].value;
+url = url.replace('http://www.youtube.com/watch?v=','');
+$("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
+var today = NewId();
+st2= "<div><div name = 'container' ";
+st2 = st2 +'" id="'+today+'_container" style="position: absolute; z-index: 4; width : 245px; height : 185px" />';
+st2 = st2 + '<iframe id = "'+today+'" width="96%" height="96%" src="http://www.youtube.com/embed/'+url+'?autoplay=1" frameborder="0" allowfullscreen="allowfullscreen" data-link="http://www.youtube.com/watch?v='+url+'"></iframe>';
+st2 = st2 + '</div></div>';
+BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
+BodyF.innerHTML = st2 + BodyF.innerHTML;
+   $("#select_video").dialog("close");
+document.getElementById("myframe").contentWindow.VideoSet(today+'_container');
+}
 
 function Put(){
+
+    obj = $('#myframe_conteiner')[0];
+    w = obj.style.width;
+    h = obj.style.height;
+    BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
     $("#wait").show();
-    var MyDict = {'title': $("#title")[0].val(),'body': $('#myframe').contents().find("body").html(),'mtitle': $("#music_title")[0].html(),'murl': $("#music_url")[0].html(),'mauthor': $("#music_url")[0].html(),'mperformer': $("#music_performer")[0].html()};
+
+    var MyDict = {'style':BodyF.style.cssText ,'width': w,'height':h,'title': document.getElementById("title").value,'body': $('#myframe').contents().find("body").html(),'mtitle': document.getElementById("music_title").textContent,'murl': document.getElementById("music_url").textContent ,'mauthor': document.getElementById("music_author").textContent,'mperformer': document.getElementById("music_performer").textContent};
+
 $.ajax({
   type: "POST",
   url: "/put/",
   data: MyDict,
   success: function(msg){
-alert(msg);
-Screen(msg);
+
+document.getElementById('myframe').contentWindow.Screen(msg);
   },
   error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -50,7 +79,7 @@ $.ajax({
   url: "/save/",
   data: {'id':arg,'imageData':dataURL},
   success: function(msg){
-
+  parent.document.location.href = '/playcast/'+arg;
   },
   error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -62,7 +91,10 @@ $.ajax({
 )}
 
 function Publisher(){
-  document.getElementById('myframe').contentWindow.Screen();
+  myframe = $("#myframe")[0].contentWindow;
+  myframe.$(".ui-resizable-handle").remove();
+  myframe.$(".ui-rotatable-handle").remove();
+    var id_playcast = Put();
 }
 
 
@@ -79,7 +111,6 @@ w = obj.style.width;
 h = obj.style.height;
 newdocument.write('<BODY>');
 st = "<div style='"+mystyle+" width :"+w+"; height :"+h+";'>";
-alert(st);
 newdocument.write(st);
 
 newdocument.write('<title>'+title+'</title>');
@@ -213,14 +244,15 @@ $("#dialog").dialog("close");
 
 
 function Select(arg){
-
-
-
-
     var mybox =$('#mybox')[0];
     if (mybox.innerHTML == (arg)){
             return;
          }
+
+
+  $(".ui-resizable-handle").remove();
+  $(".ui-rotatable-handle").remove();
+
 
 parent.document.getElementById("undo").innerHTML = document.body.innerHTML;
    $('#mybox')[0].innerHTML = arg;

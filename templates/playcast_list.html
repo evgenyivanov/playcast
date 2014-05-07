@@ -1,0 +1,9 @@
+{% for i in L%}
+<div style="border-width:2px; bolder-color: black" onclick="document.location.href='/playcast/{{i.id}}'">
+{{i.title}}<br />
+<img src="/media/screen/{{i.id}}.jpg"><br />
+{{i.user_first_name}} {{i.last_name}}<br />
+date {{i.datetime}}
+</div>
+<br />
+{%endfor%}

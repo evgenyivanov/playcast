@@ -96,6 +96,14 @@ $(function(){
             height:'510',
         });
 
+        var theDialog9 = $("#select_video").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '960',
+            height:'580',
+        });
+
         $("#wait").hide();
 
 $("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
@@ -116,6 +124,7 @@ url: <span id="music_url"></span>   title: <span id="music_title"></span> author
 <button onclick='$("#type_select_image").html(1);$("#select_image").dialog("open")'>Add image</button>
 <button onclick='$("#dialog_text").dialog("open")'>Add text</button>
 <button onclick='$("#select_music").dialog("open")'>Add music</button>
+<button onclick='$("#select_video").dialog("open")'>Add video</button>
 <button onclick='DeleteItem("");'>Delete</button>
 <button onclick='Index(1);'>Up</button>
 <button onclick='Index(-1);'>Down</button>
@@ -194,6 +203,13 @@ url: <span id="music_url"></span>   title: <span id="music_title"></span> author
 <br/><br/><br/><br/><br/><br/><br/>or select image:
 <iframe  id="list_img2" src="/select_image" width="950" height="410"></iframe>
  </div>
+
+<div id="select_video" title="Please, input URl">
+example: http://www.youtube.com/watch?v=nnnn</br>
+<input type="text" id ="select_video_url" value ="" size ="50" ><br />
+<button onclick="AddVideo('');">OK</button>
+<button onclick='$("#select_video").dialog("close");'>Close</button>
+</div>
 
 <div id="dialog_text" title="Add text">
 
