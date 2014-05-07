@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251"/>
+<meta http-equiv="Content-Language" content="ru"/>
+
+
+<title></title>
+
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.ui.core.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/jquery.ui.resizable.css" />
+
+<style>
+#draggable-zone {
+	background: #000 url(images/space.jpg) 0 0 no-repeat;
+	border:     3px solid #000;
+
+	height:     500px;
+	margin:     2em auto;
+	overflow:   hidden;
+	width:      600px;}
+
+.ui-wrapper {
+	overflow:   visible !important;}
+
+.ui-resizable-handle {
+	background:    #f5dc58;
+	border:        1px solid #FFF;
+
+	z-index:    2;}
+
+.ui-rotatable-handle {
+	background:    #f5dc58;
+	border:        1px solid #FFF;
+	border-radius: 5px;
+		-moz-border-radius:    5px;
+		-o-border-radius:      5px;
+		-webkit-border-radius: 5px;
+	cursor:        pointer;
+
+	height:        10px;
+	left:          50%;
+	margin:        0 0 0 -5px;
+	position:      absolute;
+	top:           -5px;
+	width:         10px;}
+
+.ui-rotatable-handle.clone {
+	visibility:  hidden;}
+</style>
+<script src="/static/js/html2canvas.js"></script>
+</head>
+<body>
+<div>
+<div id="background" onclick="BackgroundReSize('')"; style ="background-color:#e0ffff; position: absolute;left: 1px; top:1px; z-index: -10000;  width: 850px; height: 550px"></div>
+</div>
+
+
+
+
+
+	<div id="mybox" style="visibility:hidden"></div>
+
+
+	<script type="text/javascript" src="/static/js/jquery.js"></script>
+	<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	<script type="text/javascript" src="/static/js/ui/jquery.ui.core.js"></script>
+	<script type="text/javascript" src="/static/js/ui/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="/static/js/ui/jquery.ui.mouse.js"></script>
+	<script type="text/javascript" src="/static/js/ui/jquery.ui.draggable.js"></script>
+	<script type="text/javascript" src="/static/js/ui/jquery.ui.resizable.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.ui.rotatable.js"></script>
+    <script type="text/javascript" src="/static/js/edite.js"></script>
+
+
+
+
+</body>
+</html>

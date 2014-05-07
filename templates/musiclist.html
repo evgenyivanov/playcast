@@ -1,0 +1,17 @@
+<head>
+
+<script src="/static/js/audio.min.js"></script>
+<script>
+  audiojs.events.ready(function() {
+    var as = audiojs.createAll();
+  });
+</script>
+</head>
+
+<table>
+{%for i in L%}
+<tr>
+<td ><span onclick="parent.parent.AddMusic('{{i.file}}','{{i.title}}','{{i.author}}','{{i.performer}}')"><img   src="/static/images/i-add.png"></span></td><td><audio  src="/media/{{i.file}}"  /></td><td>{{i.title}}</td><td>{{i.author}}</span></td><td>{{i.performer}}</td>
+</tr>
+{%endfor%}
+</table>

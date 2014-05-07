@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251"/>
+<meta http-equiv="Content-Language" content="ru"/>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<link href="/static/css/bootstrap.css" rel="stylesheet" media="screen">
+<script src="/static/js/jscolor.js"></script>
+
+
+
+ <script type="text/javascript" src="/static/js/NicEdit.js"></script> <script type="text/javascript">
+//<![CDATA[
+        bkLib.onDomLoaded(function() {
+            myNicEditor = new nicEditor().panelInstance('my_text');
+            myNicEditor2 = new nicEditor().panelInstance('text_edite_text');
+            myNicEditor3 = new nicEditor().panelInstance('comments_text');
+            });
+  //]]>
+  </script>
+
+<script src="/static/js/edite.js"></script>
+
+
+
+<script>
+$(function(){
+        var theDialog = $("#dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '1000',
+            height:'700',
+        });
+
+
+            var theDialog2 = $("#dialog_text").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '800',
+            height:'330',
+        });
+
+           var theDialog3 = $("#text_edite").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '800',
+            height:'330',
+        });
+
+
+         var theDialog4 = $("#select_image").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '960',
+            height:'580',
+        });
+
+
+          var theDialog5 = $("#upload_image").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '560',
+            height:'510',
+        });
+
+
+  var theDialog6 = $("#select_music").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '960',
+            height:'580',
+        });
+
+
+          var theDialog7 = $("#upload_music").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '560',
+            height:'510',
+        });
+
+
+         var theDialog8 = $("#comments").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '560',
+            height:'510',
+        });
+});
+
+</script>
+
+
+</head>
+<body>
+Title: <input type="text" id="title" style= "width :1000px;"><br/>
+url: <span id="music_url"></span>   title: <span id="music_title"></span> author: <span id="music_author"></span> performer: <span id="music_performer"></span>
+<br />
+<button onclick='$("#type_select_image").html(0);$("#dialog").dialog("open")'>Background</button>
+<button onclick='$("#type_select_image").html(1);$("#select_image").dialog("open")'>Add image</button>
+<button onclick='$("#dialog_text").dialog("open")'>Add text</button>
+<button onclick='$("#select_music").dialog("open")'>Add music</button>
+<button onclick='DeleteItem("");'>Delete</button>
+<button onclick='Index(1);'>Up</button>
+<button onclick='Index(-1);'>Down</button>
+<button onclick='$("#comments").dialog("open")'>Comment</button>
+<button onclick='Preview("");'>Preview</button>
+<button onclick='HTML("");'>Html</button>
+<button onclick = "Publisher('');">screen</button>
+
+ <iframe id= "myframe" src="/designer_body" width="1250" height="650" align="left">
+    Ваш браузер не поддерживает плавающие фреймы!
+ </iframe>
+
+ 	<div id="type_select_image" style="visibility:hidden"></div>
+
+ <div id="select_image" title="Select image">
+ <iframe  id="list_img" src="/select_image" width="950" height="470">
+ Ваш браузер не поддерживает плавающие фреймы!
+ </iframe>
+  <button onclick='document.getElementById("upload2").contentDocument.location.reload(true);$("#upload_image").dialog("open");'>Upload</button>
+ <button onclick='$("#select_image").dialog("close");'>Close</button>
+ </div>
+
+ <div id="upload_image" title="uploas image">
+ <iframe  id="upload2" src="/upload_image" width="450" height="160">
+ Ваш браузер не поддерживает плавающие фреймы!
+ </iframe>
+ <button onclick='$("#upload_image").dialog("close");document.getElementById("list_img").contentDocument.location.reload(true);'>Close</button>
+ </div>
+
+
+
+<div id="select_music" title="Select music">
+ <iframe  id="list_music" src="/select_music" width="1350" height="470">
+ Ваш браузер не поддерживает плавающие фреймы!
+ </iframe>
+  <button onclick='$("#upload_music").dialog("open");'>Upload</button>
+ <button onclick='$("#select_music").dialog("close");'>Close</button>
+ </div>
+
+ <div id="upload_music" title="uploas music">
+ <iframe  id="upload3" src="/upload_music" width="450" height="210">
+ Ваш браузер не поддерживает плавающие фреймы!
+ </iframe>
+ <button onclick='$("#upload_music").dialog("close");document.getElementById("list_music").contentDocument.location.reload(true);'>Close</button>
+ </div>
+
+
+
+<div id="comments" title="Comments">
+<textarea id="comments_text" style ="width: 450px; height: 300px;"></textarea>
+ <button onclick='$("#comments").dialog("close");'>Close</button>
+</div>
+
+ <div id="dialog" title="Select color">
+
+<input id="selectedColor" class="color">
+<button onclick="ColorBackground('')">OK</button>
+<button onclick='$("#dialog").dialog("close");'>Close</button>
+<br/><br/><br/><br/><br/><br/><br/>or select image:
+<iframe  id="list_img2" src="/select_image" width="950" height="410"></iframe>
+ </div>
+
+<div id="dialog_text" title="Add text">
+
+ <textarea id="my_text" style ="width: 650px; height: 100px;" >
+       Some Initial Content was in this textarea
+</textarea><br />
+
+<button onclick="AddText('')">OK</button>
+<button onclick='$("#dialog_text").dialog("close");'>Close</button>
+ </div>
+
+
+
+ <div id="text_edite" title="Edite text">
+ <div id="text_edite_id" style="visibility:hidden"></div>
+ <textarea id="text_edite_text" style ="width: 650px; height: 100px;" >
+</textarea><br />
+<button onclick="EditeMyText('')">OK</button>
+<button onclick='$("#text_edite").dialog("close");'>Close</button>
+ </div>
+
+
+
+</body>
+</html>

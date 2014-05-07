@@ -1,0 +1,24 @@
+<head>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+function refresh(){
+var myDict ={'my': $("#onlymy").prop("checked"), 'author': $("#author").val(), 'performer': $("#performer").val(), 'words' : $("#keywords").val()};
+$.get("/music_list/",myDict,function(data,status){
+     $("#conteiner").html(data);
+  });
+    }
+</script>
+
+</head>
+
+<body onload="refresh('')">
+
+
+   Only my music <input onchange="refresh('')" type="checkbox" id="onlymy" checked>
+   author <input onchange="refresh('')" type="text" id="author" checked>
+   performer <input onchange="refresh('')" type="text" id="performer" checked>
+   key words <input id = "keywords" onchange="refresh('')" type="text" value="">
+
+<div id= "conteiner"></div>
+</body>
