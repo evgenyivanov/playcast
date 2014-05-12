@@ -10,6 +10,25 @@ function NewId(){
   return st;
 }
 
+function DeletePlayCast(id){
+    document.location.href = '/deleteplaycast/'+id+'/';
+}
+
+function DelQuest(){
+    $("#dialog").dialog("open");
+}
+function FrameOnLoad(){
+
+document.body.innerHTML = parent.$("#undo")[0].innerHTML + document.body.innerHTML;
+document.body.style.cssText = parent.$("#undostyle")[0].innerHTML;
+}
+
+function Undo(){
+    $("#myframe")[0].contentDocument.getElementsByTagName("body")[0].innerHTML = $("#undo")[0].innerHTML;
+    var css = $("#undostyle")[0].innerHTML;
+    $("#myframe")[0].contentDocument.getElementsByTagName("body")[0].setAttribute("style", css);
+}
+
 function VideoSet(arg){
     $('#mybox')[0].innerHTML = arg;
    obj = $("#"+arg);
@@ -23,6 +42,7 @@ function AddVideo(){
 url = $("#select_video_url")[0].value;
 url = url.replace('http://www.youtube.com/watch?v=','');
 $("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
+$("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
 var today = NewId();
 st2= "<div><div name = 'container' ";
 st2 = st2 +'" id="'+today+'_container" style="position: absolute; z-index: 4; width : 245px; height : 185px" />';
@@ -39,10 +59,11 @@ function Put(){
     obj = $('#myframe_conteiner')[0];
     w = obj.style.width;
     h = obj.style.height;
+    tid = $("#object_id")[0].innerHTML;
     BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
     $("#wait").show();
 
-    var MyDict = {'style':BodyF.style.cssText ,'width': w,'height':h,'title': document.getElementById("title").value,'body': $('#myframe').contents().find("body").html(),'mtitle': document.getElementById("music_title").textContent,'murl': document.getElementById("music_url").textContent ,'mauthor': document.getElementById("music_author").textContent,'mperformer': document.getElementById("music_performer").textContent};
+    var MyDict = {'tid':tid,'style':BodyF.style.cssText ,'width': w,'height':h,'title': document.getElementById("title").value,'body': $('#myframe').contents().find("body").html(),'mtitle': document.getElementById("music_title").textContent,'murl': document.getElementById("music_url").textContent ,'mauthor': document.getElementById("music_author").textContent,'mperformer': document.getElementById("music_performer").textContent};
 
 $.ajax({
   type: "POST",
@@ -91,6 +112,7 @@ $.ajax({
 )}
 
 function Publisher(){
+
   myframe = $("#myframe")[0].contentWindow;
   myframe.$(".ui-resizable-handle").remove();
   myframe.$(".ui-rotatable-handle").remove();
@@ -116,7 +138,7 @@ newdocument.write(st);
 newdocument.write('<title>'+title+'</title>');
 newdocument.write('<div>'+body+'</div><br />');
 newdocument.write('</div>');
-newdocument.write('<br /><audio  preload="auto" src=/media/'+$("#music_url")[0].innerHTML+'  /><br />');
+newdocument.write('<br /><audio  preload="auto" autoplay="true" loop="loop" src=/media/'+$("#music_url")[0].innerHTML+'  /><br />');
 comment = myNicEditor3.instanceById('comments_text').getContent();
 newdocument.write('<div>'+comment+'</div>');
 newdocument.write('</BODY>');
@@ -135,7 +157,7 @@ $("#select_music").dialog("close");
 function AddImage(arg){
 
 $("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
-
+$("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
 if ($("#type_select_image").html() === '0'){
 obj= $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 obj.style.backgroundImage = 'url(' + arg + ')';
@@ -234,7 +256,7 @@ BodyF.innerHTML = st + BodyF.innerHTML;
 function ColorBackground(){
 
 $("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
-
+$("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
 var color = $("#selectedColor")[0].value;
 obj =  $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 obj.style.backgroundColor = '#'+color;
@@ -255,6 +277,7 @@ function Select(arg){
 
 
 parent.document.getElementById("undo").innerHTML = document.body.innerHTML;
+parent.document.getElementById("undostyle").innerHTML = document.body.style.cssText;
    $('#mybox')[0].innerHTML = arg;
 
 
@@ -309,9 +332,9 @@ if (myItem === ''){
 }
 
   obj = $('#myframe').contents().find('#'+myItem);
-  AddImage(obj[0].src);
-
-
+  try {
+  AddImage(obj[0].src);}catch(e) {
+  alert('only image');}
 }
 ////////////////////////////////////////////////////////////////////////////////
 

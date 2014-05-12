@@ -6,7 +6,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-     url(r'^$', 'playcast.views.designer'),
+     url(r'^$', 'playcast.views.home'),
+
+     url(r'^designer/(.)/', 'playcast.views.designer'),
      url(r'^designer/', 'playcast.views.designer'),
      url(r'^designer_body/', 'playcast.views.designer_body'),
      url(r'^designer_menu/', 'playcast.views.designer_menu'),
@@ -20,6 +22,11 @@ urlpatterns = patterns('',
      url(r'^put/', 'playcast.views.put'),
      url(r'^playcast/(.)/', 'playcast.views.playcast'),
      url(r'^playcast_list/', 'playcast.views.playcast_list'),
+     url(r'^mylogin/', 'playcast.views.mylogin'),
+     (r'^logout/$', 'django.contrib.auth.views.logout'),
+     url(r'^deleteplaycast/(.)/', 'playcast.views.deleteplaycast'),
+     url(r'^editeprofile/', 'playcast.views.editeprofile'),
+      url(r'^author/(.)/', 'playcast.views.author'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

@@ -6,17 +6,23 @@ class Playcast(models.Model):
 
     title = models.CharField(max_length=200)
     body =  models.TextField()
-    width = models.CharField(max_length=4)
-    height = models.CharField(max_length=4)
+    width = models.CharField(max_length=6)
+    height = models.CharField(max_length=6)
     style = models.CharField(max_length=400)
     mtitle = models.CharField(max_length=200)
     murl = models.CharField(max_length=200)
     mauthor = models.CharField(max_length=200)
     mperformer = models.CharField(max_length=200)
-    comment =  models.TextField()
+    comment =  models.TextField(blank=True)
     user = models.ForeignKey(User, editable = False)
     datetime = models.DateTimeField()
     last = models.DateTimeField()
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, editable = False)
+    photo = models.ImageField(upload_to='pic', blank=True)
+    url = models.URLField( blank=True)
+    about = models.TextField()
 
 
 class Picture(models.Model):

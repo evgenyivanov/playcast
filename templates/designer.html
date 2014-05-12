@@ -106,7 +106,7 @@ $(function(){
 
         $("#wait").hide();
 
-$("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
+
 
 
 
@@ -118,7 +118,7 @@ $("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName(
 </head>
 <body>
 Title: <input type="text" id="title" style= "width :1000px;"><br/>
-url: <span id="music_url"></span>   title: <span id="music_title"></span> author: <span id="music_author"></span> performer: <span id="music_performer"></span>
+url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmtitle}}</span> author: <span id="music_author">{{tmauthor}}</span> performer: <span id="music_performer">{{tmperfomer}}</span>
 <br />
 <button onclick='$("#type_select_image").html(0);$("#dialog").dialog("open")'>Background</button>
 <button onclick='$("#type_select_image").html(1);$("#select_image").dialog("open")'>Add image</button>
@@ -129,14 +129,15 @@ url: <span id="music_url"></span>   title: <span id="music_title"></span> author
 <button onclick='Index(1);'>Up</button>
 <button onclick='Index(-1);'>Down</button>
 <button onclick='$("#comments").dialog("open")'>Comment</button>
-<button onclick='$("#myframe")[0].contentDocument.getElementsByTagName("body")[0].innerHTML = $("#undo")[0].innerHTML;'>Undo</button>
+<button onclick='Undo("")'>Undo</button>
 <button onclick='Clone("")'>Clone</button>
 <button onclick='Preview("");'>Preview</button>
 <button onclick='HTML("");'>Html</button>
 <button onclick = "Publisher('');">Publish</button>
+
 <span id="wait"><img src="/static/images/wait.gif" width="20" height="20"></span>
 
-<div id = "myframe_conteiner" style="border: .1em solid black; width :900px; height :450px">
+<div id = "myframe_conteiner" style="border: .1em solid black; width :{{twidth}}; height :{{theight}}">
  <iframe id= "myframe" src="/designer_body"  frameborder="no" width="100%" height="100%" align="left" >
     Ваш браузер не поддерживает плавающие фреймы!
  </iframe>
@@ -191,7 +192,7 @@ url: <span id="music_url"></span>   title: <span id="music_title"></span> author
 
 
 <div id="comments" title="Comments">
-<textarea id="comments_text" style ="width: 450px; height: 300px;"></textarea>
+<textarea id="comments_text" style ="width: 450px; height: 300px;">{{tcomment}}</textarea>
  <button onclick='$("#comments").dialog("close");'>Close</button>
 </div>
 
@@ -231,7 +232,8 @@ example: http://www.youtube.com/watch?v=nnnn</br>
 <button onclick='$("#text_edite").dialog("close");'>Close</button>
  </div>
 
-<div id = "undo" style="visibility:hidden"></div>
-
+<div id = "undo" style="visibility:hidden">{{tbody|safe}}</div>
+<div id = "undostyle" style="visibility:hidden">{{tstyle}}</div>
+<div id = "object_id" style="visibility:hidden">{{tid}}</div>
 </body>
 </html>

@@ -1,12 +1,13 @@
+{{user.first_name}} {{user.last_name}} <br />
+<img src="/media/{{p.photo}}" />
+<br/> <a href = "{{p.url}}">Home page </a><br />
+About:
+<div>{{p.about}}</div>
+
 {% for i in L%}
 <div style="border-width:2px; bolder-color: black" onclick="var a = document.createElement('a'); a.href='/playcast/{{i.id}}';a.target = '_blank';document.body.appendChild(a);a.click();">
-
-
-
-
 {{i.title}}<br />
-<img src="/media/screen/{{i.id}}.jpg"><br />
-{{i.user_first_name}} {{i.last_name}}<br />
+<a href="/playcast/{{i.id}}/"><img src="/media/screen/{{i.id}}.jpg"></a><br />
 date {{i.datetime}}
 </div>
 <br />

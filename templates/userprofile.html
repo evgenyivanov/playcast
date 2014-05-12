@@ -1,0 +1,45 @@
+ <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
+     <h2>My profile:</h2>
+     
+     {{ formUser.non_field_errors }}
+    <div class="fieldWrapper">
+        {{ formUser.fist_name.errors }}
+        <label for="id_subject">First_name:</label>
+        {{ formUser.first_name }}
+    </div>
+    
+     <div class="fieldWrapper">
+        {{ formUser.last_name.errors }}
+        <label for="id_subject">last_name:</label>
+        {{ formUser.last_name }}
+    </div>
+   
+     <div class="fieldWrapper">
+        {{ formUser.email.errors }}
+        <label for="id_subject">email:</label>
+        {{ formUser.email }}
+    </div>
+    
+     <!-- Now add the sub-form to this form -->
+     {{ formProfile.non_field_errors }}
+     <div class="fieldWrapper">
+        {{ formProfile.photo.errors }}
+        <label for="id_subject">Photo:</label>
+        {{ formProfile.photo }}
+    </div>
+    
+     <div class="fieldWrapper">
+        {{ formProfile.url.errors }}
+        <label for="id_subject">Url:</label>
+        {{ formProfile.url }}
+    </div>
+    
+    <div class="fieldWrapper">
+        {{ formProfile.about.errors }}
+        <label for="id_subject">about:</label>
+        {{ formProfile.about }}
+    </div>
+     
+     
+     <p><button type="submit">OK</button></p>
+ </form>

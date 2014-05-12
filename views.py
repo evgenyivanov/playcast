@@ -1,16 +1,20 @@
 from django.http import HttpResponse
-from django import template
+#from django import template
 from django.template import Context
 from django.template.loader import get_template
 from forms import *
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.forms.util import ErrorList
-from django.shortcuts import render_to_response
+#from django.shortcuts import render_to_response
 import datetime
-from models import Picture, Music,Playcast
+from models import Picture, Music,Playcast, UserProfile
 import os, re
 from PIL import Image
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 class DivErrorList(ErrorList):
     def __unicode__(self):
@@ -21,6 +25,115 @@ class DivErrorList(ErrorList):
 
 
 ############################################################################
+def author(request,id):
+    usr = User.objects.get(id = id)
+    profile = UserProfile.objects.filter(user = usr)[0]
+    L=[]
+    list = Playcast.objects.filter(user = usr).order_by('-datetime')
+
+    for i in list:
+       L.append(i)
+    d = {'user':usr,'p':profile,'L':L}
+    t = get_template("author.html")
+    c = Context(d)
+    html = t.render(c)
+    return HttpResponse(html)
+
+
+@login_required
+def editeprofile(request):
+
+    if request.method == 'POST': # If the form has been submitted...
+
+        formUser = UserForm(request.POST,request.FILES)
+        formProfile = UserProFileForm(request.POST,request.FILES)
+
+        if formUser.is_valid(): # and formProfile.is_valid() :
+            request.user.first_name = formUser.cleaned_data['first_name']
+            request.user.last_name = formUser.cleaned_data['last_name']
+            request.user.email = formUser.cleaned_data['email']
+            request.user.save()
+
+
+            profile = UserProfile.objects.filter(user = request.user)[0]
+            profile.url = request.POST['url']
+            profile.about = request.POST['about']
+            if 'photo' in request.FILES:
+                profile.photo = request.FILES['photo']
+            profile.save()
+            resault = 'You profile  update'
+
+            return HttpResponse(resault)
+        else:
+
+             d = {'formProfile': formProfile,'formProfile':formProfile}
+             d.update(csrf(request))
+             t = get_template("userprofile.html")
+             c = Context(d)
+             html = t.render(c)
+             return HttpResponse(html)
+
+    else:
+
+        profile = UserProfile.objects.filter(user = request.user)
+        if profile.count() == 0:
+            obj = UserProfile()
+            obj.user = request.user
+            obj.save()
+        else:
+            obj = profile[0]
+        formUser = UserForm({'first_name':request.user.first_name,'last_name':request.user.last_name,'email':request.user.email})
+        formProfile = UserProFileForm({'photo': obj.photo,'url':obj.url,'about':obj.about})
+        d = {'formUser': formUser,'formProfile':formProfile}
+        d.update(csrf(request))
+        t = get_template("userprofile.html")
+        c = Context(d)
+        html = t.render(c)
+        return HttpResponse(html)
+
+
+
+
+def mylogin(request):
+    login2 = request.GET['login']
+    passw = request.GET['password']
+    user = authenticate(username=login2, password=passw)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            html = 'Hello, '+user.first_name+' '+user.last_name+'!<br />'
+            html = html +'<button type="button" onclick="document.location.href='
+            html = html + "'/admin/logout/?next=/';"
+            html = html +'">Log out</button>'
+        else:
+            pass
+    else:
+        html = 'Error: login and password<br />'
+        html = html + '<br />login <input type="text" id ="login" value="">'
+        html = html +'password <input type="password" id = "password" value="">'
+        html = html +'<button type="button" onclick="LogIn();">OK</button>'
+
+
+
+    return HttpResponse(html)
+
+def home(request):
+    user = request.user
+    if str(user) == 'AnonymousUser':
+        html = 'Hello, Guest!<br />login <input type="text" id ="login" value="">'
+        html = html +'password <input type="password" id = "password" value="">'
+        html = html +'<button type="button" onclick="LogIn();">OK</button>'
+    else:
+        html = 'Hello, '+user.first_name+' '+user.last_name+'!<br />'
+        html = html +'<a href="/logout/"><button type="button" >Log out</button></a>'
+    d = {'mycode':html}
+    t = get_template("index.html")
+    c = Context(d)
+    html = t.render(c)
+    return HttpResponse(html)
+
+
+
 def playcast_list(request):
     list = Playcast.objects.all().order_by('-datetime')[0:10]
     L = []
@@ -32,11 +145,23 @@ def playcast_list(request):
     html = t.render(c)
     return HttpResponse(html)
 
+def deleteplaycast(request,id):
+
+    obj = Playcast.objects.get(id=id)
+    if obj.user == request.user:
+        obj.delete()
+        os.remove('/home/evgenyivanov/playcast/media/screen/'+str(id)+'.jpg')
+        return redirect('/')
+
 
 def playcast(request,id):
 
     obj = Playcast.objects.get(id=id)
-    d = {'p':obj}
+    author=''
+    if obj.user == request.user:
+        author = '<a href = /designer/'+str(id)+'/>edite</a> <button onclick="DelQuest()">Delete</button>'
+
+    d = {'p':obj,'author':author,'tid':id}
     t = get_template("playcast.html")
     c = Context(d)
     html = t.render(c)
@@ -51,9 +176,26 @@ def playcast(request,id):
 def put(request):
 
     if request.method == "POST":
-        obj = Playcast()
+        tid = request.POST['tid']
+        if tid == '':
+            obj = Playcast()
+        else:
+            obj = Playcast.objects.get(id=tid)
         obj.title = request.POST['title']
-        obj.body = request.POST['body']
+        st = request.POST['body']
+        st = st.replace('<div id="mybox" style="visibility:hidden"></div>','')
+        st = st.replace('<script type="text/javascript" src="/static/js/jquery.js"></script>','')
+        st = st.replace('<script type="text/javascript" src="/static/js/jquery.js"></script>','')
+        st = st.replace('<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>','')
+        st = st.replace('<script type="text/javascript" src="/static/js/ui/jquery.ui.core.js"></script>','')
+        st = st.replace('<script type="text/javascript" src="/static/js/ui/jquery.ui.widget.js"></script>','')
+        st = st.replace('<script type="text/javascript" src="/static/js/ui/jquery.ui.mouse.js</script>">','')
+        st = st.replace('<script type="text/javascript" src="/static/js/ui/jquery.ui.draggable.js"></script>','')
+        st = st.replace('<script type="text/javascript" src="/static/js/ui/jquery.ui.resizable.js"></script>','')
+        st = st.replace('<script type="text/javascript" src="/static/js/jquery.ui.rotatable.js"></script>','')
+        st = st.replace('<script type="text/javascript" src="/static/js/edite.js"></script>','')
+        re.sub(r'\s+', ' ', st)
+        obj.body = st
         obj.murl = request.POST['murl']
         obj.mtitle = request.POST['mtitle']
         obj.style = request.POST['style']
@@ -160,7 +302,24 @@ class Img():
 
 def images_list(request):
     L=[]
-    list = Picture.objects.all().order_by('-datetime')
+    if str(request.GET['my']) == 'true':
+        list = Picture.objects.filter(user = request.user).order_by('-datetime')
+    else:
+        list = Picture.objects.all().order_by('-datetime')
+
+    #keywords = request.GET['words']
+
+   # if len(keywords) > 0:
+
+        #keys = keywords.splin()
+       # st = 'field__like ='+str(keys[0])
+     #   return HttpResponse('keys')
+       # for i in keys:
+        #    st = st + 'field__like='_i
+        #list = list.filter(st)
+
+
+
     for i in list:
         obj = Img()
         obj.url = '/media/'+ str(i.image)
@@ -205,9 +364,36 @@ def upload_image(request):
         html = t.render(c)
         return HttpResponse(html)
 
+@login_required
+def designer(request, id = None):
+    tid = ''
+    tbody = ''
+    tstyle = 'background-color:#e0ffff;'
+    twidth = '950px'
+    theight = '750px'
+    tmtitle =''
+    tmurl = ''
+    tmauthor = ''
+    tmperformer = ''
+    tcomment = ''
+    if id != None and (int(id)-1) < Playcast.objects.count():
+        obj = Playcast.objects.get(id=id)
 
-def designer(request):
-    d= {}
+        if obj != None:
+            if obj.user == request.user:
+                tbody = obj.body
+                tstyle = obj.style
+                tid = obj.id
+                twidth = obj.width
+                theight = obj.height
+                tmtitle = obj.mtitle
+                tmurl = obj.murl
+                tmauthor = obj.mauthor
+                tmperformer = obj.mperformer
+                tcomment = obj.comment
+
+
+    d= {'tid':tid,'tbody':tbody,'tstyle':tstyle,'twidth':twidth,'theight':theight,'tmtitle':tmtitle,'tmurl':tmurl,'tmauthor':tmauthor,'tmperformer':tmperformer,'tcomment':tcomment}
     t = get_template("designer.html")
     c = Context(d)
     html = t.render(c)
