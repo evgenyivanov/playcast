@@ -117,10 +117,11 @@ $(function(){
 
 </head>
 <body>
-Title: <input type="text" id="title" style= "width :1000px;"><br/>
+
+Title: <input type="text" id="title" style= "width :1000px;" value="{{title}}"><br/>
 url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmtitle}}</span> author: <span id="music_author">{{tmauthor}}</span> performer: <span id="music_performer">{{tmperfomer}}</span>
 <br />
-<button onclick='$("#type_select_image").html(0);$("#dialog").dialog("open")'>Background</button>
+<button onclick='$("#type_select_image").html(0);$("#list_img2")[0].src= $("#list_img2")[0].src;$("#dialog").dialog("open")'>Background</button>
 <button onclick='$("#type_select_image").html(1);$("#select_image").dialog("open")'>Add image</button>
 <button onclick='$("#dialog_text").dialog("open")'>Add text</button>
 <button onclick='$("#select_music").dialog("open")'>Add music</button>
@@ -134,6 +135,7 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
 <button onclick='Preview("");'>Preview</button>
 <button onclick='HTML("");'>Html</button>
 <button onclick = "Publisher('');">Publish</button>
+
 
 <span id="wait"><img src="/static/images/wait.gif" width="20" height="20"></span>
 
@@ -196,7 +198,7 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
  <button onclick='$("#comments").dialog("close");'>Close</button>
 </div>
 
- <div id="dialog" title="Select color">
+ <div id="dialog" title="Select background">
 
 <input id="selectedColor" class="color">
 <button onclick="ColorBackground('')">OK</button>

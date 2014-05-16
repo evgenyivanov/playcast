@@ -15,15 +15,22 @@ $(function(){
         });
 
 })
+
+$( document ).ready(function() {
+    $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML = $("#mybox")[0].innerHTML;
+})
 </script>
 <script src="/static/js/edite.js"></script>
 </head>
 
 <body>
+<a href="/">Home page</a>
 
 <h3>"{{p.title}}" author: <a href="/author/{{p.user.id}}/">{{p.user.first_name}} {{p.user.last_name}} {{p.author}}</a></h3>
 <br />
-<div style="{{p.style}} width : {{p.width}}; height :{{p.height}};">{{p.body|safe}}</div>
+<iframe id ="myframe" style="{{p.style}} width : {{p.width}}; height :{{p.height}}; border: none; border: 0;"></iframe>
+<div id="mybox" style="visibility:hidden">{{p.body|safe}}</div>
+
 <div><audio   src="/media/{{p.murl}}" preload="auto" autoplay="true" loop="loop" /></div>
 <div>
 <br />

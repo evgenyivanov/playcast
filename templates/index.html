@@ -2,8 +2,24 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
 <script src="/static/js/admin.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script>
+$(function(){
+        var theDialog = $("#dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '500',
+            height:'900',
+        });
+})
+</script>
 </head>
 <body>
+ <div id="dialog" title="Edite profile">
+ <iframe id="editprofile" src="/editeprofile/"  frameborder="no" width="470px" height="550px" align="left"> </iframe>
+ </div>
+
 <div style="position: absolute; top : 45px; left : 15px;">
 <a href='/designer'>Create new playcast</a></div>
 
@@ -12,6 +28,7 @@
 {{mycode|safe}}</div>
 
 
-<div style="position: absolute; top : 145px; left : 315px; width : 520px; height : 800px">
-<iframe src="/playcast_list" / width="100%" height="100%"></div>
+<div style="position: absolute; top : 145px; left : 15px; width : 950px; height : 400px">
+
+<iframe src="/playcast_list"   frameborder="no" width="1050px" height="450px" align="left"/></div>
 </body>

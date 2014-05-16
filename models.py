@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import permalink
 
+
+
+
 class Playcast(models.Model):
 
     title = models.CharField(max_length=200)
@@ -18,7 +21,16 @@ class Playcast(models.Model):
     datetime = models.DateTimeField()
     last = models.DateTimeField()
 
+
+class Readers(models.Model):
+
+    user = models.ForeignKey(User, blank = True, null = True)
+    ip = models.CharField(max_length=100)
+    playcast = models.ForeignKey(Playcast, editable = False)
+    date = models.DateTimeField()
+
 class UserProfile(models.Model):
+
     user = models.ForeignKey(User, editable = False)
     photo = models.ImageField(upload_to='pic', blank=True)
     url = models.URLField( blank=True)

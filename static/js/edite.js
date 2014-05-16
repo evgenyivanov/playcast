@@ -10,6 +10,10 @@ function NewId(){
   return st;
 }
 
+function Readers(id){
+    document.location.href = "/readers/"+id+"/";
+}
+
 function DeletePlayCast(id){
     document.location.href = '/deleteplaycast/'+id+'/';
 }
@@ -84,16 +88,12 @@ document.getElementById('myframe').contentWindow.Screen(msg);
 }
 
 function Screen(arg){
-    html2canvas(document.body, {
+   html2canvas(document.body, {
   onrendered: function(canvas) {
-    document.body.appendChild(canvas);
+      document.body.appendChild(canvas);
     dataURL = canvas.toDataURL("image/png");
-
-
-        obj=$(canvas);
+ obj=$(canvas);
 obj.remove();
-
-
 
 $.ajax({
   type: "POST",
@@ -332,9 +332,33 @@ if (myItem === ''){
 }
 
   obj = $('#myframe').contents().find('#'+myItem);
-  try {
-  AddImage(obj[0].src);}catch(e) {
-  alert('only image');}
+  if (obj[0].tagName == 'IMG'){
+  AddImage(obj[0].src);
+  }
+
+   if (obj[0].tagName == 'P'){
+  var str =obj[0].innerHTML;
+  var n = str.indexOf("<div");
+  str =  str.substr(0, n);
+
+  var today = NewId();
+  st = '<div name = ';
+  st =st+"'container' onclick=";
+  st=st+'"Select(';
+  st =st + "'"+today+"');";
+  st=st+'" ondblclick= "EditeText(';
+  st = st + "'"+today+"');";
+
+
+  st=st+'" id = "'+today+'_container" style="position: absolute; z-index: 10; opacity: 1;" ><div><p id="'+today+'">';
+  st = st+str;
+  st = st+'</p></div></div>';
+
+  BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
+  BodyF.innerHTML = st + BodyF.innerHTML;
+
+
+  }
 }
 ////////////////////////////////////////////////////////////////////////////////
 

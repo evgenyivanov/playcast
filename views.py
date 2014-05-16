@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.forms.util import ErrorList
 #from django.shortcuts import render_to_response
 import datetime
-from models import Picture, Music,Playcast, UserProfile
+from models import Picture, Music,Playcast, UserProfile,Readers
 import os, re
 from PIL import Image
 from django.contrib.auth import authenticate, login
@@ -25,6 +25,22 @@ class DivErrorList(ErrorList):
 
 
 ############################################################################
+def readers(request,id):
+    playcast = Playcast.objects.get(id = id)
+    if playcast.user == request.user:
+        list = Readers.objects.filter(playcast = playcast)
+
+        L = []
+        for i in list:
+            L.append(i)
+        d = {'L':L,'id':id,'title': playcast.title}
+        t = get_template("readers.html")
+        c = Context(d)
+        html = t.render(c)
+        return HttpResponse(html)
+    return HttpResponse('You is not author')
+
+
 def author(request,id):
     usr = User.objects.get(id = id)
     profile = UserProfile.objects.filter(user = usr)[0]
@@ -101,10 +117,11 @@ def mylogin(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            html = 'Hello, '+user.first_name+' '+user.last_name+'!<br />'
+            html = 'Hello, <a href="/author/'+str(user.id)+'/">'+user.first_name+' '+user.last_name+'</a>!<br />'
             html = html +'<button type="button" onclick="document.location.href='
             html = html + "'/admin/logout/?next=/';"
             html = html +'">Log out</button>'
+            html = html + '<br /><button onclick="EditeProfile();" >Edite profile</button>'
         else:
             pass
     else:
@@ -115,17 +132,22 @@ def mylogin(request):
 
 
 
+
     return HttpResponse(html)
 
 def home(request):
+
     user = request.user
     if str(user) == 'AnonymousUser':
         html = 'Hello, Guest!<br />login <input type="text" id ="login" value="">'
         html = html +'password <input type="password" id = "password" value="">'
         html = html +'<button type="button" onclick="LogIn();">OK</button>'
     else:
-        html = 'Hello, '+user.first_name+' '+user.last_name+'!<br />'
-        html = html +'<a href="/logout/"><button type="button" >Log out</button></a>'
+        html = 'Hello, <a href="/author/'+str(user.id)+'/">'
+        html = html +  user.first_name+' ' + user.last_name
+        html = html+ '</a>!<br />'
+        html = html +'<button type="button" onclick="logout();">Log out</button>'
+        html = html + '<br /><button onclick="EditeProfile();" >Edite profile</button>'
     d = {'mycode':html}
     t = get_template("index.html")
     c = Context(d)
@@ -134,16 +156,28 @@ def home(request):
 
 
 
-def playcast_list(request):
-    list = Playcast.objects.all().order_by('-datetime')[0:10]
-    L = []
-    for i in list:
-        L.append(i)
-    d = {'L':L}
+def playcast_list(request,arg = 0):
+    list = Playcast.objects.all().order_by('-datetime')[int(arg): int(arg)+10]
+    L1 = []
+    for i in range(min(len(list),5)):
+        L1.append(list[i])
+    L2 = []
+    n = len(list)-5
+    for i in range(n):
+        L2.append(list[i+5])
+    links = ''
+
+    if int(arg) > 9:
+        links = '<a href = /playcast_list/'+str(int(arg)-10)+'/>Previos</a>  '
+    if Playcast.objects.all().count > (int(arg)+10):
+        links = links + '<a href = /playcast_list/'+str(int(arg)+10)+'/>Next </a>'
+    d = {'L1':L1,'L2':L2,'links':links}
     t = get_template("playcast_list.html")
     c = Context(d)
     html = t.render(c)
-    return HttpResponse(html)
+    response = HttpResponse(html)
+    response['Cache-Control'] = 'no-cache'
+    return response
 
 def deleteplaycast(request,id):
 
@@ -157,9 +191,20 @@ def deleteplaycast(request,id):
 def playcast(request,id):
 
     obj = Playcast.objects.get(id=id)
+
+    if obj.user != request.user:
+        reader = Readers()
+        try:
+            reader.user = request.user
+        except:
+            pass
+        reader.ip = str(request.META['REMOTE_ADDR'])
+        reader.playcast = obj
+        reader.date = datetime.datetime.now()
+        reader.save()
     author=''
     if obj.user == request.user:
-        author = '<a href = /designer/'+str(id)+'/>edite</a> <button onclick="DelQuest()">Delete</button>'
+        author = '<a href = /designer/'+str(id)+'/>edite</a> <button onclick="DelQuest()">Delete</button><button onclick="Readers('+str(id)+');">Readers</button>'
 
     d = {'p':obj,'author':author,'tid':id}
     t = get_template("playcast.html")
@@ -179,6 +224,7 @@ def put(request):
         tid = request.POST['tid']
         if tid == '':
             obj = Playcast()
+            obj.datetime = datetime.datetime.now()
         else:
             obj = Playcast.objects.get(id=tid)
         obj.title = request.POST['title']
@@ -204,7 +250,6 @@ def put(request):
         obj.mauthor = request.POST['mauthor']
         obj.mperformer = request.POST['mperformer']
         obj.user = request.user
-        obj.datetime = datetime.datetime.now()
         obj.last = datetime.datetime.now()
         obj.save()
         return HttpResponse(obj.id)
@@ -263,7 +308,7 @@ def upload_music(request):
             obj.file = form.cleaned_data['file']
             obj.author = form.cleaned_data['author']
             obj.performer = form.cleaned_data['performer']
-            obj.key_words = form.cleaned_data['key_words'].islower()
+            obj.key_words = form.cleaned_data['key_words'].lower()
             obj.user = request.user
             obj.datetime = datetime.datetime.now()
             obj.save()
@@ -307,16 +352,29 @@ def images_list(request):
     else:
         list = Picture.objects.all().order_by('-datetime')
 
-    #keywords = request.GET['words']
+    keywords = request.GET['words'].lower()
 
-   # if len(keywords) > 0:
 
-        #keys = keywords.splin()
-       # st = 'field__like ='+str(keys[0])
-     #   return HttpResponse('keys')
-       # for i in keys:
-        #    st = st + 'field__like='_i
-        #list = list.filter(st)
+    if len(keywords) > 0:
+        keys = keywords.split()
+        S= set()
+        for i in keys:
+            images = list.filter(key_words__contains = i)
+            for j in images:
+                S.add(j)
+
+        L=[]
+        for i in S:
+            obj = Img()
+            obj.url = '/media/'+ str(i.image)
+            obj.width = str(102* i.image.width/i.image.height)
+            L.append(obj)
+        d = {'L':L[0:200]}
+        t = get_template("imageslist.html")
+        c = Context(d)
+        html = t.render(c)
+        return HttpResponse(html)
+
 
 
 
@@ -325,7 +383,7 @@ def images_list(request):
         obj.url = '/media/'+ str(i.image)
         obj.width = str(102* i.image.width/i.image.height)
         L.append(obj)
-    d = {'L':L}
+    d = {'L':L[0:200]}
     t = get_template("imageslist.html")
     c = Context(d)
     html = t.render(c)
@@ -338,7 +396,7 @@ def upload_image(request):
             obj = Picture()
             obj.title = form.cleaned_data['name']
             obj.image = form.cleaned_data['file']
-            obj.key_words = form.cleaned_data['key_words'].islower()
+            obj.key_words = form.cleaned_data['key_words'].lower()
             obj.user = request.user
             obj.datetime = datetime.datetime.now()
             obj.save()
@@ -368,6 +426,7 @@ def upload_image(request):
 def designer(request, id = None):
     tid = ''
     tbody = ''
+    title=''
     tstyle = 'background-color:#e0ffff;'
     twidth = '950px'
     theight = '750px'
@@ -376,11 +435,13 @@ def designer(request, id = None):
     tmauthor = ''
     tmperformer = ''
     tcomment = ''
-    if id != None and (int(id)-1) < Playcast.objects.count():
+
+    if id != None:
         obj = Playcast.objects.get(id=id)
 
         if obj != None:
             if obj.user == request.user:
+                title = obj.title
                 tbody = obj.body
                 tstyle = obj.style
                 tid = obj.id
@@ -393,18 +454,22 @@ def designer(request, id = None):
                 tcomment = obj.comment
 
 
-    d= {'tid':tid,'tbody':tbody,'tstyle':tstyle,'twidth':twidth,'theight':theight,'tmtitle':tmtitle,'tmurl':tmurl,'tmauthor':tmauthor,'tmperformer':tmperformer,'tcomment':tcomment}
+    d= {'tid':tid,'title':title,'tbody':tbody,'tstyle':tstyle,'twidth':twidth,'theight':theight,'tmtitle':tmtitle,'tmurl':tmurl,'tmauthor':tmauthor,'tmperformer':tmperformer,'tcomment':tcomment}
     t = get_template("designer.html")
     c = Context(d)
     html = t.render(c)
-    return HttpResponse(html)
+    response = HttpResponse(html)
+    response['Cache-Control'] = 'no-cache'
+    return response
 
 def designer_body(request):
     d= {}
     t = get_template("designer_body.html")
     c = Context(d)
     html = t.render(c)
-    return HttpResponse(html)
+    response = HttpResponse(html)
+    response['Cache-Control'] = 'no-cache'
+    return response
 
 def designer_menu(request):
     d= {}

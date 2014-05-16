@@ -1,0 +1,7 @@
+<h2><a href="/playcast/{{id}}/">{{title}}</a></h2>
+<table>
+<tr><td>User</td><td>IP</td><td>Date/Time</td></td>
+{%for i in L%}
+<tr><td>{{i.user}}</td><td><a href="http://whois.com/whois/{{i.ip}}">{{i.ip}}</a></td><td>{{i.date}}</td></td>
+{%endfor%}
+</table>
