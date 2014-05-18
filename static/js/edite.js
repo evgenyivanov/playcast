@@ -10,6 +10,16 @@ function NewId(){
   return st;
 }
 
+function refresh(arg){
+
+var myDict ={'my': $("#onlymy").prop("checked"), 'words' : $("#keywords").val()};
+if(arg===0){arg = 0;}
+
+$.get("/images_list/"+arg.toString()+'/',myDict,function(data,status){
+     $("#conteiner").html(data);
+  });
+    }
+
 function Readers(id){
     document.location.href = "/readers/"+id+"/";
 }
@@ -88,7 +98,23 @@ document.getElementById('myframe').contentWindow.Screen(msg);
 }
 
 function Screen(arg){
+
+ //  var html =  $('BODY')[0].innerHTML;
+ //  document.body.innerHTML = document.body.innerHTML+'<div id ="screendiv"></div>';
+//
+ //  div = $('#screendiv')[0];
+ //  div.innerHTML=html;
+
+ //  div.style.bacgroundColor = $('BODY')[0].style.backgroundColor;
+//   div.style.width = "340px";
+ //  div.style.height = "340px";
+   //div.style.bacgroundImage = $('BODY')[0].style.backgroundImage;
+
+
    html2canvas(document.body, {
+   //html2canvas($('#screendiv')[0], {
+       allowTaint: false,
+            logging:true,
   onrendered: function(canvas) {
       document.body.appendChild(canvas);
     dataURL = canvas.toDataURL("image/png");
@@ -161,13 +187,12 @@ $("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTag
 if ($("#type_select_image").html() === '0'){
 obj= $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 obj.style.backgroundImage = 'url(' + arg + ')';
+
 $("#dialog").dialog("close");
 }
 
 if ($("#type_select_image").html() === '1'){
-
 var today = NewId();
-
 st= "<div name = 'container' onclick=";
 st = st + '"Select(';
 st = st +"'"+today+"');"
@@ -177,7 +202,6 @@ st = st +'" id="'+today+'_container" style="position: absolute; z-index: 4;" /> 
 st = st +'" style=""></div>';
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
-
 obj = $("#myframe")[0].contentDocument.getElementById(today.toString());
 obj.width = 50*obj.naturalWidth/obj.naturalHeight;
 $("#select_image").dialog("close");

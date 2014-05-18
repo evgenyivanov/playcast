@@ -15,6 +15,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 class DivErrorList(ErrorList):
     def __unicode__(self):
@@ -240,6 +241,7 @@ def put(request):
         st = st.replace('<script type="text/javascript" src="/static/js/ui/jquery.ui.resizable.js"></script>','')
         st = st.replace('<script type="text/javascript" src="/static/js/jquery.ui.rotatable.js"></script>','')
         st = st.replace('<script type="text/javascript" src="/static/js/edite.js"></script>','')
+        st = st.replace('<script type="text/javascript" src="/static/js/ui/jquery.ui.mouse.js"></script>','')
         re.sub(r'\s+', ' ', st)
         obj.body = st
         obj.murl = request.POST['murl']
@@ -345,7 +347,8 @@ class Img():
     url = ''
     width = ''
 
-def images_list(request):
+def images_list(request,arg=0):
+
     L=[]
     if str(request.GET['my']) == 'true':
         list = Picture.objects.filter(user = request.user).order_by('-datetime')
@@ -369,7 +372,13 @@ def images_list(request):
             obj.url = '/media/'+ str(i.image)
             obj.width = str(102* i.image.width/i.image.height)
             L.append(obj)
-        d = {'L':L[0:200]}
+        links = ''
+        if int(arg) > 9:
+            links = '<button onclick="refresh('+str(int(arg)-10)+');">Previos </button>'
+
+        if Picture.objects.all().count > (int(arg)+10):
+            links = links + '<button onclick="refresh('+str(int(arg)+10)+');">Next </button>'
+        d = {'L':L[0+arg:10+arg],'links':links}
         t = get_template("imageslist.html")
         c = Context(d)
         html = t.render(c)
@@ -383,7 +392,14 @@ def images_list(request):
         obj.url = '/media/'+ str(i.image)
         obj.width = str(102* i.image.width/i.image.height)
         L.append(obj)
-    d = {'L':L[0:200]}
+    links = ''
+    if int(arg) > 9:
+        links = '<button onclick="refresh('+str(int(arg)-10)+');">Previos </button>'
+
+    if Picture.objects.all().count > (int(arg)+10):
+        links = links + '<button onclick="refresh('+str(int(arg)+10)+');">Next </button>'
+
+    d = {'L':L[0+int(arg):10+int(arg)],'links':links}
     t = get_template("imageslist.html")
     c = Context(d)
     html = t.render(c)
@@ -395,7 +411,12 @@ def upload_image(request):
         if form.is_valid():
             obj = Picture()
             obj.title = form.cleaned_data['name']
-            obj.image = form.cleaned_data['file']
+            image = form.cleaned_data['file']
+            if image:
+                if image._size > 1024*1024:
+                    return HttpResponse("Image file too large ( > 1M )")
+
+            obj.image = image
             obj.key_words = form.cleaned_data['key_words'].lower()
             obj.user = request.user
             obj.datetime = datetime.datetime.now()
@@ -458,9 +479,9 @@ def designer(request, id = None):
     t = get_template("designer.html")
     c = Context(d)
     html = t.render(c)
-    response = HttpResponse(html)
-    response['Cache-Control'] = 'no-cache'
-    return response
+   # response = HttpResponse(html)
+#    response['Cache-Control'] = 'no-cache'
+    return HttpResponse(html)
 
 def designer_body(request):
     d= {}
