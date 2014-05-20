@@ -1,0 +1,88 @@
+body
+{
+background-image:url('/static/images/background.jpg');
+
+}
+
+.char2{
+     transform: all rotate(36deg);
+ -moz-transform: rotate(36deg);
+  -webkit-transform: rotate(36deg);
+  -o-transform: rotate(36deg);
+
+
+}
+
+div.title {
+
+    font: bold 70px 'arial', arial, helvetica, sans-serif;
+    margin: 0;
+    letter-spacing: 30px;
+    text-shadow: 1px 0 0 #ccc,
+                         2px 0 0 ,
+                         0 1px 0 ,
+                         3px 1px 0 ,
+                         0 0 10px ,
+                         5px 0 10px ,
+                         10px -3px 10px ;
+}
+
+
+.create-btn {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #ffffff;
+	padding: 12px 30px;
+	background: -moz-linear-gradient(
+		top,
+		#f7ff19 0%,
+		#ab0000);
+	background: -webkit-gradient(
+		linear, left top, left bottom,
+		from(#f7ff19),
+		to(#ab0000));
+	-moz-border-radius: 21px;
+	-webkit-border-radius: 21px;
+	border-radius: 21px;
+	border: 0px solid #7d0000;
+	-moz-box-shadow:
+		0px 1px 3px rgba(000,000,000,0.5),
+		inset 0px 0px 2px rgba(255,255,255,0.7);
+	-webkit-box-shadow:
+		0px 1px 3px rgba(000,000,000,0.5),
+		inset 0px 0px 2px rgba(255,255,255,0.7);
+	box-shadow:
+		0px 1px 3px rgba(000,000,000,0.5),
+		inset 0px 0px 2px rgba(255,255,255,0.7);
+	text-shadow:
+		0px -1px 0px rgba(000,000,000,0.4),
+		0px 1px 0px rgba(255,255,255,0.3);
+}
+
+.btn-editor{
+    height:30px;
+    border-radius: 11px;
+    background-color: #F2FF42;
+}
+
+.btn-editor-del{
+    height:30px;
+    border-radius: 11px;
+    background-color: #FF704D;
+}
+
+table { margin: 1em; border-style: double;	border-color: black; bolder: 2px; font-size:16px;font: bold}
+td, th { padding: .3em;border-style: double;	border-color: black;bolder: 2px; width:210px;}
+thead { background: #fc9; }
+
+
+.leftimg {
+    float:left; /* Выравнивание по левому краю */
+    margin: 11px 11px 11px 0; /* Отступы вокруг картинки */
+   }
+   .rightimg  {
+    float: right; /* Выравнивание по правому краю  */
+    margin: 11px 0 11px 11px; /* Отступы вокруг картинки */
+   }
+
+

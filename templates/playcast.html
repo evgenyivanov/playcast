@@ -1,9 +1,11 @@
 <head>
-<title>{{p.title}}</title>
+<title>{{p.title}} {{noactive}}</title>
+<link rel="stylesheet" href="/static/css/edite.css">
 <script src="/static/js/audio.min.js"></script>
 <script> audiojs.events.ready(function() {var as = audiojs.createAll(); });</script>
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 <script>
 $(function(){
         var theDialog = $("#dialog").dialog({

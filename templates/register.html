@@ -1,0 +1,54 @@
+<HEAD>
+<link href="/static/css/edite.css" rel="stylesheet" media="screen">
+<title>Welcom to "PlayCarcds"<title>
+</HEAD>
+ <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
+     <span style="color:red;">{{ formUser.non_field_errors }}</span>
+     <br />
+     <div class="fieldWrapper">
+        <span style="color:red;">{{username_error}}</span><br/>
+        <label for="id_subject">Username:</label>
+      &nbsp;&nbsp;&nbsp; {{formUser.username }}
+    </div>
+
+    <div class="fieldWrapper">
+        {{ formUser.fist_name.errors }}
+        <label for="id_subject">First name:</label>
+      &nbsp;&nbsp;&nbsp; {{ formUser.first_name }}
+    </div>
+
+     <div class="fieldWrapper">
+        <span style="color:red;">{{ formUser.last_name.errors }}</span>
+        <label for="id_subject">Last name:</label>
+         &nbsp;&nbsp;&nbsp;&nbsp;{{ formUser.last_name }}
+    </div>
+
+     <div class="fieldWrapper">
+        <span style="color:red;">{{ formUser.email.errors }}</span>
+        <label for="id_subject">E-mail:</label>
+        &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{ formUser.email }}
+    </div>
+
+   <div style="color:red;">{{password_error}}</div>
+
+    <div class="fieldWrapper">
+        <span style="color:red;">{{ formUser.passw1.errors }}</span>
+        <label for="id_subject">password:</label>
+        &nbsp;&nbsp;&nbsp;&nbsp; {{ formUser.passw1 }}
+    </div>
+
+    <div class="fieldWrapper">
+        <span style="color:red;">{{ formUser.passw2.errors }}</span>
+        <label for="id_subject">re-password:</label>
+        {{formUser.passw2}}
+    </div>
+
+    <div style="color:red;">{{captcha_error}}</div>
+
+    <div class="control-group">
+    <label class="control-label"></label> <div class="controls"><div id="picture">{{captcha|safe}}</div> <input type="text" name="captcha" id="captcha" value="" <br></div></div>
+    <input type="hidden" id="capcha_value" name="capcha_value"" value="{{capcha_value|safe}}">
+    </div>
+
+ <p><button type="submit">OK</button></p>
+    </form>

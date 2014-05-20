@@ -4,9 +4,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1251"/>
 <meta http-equiv="Content-Language" content="ru"/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="/static/css/edite.css">
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-<link href="/static/css/bootstrap.css" rel="stylesheet" media="screen">
+<link href="/static/css/edite.css" rel="stylesheet" media="screen">
 <script src="/static/js/jscolor.js"></script>
 
 
@@ -57,7 +58,7 @@ $(function(){
             resizable: false,
             modal: true,
             width: '960',
-            height:'580',
+            height:'380',
         });
 
 
@@ -65,8 +66,8 @@ $(function(){
             autoOpen: false,
             resizable: false,
             modal: true,
-            width: '560',
-            height:'510',
+            width: '420',
+            height:'290',
         });
 
 
@@ -84,7 +85,7 @@ $(function(){
             resizable: false,
             modal: true,
             width: '560',
-            height:'510',
+            height:'380',
         });
 
 
@@ -106,10 +107,6 @@ $(function(){
 
         $("#wait").hide();
 
-
-
-
-
 });
 
 </script>
@@ -121,27 +118,26 @@ $(function(){
 Title: <input type="text" id="title" style= "width :1000px;" value="{{title}}"><br/>
 url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmtitle}}</span> author: <span id="music_author">{{tmauthor}}</span> performer: <span id="music_performer">{{tmperformer}}</span>
 <br />
-<button onclick='$("#type_select_image").html(0);$("#list_img2")[0].src= $("#list_img2")[0].src;$("#dialog").dialog("open")'>Background</button>
-<button onclick='$("#type_select_image").html(1);$("#select_image").dialog("open")'>Add image</button>
-<button onclick='$("#dialog_text").dialog("open")'>Add text</button>
-<button onclick='$("#select_music").dialog("open")'>Add music</button>
-<button onclick='$("#select_video").dialog("open")'>Add video</button>
-<button onclick='DeleteItem("");'>Delete</button>
-<button onclick='Index(1);'>Up</button>
-<button onclick='Index(-1);'>Down</button>
-<button onclick='$("#comments").dialog("open")'>Comment</button>
-<button onclick='Undo("")'>Undo</button>
-<button onclick='Clone("")'>Clone</button>
-<button onclick='Preview("");'>Preview</button>
-<button onclick='HTML("");'>Html</button>
-<button onclick = "Publisher('');">Publish</button>
-
+<button class="btn-editor"  style="position:relative; top: -2px;" onclick='$("#type_select_image").html(0);$("#list_img2")[0].src= $("#list_img2")[0].src;$("#dialog").dialog("open")'>Background</button>
+<button class="btn-editor" onclick='$("#type_select_image").html(1);$("#select_image").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Image</button>
+<button class="btn-editor" onclick='$("#dialog_text").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Text</button>
+<button class="btn-editor" onclick='$("#select_music").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Music</button>
+<button class="btn-editor" onclick='$("#select_video").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Video</button>
+<button class="btn-editor-del"  onclick='DeleteItem("");'><img src="/static/images/trash.png" width="17px" height = "17px" style="position:relative; top: 2px;" >Delete</button>
+<button class="btn-editor" onclick='Index(1);'><img src="/static/images/up.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
+<button class="btn-editor" onclick='Index(-1);'><img src="/static/images/down.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
+<button class="btn-editor" style="position:relative; top: -2px;" onclick='$("#comments").dialog("open")'>Comment</button>
+<button class="btn-editor" onclick='Undo("")'><img src="/static/images/undo.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
+<button class="btn-editor" style="position:relative; top: -2px;" onclick='Clone("")'>Clone</button>
+<button class="btn-editor" onclick='Preview("");'><img src="/static/images/preview.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
+<button class="btn-editor" onclick = "Publisher('');"><img src="/static/images/save.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Save</button>
+<input type="checkbox" id="active" {{active}}> Publish
 
 <span id="wait"><img src="/static/images/wait.gif" width="20" height="20"></span>
 
 <div id = "myframe_conteiner" style="border: .1em solid black; width :{{twidth}}; height :{{theight}}">
  <iframe id= "myframe" src="/designer_body"  frameborder="no" width="100%" height="100%" align="left" >
-    Ваш браузер не поддерживает плавающие фреймы!
+
  </iframe>
 </div>
 
@@ -160,16 +156,16 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
  	<div id="type_select_image" style="visibility:hidden"></div>
 
  <div id="select_image" title="Select image">
- <iframe  id="list_img" src="/select_image" width="950" height="470">
- Ваш браузер не поддерживает плавающие фреймы!
+ <iframe  id="list_img" src="/select_image" width="950" height="280">
+
  </iframe>
   <button onclick='document.getElementById("upload2").contentDocument.location.reload(true);$("#upload_image").dialog("open");'>Upload</button>
  <button onclick='$("#select_image").dialog("close");'>Close</button>
  </div>
 
  <div id="upload_image" title="uploas image">
- <iframe  id="upload2" src="/upload_image" width="450" height="160">
- Ваш браузер не поддерживает плавающие фреймы!
+ <iframe  id="upload2" src="/upload_image" width="420" height="190">
+
  </iframe>
  <button onclick='$("#upload_image").dialog("close");document.getElementById("list_img").contentDocument.location.reload(true);'>Close</button>
  </div>
@@ -178,15 +174,15 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
 
 <div id="select_music" title="Select music">
  <iframe  id="list_music" src="/select_music" width="1350" height="470">
- Ваш браузер не поддерживает плавающие фреймы!
+
  </iframe>
   <button onclick='$("#upload_music").dialog("open");'>Upload</button>
  <button onclick='$("#select_music").dialog("close");'>Close</button>
  </div>
 
  <div id="upload_music" title="uploas music">
- <iframe  id="upload3" src="/upload_music" width="450" height="210">
- Ваш браузер не поддерживает плавающие фреймы!
+ <iframe  id="upload3" src="/upload_music" width="450" height="280">
+
  </iframe>
  <button onclick='$("#upload_music").dialog("close");document.getElementById("list_music").contentDocument.location.reload(true);'>Close</button>
  </div>
@@ -203,6 +199,7 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
 <input id="selectedColor" class="color">
 <button onclick="ColorBackground('')">OK</button>
 <button onclick='$("#dialog").dialog("close");'>Close</button>
+<button onclick="DeleteBackgroundImage();">Delete Background Image</button>
 <br/><br/><br/><br/><br/><br/><br/>or select image:
 <iframe  id="list_img2" src="/select_image" width="950" height="410"></iframe>
  </div>
@@ -217,7 +214,7 @@ example: http://www.youtube.com/watch?v=nnnn</br>
 <div id="dialog_text" title="Add text">
 
  <textarea id="my_text" style ="width: 650px; height: 100px;" >
-       Some Initial Content was in this textarea
+
 </textarea><br />
 
 <button onclick="AddText('')">OK</button>

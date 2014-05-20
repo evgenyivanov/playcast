@@ -20,6 +20,7 @@ class Playcast(models.Model):
     user = models.ForeignKey(User, editable = False)
     datetime = models.DateTimeField()
     last = models.DateTimeField()
+    active = models.BooleanField()
 
 
 class Readers(models.Model):

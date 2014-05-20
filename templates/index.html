@@ -1,5 +1,6 @@
 <head>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<link href="/static/css/edite.css" rel="stylesheet" media="screen">
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
 <script src="/static/js/admin.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
@@ -9,22 +10,27 @@ $(function(){
             autoOpen: false,
             resizable: false,
             modal: true,
-            width: '500',
-            height:'900',
+            width: '460',
+            height:'640',
         });
 })
 </script>
 </head>
 <body>
  <div id="dialog" title="Edite profile">
- <iframe id="editprofile" src="/editeprofile/"  frameborder="no" width="470px" height="550px" align="left"> </iframe>
+ <iframe id="editprofile" src="/editeprofile/"  frameborder="no" width="470px" height="570px" align="left"> </iframe>
  </div>
 
-<div style="position: absolute; top : 45px; left : 15px;">
-<a href='/designer'>Create new playcast</a></div>
+<div style="position: absolute; top : 75px; left : 35px;">
 
+<button class="create-btn" onclick="document.location='/designer'">Create play card</button></div>
 
-<div id="auth" style="position: absolute; top : 45px; right : 160px; width: 155;">
+<div class="title" style="position: absolute; top : 35px; left : 315px;">
+<span style="color:white;">P</span><span class="char2" style="color:yellow; position:relative; top:23px;">L</span><span style="color:blue;">A</span><span style="color:white;">Y</span>
+<span style="color:white;">C</span><span style="color:yellow;">A</span><span style="color:red;position:relative; top:-13px;">R</span><span style="color:yellow;">D</span><span style="color:white;position:relative; top:13px;">S</span>
+</div>
+
+<div id="auth" style="position: absolute; top : 125px; right : 26px; width: 250; z-index:500; font-weight:bold;">
 {{mycode|safe}}</div>
 
 

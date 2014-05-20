@@ -1,3 +1,12 @@
+function EndEditeProfile(){
+
+    parent.$("#dialog").dialog("close");
+    $.get('/current_user/',function(data,status){
+
+     parent.$("#auth").html(data);
+  });
+}
+
 function EditeProfile(){
     $("#editprofile")[0].src = $("#editprofile")[0].src;
     $("#dialog").dialog("open");
@@ -15,5 +24,5 @@ $.get( "/mylogin",{'login':l,'password':p}, function( data ) {
 }
 
 function logout(){
-    document.location.href="/admin/logout/?next=/";
+    document.location.href='/accounts/logout/?next=/';
 }

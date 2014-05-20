@@ -1,14 +1,30 @@
-{{user.first_name}} {{user.last_name}} <br />
-<img src="/media/{{p.photo}}" />
-<br/> <a href = "{{p.url}}">Home page </a><br />
-About:
-<div>{{p.about}}</div>
+<head></head>
+<link href="/static/css/edite.css" rel="stylesheet" media="screen">
+<title>{{user.first_name}} {{user.last_name}}</title>
+</head>
+<body>
+<div>
+<img class="leftimg" src="{{url_img}}" width = "250px" height={{h}}/>
 
+<h2 style="color:brown;">{{user.first_name}} {{user.last_name}} </h2>
+<b>Home page: </b> <a href = "{{p.url}}">{{p.url}}</a><br />
+<b><img src="/static/images/email.gif" style="position:relative; top: 2px;" width = "15px" height ="15px"/> E-mail: <span style="color:gold;"> <a href="mailto:{{user.email}}"></a>{{user.email}}</a></span></b>
+<br />
+<b>About:</b>
+<div>{{p.about}}</div>
+</div>
+
+<div style =" clear: both;" >
 {% for i in L%}
-<div style="border-width:2px; bolder-color: black" onclick="var a = document.createElement('a'); a.href='/playcast/{{i.id}}';a.target = '_blank';document.body.appendChild(a);a.click();">
-{{i.title}}<br />
-<a href="/playcast/{{i.id}}/"><img src="/media/screen/{{i.id}}.jpg"></a><br />
-date {{i.datetime}}
+
+<div {%if not i.active%}style="background:grey;"{%endif%}>
+<div style="border-width:2px; font-size: 31px; font: bold; bolder-color: black" onclick="var a = document.createElement('a'); a.href='/playcast/{{i.id}}';a.target = '_blank';document.body.appendChild(a);a.click();">
+{{i.title}}  {%if not i.active%} (no active){%endif%}<br />
+<a href="/playcast/{{i.id}}/"><img src="/media/screen/{{i.id}}.jpg"></a><br /></div>
+<div style = "font-size: 12px;">; date {{i.datetime}} last edition {{i.last}}</div>
+</div>
 </div>
 <br />
 {%endfor%}
+</div>
+</body>

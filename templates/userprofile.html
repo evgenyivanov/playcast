@@ -1,45 +1,45 @@
+<HEAD>
+<link href="/static/css/edite.css" rel="stylesheet" media="screen">
+
+</HEAD>
  <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
-     <h2>My profile:</h2>
-     
-     {{ formUser.non_field_errors }}
+     <span style="color:red;">{{ formUser.non_field_errors }}</span>
     <div class="fieldWrapper">
         {{ formUser.fist_name.errors }}
-        <label for="id_subject">First_name:</label>
+        <label for="id_subject">First name:</label>
         {{ formUser.first_name }}
     </div>
-    
+
      <div class="fieldWrapper">
-        {{ formUser.last_name.errors }}
-        <label for="id_subject">last_name:</label>
+        <span style="color:red;">{{ formUser.last_name.errors }}</span>
+        <label for="id_subject">Last name:</label>
         {{ formUser.last_name }}
     </div>
-   
+
      <div class="fieldWrapper">
-        {{ formUser.email.errors }}
+        <span style="color:red;">{{ formUser.email.errors }}</span>
         <label for="id_subject">email:</label>
         {{ formUser.email }}
     </div>
-    
+
      <!-- Now add the sub-form to this form -->
-     {{ formProfile.non_field_errors }}
+     <span style="color:red;">{{ formProfile.non_field_errors }}</span>
      <div class="fieldWrapper">
-        {{ formProfile.photo.errors }}
+        <span style="color:red;">{{ formProfile.photo.errors }}</span>
         <label for="id_subject">Photo:</label>
         {{ formProfile.photo }}
     </div>
-    
+
      <div class="fieldWrapper">
-        {{ formProfile.url.errors }}
-        <label for="id_subject">Url:</label>
+        <span style="color:red;">{{ formProfile.url.errors }}</span>
+        <label for="id_subject">Home page:</label>
         {{ formProfile.url }}
     </div>
-    
-    <div class="fieldWrapper">
-        {{ formProfile.about.errors }}
+
+    <div class="fieldWrapper"  >
+        <span style="color:red;">{{ formProfile.about.errors }}</span>
         <label for="id_subject">about:</label>
         {{ formProfile.about }}
     </div>
-     
-     
      <p><button type="submit">OK</button></p>
  </form>

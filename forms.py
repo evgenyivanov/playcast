@@ -1,5 +1,14 @@
 from django import forms
 
+class RegUserForm(forms.Form):
+    username = forms.CharField(label='Name',max_length=100)
+    first_name = forms.CharField(label='Name',max_length=100)
+    last_name = forms.CharField(label='Name',max_length=100)
+    email = forms.EmailField(label='E-mail')
+    passw1 = forms.CharField(label='password',min_length=6,max_length=32, widget=forms.PasswordInput)
+    passw2 = forms.CharField(label='re-password',min_length=6,max_length=32, widget=forms.PasswordInput)
+
+
 class UserForm(forms.Form):
     first_name = forms.CharField(label='Name',max_length=100)
     last_name = forms.CharField(label='Name',max_length=100)

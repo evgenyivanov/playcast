@@ -10,6 +10,26 @@ function NewId(){
   return st;
 }
 
+function DeleteBackgroundImage(){
+
+    BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
+    $("#undo")[0].innerHTML = BodyF.innerHTML;
+    $("#undostyle")[0].innerHTML = BodyF.style.cssText;
+    BodyF.style.backgroundImage = "none";
+    $("#dialog").dialog("close");
+
+}
+
+function EndUploadMusic(){
+
+   parent.parent.$("#upload_music").dialog("close");
+   parent.document.getElementById("list_music").contentDocument.location.reload(true);
+}
+
+function EndUploadImage(){
+   parent.parent.$("#upload_image").dialog("close");
+   parent.document.getElementById("list_img").contentDocument.location.reload(true);
+}
 function refresh(arg){
 
 var myDict ={'my': $("#onlymy").prop("checked"), 'words' : $("#keywords").val()};
@@ -69,6 +89,7 @@ document.getElementById("myframe").contentWindow.VideoSet(today+'_container');
 }
 
 function Put(){
+    active = $('#active')[0].checked;
 
     obj = $('#myframe_conteiner')[0];
     w = obj.style.width;
@@ -77,7 +98,7 @@ function Put(){
     BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
     $("#wait").show();
 
-    var MyDict = {'tid':tid,'style':BodyF.style.cssText ,'width': w,'height':h,'title': document.getElementById("title").value,'body': $('#myframe').contents().find("body").html(),'mtitle': document.getElementById("music_title").textContent,'murl': document.getElementById("music_url").textContent ,'mauthor': document.getElementById("music_author").textContent,'mperformer': document.getElementById("music_performer").textContent};
+    var MyDict = {'active':active,'tid':tid,'style':BodyF.style.cssText ,'width': w,'height':h,'title': document.getElementById("title").value,'body': $('#myframe').contents().find("body").html(),'mtitle': document.getElementById("music_title").textContent,'murl': document.getElementById("music_url").textContent ,'mauthor': document.getElementById("music_author").textContent,'mperformer': document.getElementById("music_performer").textContent};
 
 $.ajax({
   type: "POST",
