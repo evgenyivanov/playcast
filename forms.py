@@ -1,5 +1,9 @@
 from django import forms
 
+class LoginForm(forms.Form):
+    login = forms.CharField()
+    password = forms.CharField( widget=forms.PasswordInput)
+
 class RegUserForm(forms.Form):
     username = forms.CharField(label='Name',max_length=100)
     first_name = forms.CharField(label='Name',max_length=100)

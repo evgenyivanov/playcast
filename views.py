@@ -28,7 +28,54 @@ class DivErrorList(ErrorList):
 
 
 ############################################################################
+def about(request):
+    d = {}
+    t = get_template("about.html")
+    c = Context(d)
+    html = t.render(c)
+    return HttpResponse(html)
+
+def login2(request):
+
+
+    if request.method == 'POST': # If the form has been submitted...
+
+        f = LoginForm(request.POST)
+        login_ = request.POST['login']
+        password = request.POST['password']
+        user = authenticate(username=login_, password=password)
+
+        if  user is not None:
+            login(request, user)
+            return redirect('/designer/')
+        else:
+
+             d = {'f': f,'errors':'Error: login and password'}
+             d.update(csrf(request))
+             t = get_template("login.html")
+             c = Context(d)
+             html = t.render(c)
+             return HttpResponse(html)
+
+    else:
+
+        f = LoginForm
+        d = {'f': f}
+        d.update(csrf(request))
+        t = get_template("login.html")
+        c = Context(d)
+        html = t.render(c)
+        return HttpResponse(html)
+
+
+
+
+
+
+
+
 def register(request):
+
     captcha=  capthaGenerate(request)
     mm = hashlib.md5()
     mm.update(captcha[1])
@@ -48,13 +95,15 @@ def register(request):
 
         if formUser.is_valid() and (passw1 == passw2) and (captha_input == captcha_value) and (user_count == 0):
 
+
             new_user  = User.objects.create_user(username=formUser.cleaned_data['username'],
                                  email=formUser.cleaned_data['email'],
                                  password=passw1)
             new_user. is_active = True
-            new_user.first_name=formUser.cleaned_data['first_name'],
-            new_user.last_name=formUser.cleaned_data['last_name'],
+            new_user.first_name= formUser.cleaned_data['first_name'],
+            new_user.last_name= formUser.cleaned_data['last_name'],
             new_user.save()
+
 
             return redirect('/')
         else:
@@ -400,12 +449,46 @@ def select_music(request):
     html = t.render(c)
     return HttpResponse(html)
 
-def music_list(request):
+def music_list(request,arg=0):
     L=[]
-    list = Music.objects.all()
+
+    if str(request.GET['my']) == 'true':
+        list = Music.objects.filter(user = request.user).order_by('-datetime')
+    else:
+        list = Music.objects.all().order_by('-datetime')
+
+
+    #keywords = request.GET['words'].lower()
+    #if len(keywords) > 0:
+    #    keys = keywords.split()
+    #    S= set()
+    #    for i in keys:
+    #        songs = list.filter(mtitles__contains = i)
+    #        for j in songs:
+    #            S.add(j)
+
+    #    L=[]
+    #    for i in S:
+    #        L.append(i)
+    #    links = ''
+    #    if int(arg) > 9:
+    #        links = '<button onclick="refresh('+str(int(arg)-10)+');">Previos </button>'
+
+     #   if len(Picture.objects.all()) > (int(arg)+10):
+     #       links = links + '<button onclick="refresh('+str(int(arg)+10)+');">Next </button>'
+     #   d = {'L':L[0+arg:10+arg],'links':links}
+     #   t = get_template("musiclist.html")
+     #   c = Context(d)
+      #  html = t.render(c)
+       # return HttpResponse(html)
+
+
+
+
     for i in list:
-        L.append(i)
-    d = {'L':L}
+       L.append(i)
+    links = ''
+    d = {'L':L[0+int(arg):10+int(arg)],'links':links}
     t = get_template("musiclist.html")
     c = Context(d)
     html = t.render(c)
