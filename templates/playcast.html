@@ -12,14 +12,15 @@ $(function(){
             autoOpen: false,
             resizable: false,
             modal: true,
-            width: '300',
-            height:'200',
+            width: '400',
+            height:'100',
         });
 
 })
 
 $( document ).ready(function() {
     $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML = $("#mybox")[0].innerHTML;
+    //$("#myframe")[0].contentDocument.getElementById('mybox').innerHTML = '';
 })
 </script>
 <script src="/static/js/edite.js"></script>
@@ -30,17 +31,17 @@ $( document ).ready(function() {
 
 <h3>"{{p.title}}" author: <a href="/author/{{p.user.id}}/">{{p.user.first_name}} {{p.user.last_name}} {{p.author}}</a></h3>
 <br />
-<iframe id ="myframe" style="{{p.style}} width : {{p.width}}; height :{{p.height}}; border: none; border: 0;"></iframe>
+<iframe id ="myframe" style="{{p.style}} width : {{p.width}}; height :{{p.height}}; border: none; border: 0; left: 150;"></iframe>
 <div id="mybox" style="visibility:hidden">{{p.body|safe}}</div>
 
-<div><audio   src="/media/{{p.murl}}" preload="auto" autoplay="true" loop="loop" /></div>
+<div style="left: 150;"><audio   src="/media/{{p.murl}}" preload="auto" autoplay="true" loop="loop" /></div>
 <div>
 <br />
 Music "{{p.mtitle}}" autor's - {{p.mauthor}} performer - {{p.mperformer}}<br />
 {{p.comment}}
 last edition {{p.last}}
 </div>
-<div><script type="text/javascript">(function() {
+<div style="left: 150;"><script type="text/javascript">(function() {
   if (window.pluso)if (typeof window.pluso.start == "function") return;
   if (window.ifpluso==undefined) { window.ifpluso = 1;
     var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
@@ -52,8 +53,8 @@ last edition {{p.last}}
 <div class="pluso" data-background="#ebebeb" data-options="big,square,line,horizontal,counter,theme=04" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"></div></div>
 <div>{{author|safe}}</div>
 
-<div id='dialog'>
-    Delete this is?
+<div id='dialog' class="delete">
+    <p style = "font:bold;">Delete this is?</p>
     <button onclick="DeletePlayCast({{tid}})">Yes</button> <button onclick='$("#dialog").dialog("close");'>No</button>
 </div>
 

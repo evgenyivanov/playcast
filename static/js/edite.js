@@ -78,9 +78,9 @@ url = url.replace('http://www.youtube.com/watch?v=','');
 $("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
 $("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
 var today = NewId();
-st2= "<div><div name = 'container' ";
+st2= "<div><div name = 'container' class='container'";
 st2 = st2 +'" id="'+today+'_container" style="position: absolute; z-index: 4; width : 245px; height : 185px" />';
-st2 = st2 + '<iframe id = "'+today+'" width="96%" height="96%" src="http://www.youtube.com/embed/'+url+'?autoplay=1" frameborder="0" allowfullscreen="allowfullscreen" data-link="http://www.youtube.com/watch?v='+url+'"></iframe>';
+st2 = st2 + '<iframe class="content" id = "'+today+'" width="96%" height="96%" src="http://www.youtube.com/embed/'+url+'?autoplay=1" frameborder="0" allowfullscreen="allowfullscreen" data-link="http://www.youtube.com/watch?v='+url+'"></iframe>';
 st2 = st2 + '</div></div>';
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st2 + BodyF.innerHTML;
@@ -163,6 +163,8 @@ function Publisher(){
   myframe = $("#myframe")[0].contentWindow;
   myframe.$(".ui-resizable-handle").remove();
   myframe.$(".ui-rotatable-handle").remove();
+  myframe.$("#mybox")[0].innerHTML="";
+
     var id_playcast = Put();
 }
 
@@ -214,17 +216,18 @@ $("#dialog").dialog("close");
 
 if ($("#type_select_image").html() === '1'){
 var today = NewId();
-st= "<div name = 'container' onclick=";
+st= "<div name = 'container' class='container' onclick=";
 st = st + '"Select(';
 st = st +"'"+today+"');"
 st = st +'" onclick="Select(';
 st = st +"'"+today+"');";
-st = st +'" id="'+today+'_container" style="position: absolute; z-index: 4;" />   <img  src="'+arg+'" width="50" height="50" alt="" id="'+today;
+st = st +'" id="'+today+'_container" style="position: absolute; z-index: 4;" />   <img  class="content" src="'+arg+'" width="50" height="50" alt="" id="'+today;
 st = st +'" style=""></div>';
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
 obj = $("#myframe")[0].contentDocument.getElementById(today.toString());
-obj.width = 50*obj.naturalWidth/obj.naturalHeight;
+obj.width = 50;//*obj.naturalWidth/obj.naturalHeight;
+//alert(parseInt(obj.));
 $("#select_image").dialog("close");
 }
 }
@@ -281,14 +284,14 @@ text = myNicEditor.instanceById('my_text').getContent();
 
 var today = NewId();
 st = '<div name = ';
-st =st+"'container' onclick=";
+st =st+"'container' class='container' onclick=";
 st=st+'"Select(';
 st =st + "'"+today+"');";
 st=st+'" ondblclick= "EditeText(';
 st = st + "'"+today+"');";
 
 
-st=st+'" id = "'+today+'_container" style="position: absolute; z-index: 10; opacity: 1;" ><div><p id="'+today+'">';
+st=st+'" id = "'+today+'_container" style="position: absolute; z-index: 10; opacity: 1;" ><div><p class="content" id="'+today+'">';
 st = st+text;
 st = st+'</p></div></div>';
 
@@ -319,6 +322,24 @@ function Select(arg){
 
   $(".ui-resizable-handle").remove();
   $(".ui-rotatable-handle").remove();
+
+  $(".container").each(function a(){
+
+
+      cont = $(this).find(".content").parent()[0].innerHTML;
+
+      try{
+      obj = $(this).find(".ui-wrapper")[0];
+
+      this.style.left = (parseInt(this.style.left) + parseInt(obj.style.left)).toString();
+      this.style.top =  (parseInt(this.style.top) + parseInt(obj.style.top)).toString();
+      this.style.width = (parseInt(this.style.width) + parseInt(obj.style.width)).toString();
+      this.style.height = (parseInt(this.style.height) + parseInt(obj.style.height)).toString();
+      this.style.webkitTransform = obj.style.webkitTransform;
+      this.innerHTML = cont;} catch(e){};
+  }
+      );
+
 
 
 parent.document.getElementById("undo").innerHTML = document.body.innerHTML;

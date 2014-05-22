@@ -15,6 +15,8 @@ background-image:url('/static/images/background.jpg');
 
 div.title {
 
+
+
     font: bold 70px 'arial', arial, helvetica, sans-serif;
     margin: 0;
     letter-spacing: 30px;
@@ -85,4 +87,19 @@ thead { background: #fc9; }
     margin: 11px 0 11px 11px; /* Отступы вокруг картинки */
    }
 
+div.delete {padding: 2em; border: 10px dashed #000;
+    position: absolute;
+    top: -250px;
+    left: 50%;
+    z-index: 200;
 
+  background: red url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAACACAMAAAD9J/PGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUdQTFRF/Pz8zc3N2traz8/P0NDR0tLS0NDQ9fX1+Pj4//7/9PT04uLi6Ojo39/fzs3NzMzM/f7+3Nzc9fb26uvq6urp4ODh9/f44+Pj+vn519fX29zb19bX1tXV6Onp5OPk2dnY+/r79vX1+vv7+vr6+Pn4+fr6/////v7+0dHR09PT/fz80tPS0dHS/Pv78vPzzs7P/v39zs7O7/Dv/f393t7d8vLx3+Dg2drZ8PDw8fHw5+bn2dnZ7ezt7+/v5eXl5OTl+fn46+vr7u7u6urq1NTV1dXV4ODg2NnY7O3s19fY09TUz87P4eHh09PS9PP0zczM7u7t3Nzd8vLy29va8fHx5uXm5ubm7u7v5OTk1dXU19fW3Nvc5+fn+/v71tbV3d3dz87O7Ovs6Ofn3t7e9vf28/Pz4+Pi7Ozs8O/v9/f31NTT/P399vb3QCtbEwAAAKZJREFUeNokw9NSBQAUQNGV3c22bdu2bdf/P3em9potIWFf0p/8MKjfg20pIT2khg490kK3XZ22fLm0YlWNO1eqVdq0rt60ccnhWJVrhwrdG/EsL4xZU2pHTnhTrs6FeXNOnZly40luqFViWbFFj95tmHFgyblZH4ZMmHRi1JE+r/Zkh4zQqMiPF5/KZIYWCyq0atakwa1e/3X5NmxAQcjSHrf9CjAAht4XiD8Rf/EAAAAASUVORK5CYII=)
+    no-repeat;
+  -o-background-size: 100% 100%; -webkit-background-size: 100% 100%; -khtml-background-size: 100% 100%; background-size: 100% 100%;
+
+  background: -moz-linear-gradient(top,#ccc,red);
+  background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#FF6C17));
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr=#cccccc,endColorstr=red,GradientType=0); zoom: 1;
+  background: linear-gradient(top,#ccc,red);
+
+}

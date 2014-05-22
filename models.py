@@ -21,6 +21,9 @@ class Playcast(models.Model):
     datetime = models.DateTimeField()
     last = models.DateTimeField()
     active = models.BooleanField()
+    color1 = models.CharField(max_length=20)
+    color2 = models.CharField(max_length=20)
+    color3 = models.CharField(max_length=20)
 
 
 class Readers(models.Model):

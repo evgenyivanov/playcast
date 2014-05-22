@@ -18,6 +18,8 @@ from django.contrib.auth.models import User
 #from django.core.exceptions import ValidationError
 from capcha import capthaGenerate
 import hashlib
+import numpy as np
+
 
 class DivErrorList(ErrorList):
     def __unicode__(self):
@@ -402,6 +404,10 @@ def put(request):
         st = st.replace('<script type="text/javascript" src="/static/js/jquery.ui.rotatable.js"></script>','')
         st = st.replace('<script type="text/javascript" src="/static/js/edite.js"></script>','')
         st = st.replace('<script type="text/javascript" src="/static/js/ui/jquery.ui.mouse.js"></script>','')
+        st = st.replace('<div class="ui-resizeble-handle ui-resizeble-ne" unselecttable="on" style="z-index:1001;"></div>','')
+        st = st.replace('<div class="ui-resizeble-handle ui-resizeble-nw" unselecttable="on" style="z-index:1002;"></div>','')
+        st = st.replace('<div class="ui-resizeble-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" unselecttable="on" style="z-index:1003;" <="" div=""><div class="ui-resizeble-handle ui-resizeble-sw" unselecttable="on" style="z-index:1004;"></div></div>','')
+
         re.sub(r'\s+', ' ', st)
         obj.body = st
         obj.murl = request.POST['murl']
@@ -439,6 +445,97 @@ def save(request):
         size = 420, 420
         img.thumbnail(size, Image.ANTIALIAS)
         img.save(path, "JPEG")
+        data = np.array(img)
+        r = 0
+        g= 0
+        b = 0
+        n = 0
+        for i in range(160):
+            for j in range(20):
+                n = n + 1
+                r = r + data[i][j][0]
+                g = g + data[i][j][1]
+                b = b + data[i][j][2]
+        r = 255 - r // n
+        g = 255 - g //n
+        b = 255 - b //n
+        if r > 100 and r< 126:
+            r = 1
+        if r > 100 and r> 126:
+            r = 0
+        if g > 100 and g< 126:
+            g = 1
+        if g > 100 and g> 126:
+            g = 0
+
+        if b > 100 and b< 126:
+            b = 1
+        if b > 100 and b> 126:
+            b = 0
+
+
+        color1='('+str(r)+','+str(g)+','+str(b)+')'
+        r = 0
+        g= 0
+        b = 0
+        n = 0
+        hh = 230
+        for i in range(160):
+            for j in range(40):
+                n = n + 1
+                r = r + data[i][j+hh][0]
+                g = g + data[i][j+hh][1]
+                b = b + data[i][j+hh][2]
+        r = 255 - r // n
+        g = 255 - g //n
+        b = 255 - b //n
+        if r > 100 and r< 126:
+            r = 1
+        if r > 100 and r> 126:
+            r = 0
+        if g > 100 and g< 126:
+            g = 1
+        if g > 100 and g> 126:
+            g = 0
+
+        if b > 100 and b< 126:
+            b = 1
+        if b > 100 and b> 126:
+            b = 0
+        color2='('+str(r)+','+str(g)+','+str(b)+')'
+        r = 0
+        g= 0
+        b = 0
+        n = 0
+        hh = 280
+        for i in range(320):
+            for j in range(40):
+                n = n + 1
+                r = r + data[i][j+hh][0]
+                g = g + data[i][j+hh][1]
+                b = b + data[i][j+hh][2]
+        r = 255 - r // n
+        g = 255 - g //n
+        b = 255 - b //n
+        if r > 100 and r< 126:
+            r = 1
+        if r > 100 and r> 126:
+            r = 1
+        if g > 100 and g< 126:
+            g = 1
+        if g > 100 and g> 126:
+            g = 0
+
+        if b > 100 and b< 126:
+            b = 1
+        if b > 100 and b> 126:
+            b = 0
+        color3='('+str(r)+','+str(g)+','+str(b)+')'
+        obj = Playcast.objects.get(id = str(request.POST['id']))
+        obj.color1 = color1;
+        obj.color2 = color2;
+        obj.color3 = color3;
+        obj.save()
 
         return HttpResponse(path)
 
