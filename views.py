@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.forms.util import ErrorList
 #from django.shortcuts import render_to_response
 import datetime
-from models import Picture, Music,Playcast, UserProfile,Readers
+from models import *
 import os, re
 from PIL import Image
 from django.contrib.auth import authenticate, login
@@ -19,6 +19,9 @@ from django.contrib.auth.models import User
 from capcha import capthaGenerate
 import hashlib
 import numpy as np
+from datetime import timedelta
+#import urllib
+
 
 
 class DivErrorList(ErrorList):
@@ -30,6 +33,24 @@ class DivErrorList(ErrorList):
 
 
 ############################################################################
+@csrf_exempt
+def loginza(request):
+    if request.method == 'POST':
+        token = request.POST.get('token', None)
+        if token is None:
+            return http.HttpResponseBadRequest()
+        #f = urllib.urlopen('http://loginza.ru/api/authinfo?token=%s' % token)
+        #result = f.read()
+        #f.close()
+        return HttpResponse(token)
+
+    if request.method == 'GET':
+        d = {}
+        t = get_template("loginza.html")
+        c = Context(d)
+        html = t.render(c)
+        return HttpResponse(html)
+
 def about(request):
     d = {}
     t = get_template("about.html")
@@ -239,10 +260,25 @@ def editeprofile(request):
 
 
 def mylogin(request):
+
     login2 = request.GET['login']
     passw = request.GET['password']
     user = authenticate(username=login2, password=passw)
-    if user is not None:
+
+    delta = datetime.datetime.now()-timedelta(minutes=15)
+
+    NonStop2 = True
+    ip = str(get_client_ip(request))
+    list_error = LoginError.objects.filter(ip = ip).order_by('-date')
+
+    if len(list_error)>5:
+
+        if list_error[4].date > delta:
+            NonStop2 = False
+
+
+
+    if user is not None and NonStop2:
         if user.is_active:
             login(request, user)
             html = 'Hello, <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'+user.first_name+' '+user.last_name+'</a>!<br />'
@@ -254,8 +290,17 @@ def mylogin(request):
         else:
             pass
     else:
-        html = '<span style="color: red;'+'">Error: login and password</span>'
-        html = html + '<br />login <span style="position:relative;left:4px;"><input type="text" id ="login" value=""></span>'
+        if NonStop2 == False:
+            errors ="Plese, try again later (~15 minut)"
+        else:
+            err = LoginError()
+            err.date = datetime.datetime.now()
+            err.ip = get_client_ip(request)
+            err.save()
+            errors="Error: login and password"
+
+        html = '<span style="color: red;'+'">'+errors+'</span>'
+        html = html + '<br />login <span style="position:relative;left:29px;"><input type="text" id ="login" value=""></span>'
         html = html +'password <input type="password" id = "password" value="">'
         html = html +'<button type="button" onclick="LogIn();">OK</button> or <a href="/register">Sign up</a>'
 
@@ -268,7 +313,7 @@ def CurrentUser(request):
 
     user = request.user
     if str(user) == 'AnonymousUser':
-        html = 'Hello, Guest!<br />login <span style="position:relative;left:4px;"><input type="text" id ="login" value=""></span>'
+        html = 'Hello, Guest!<br />login <span style="position:relative;left:29px;"><input type="text" id ="login" value=""></span>'
         html = html +'password <input type="password" id = "password" value="">'
         html = html +'<button type="button" onclick="LogIn();">OK</button> or <a href="/register">Sign up</a>'
     else:
@@ -329,7 +374,7 @@ def deleteplaycast(request,id):
     if obj.user == request.user:
         obj.delete()
         os.remove('/home/playcards/playcast/media/screen/'+str(id)+'.jpg')
-        return redirect('/')
+        return redirect('/author/'+str(request.user.id)+'/')
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -446,12 +491,15 @@ def save(request):
         img.thumbnail(size, Image.ANTIALIAS)
         img.save(path, "JPEG")
         data = np.array(img)
+        x = len(data[:,1])-1
+        y = len(data[1,:]) -1
         r = 0
         g= 0
         b = 0
         n = 0
-        for i in range(160):
-            for j in range(20):
+        hh = int(20*y/185)
+        for i in range(x):
+            for j in range(10):
                 n = n + 1
                 r = r + data[i][j][0]
                 g = g + data[i][j][1]
@@ -459,19 +507,7 @@ def save(request):
         r = 255 - r // n
         g = 255 - g //n
         b = 255 - b //n
-        if r > 100 and r< 126:
-            r = 1
-        if r > 100 and r> 126:
-            r = 0
-        if g > 100 and g< 126:
-            g = 1
-        if g > 100 and g> 126:
-            g = 0
 
-        if b > 100 and b< 126:
-            b = 1
-        if b > 100 and b> 126:
-            b = 0
 
 
         color1='('+str(r)+','+str(g)+','+str(b)+')'
@@ -479,9 +515,9 @@ def save(request):
         g= 0
         b = 0
         n = 0
-        hh = 230
-        for i in range(160):
-            for j in range(40):
+        hh = int(170*y/185)
+        for i in range(x):
+            for j in range(10):
                 n = n + 1
                 r = r + data[i][j+hh][0]
                 g = g + data[i][j+hh][1]
@@ -489,27 +525,15 @@ def save(request):
         r = 255 - r // n
         g = 255 - g //n
         b = 255 - b //n
-        if r > 100 and r< 126:
-            r = 1
-        if r > 100 and r> 126:
-            r = 0
-        if g > 100 and g< 126:
-            g = 1
-        if g > 100 and g> 126:
-            g = 0
 
-        if b > 100 and b< 126:
-            b = 1
-        if b > 100 and b> 126:
-            b = 0
         color2='('+str(r)+','+str(g)+','+str(b)+')'
         r = 0
         g= 0
         b = 0
         n = 0
-        hh = 280
-        for i in range(320):
-            for j in range(40):
+        hh = int(170*y/185)
+        for i in range(x):
+            for j in range(10):
                 n = n + 1
                 r = r + data[i][j+hh][0]
                 g = g + data[i][j+hh][1]
@@ -517,19 +541,9 @@ def save(request):
         r = 255 - r // n
         g = 255 - g //n
         b = 255 - b //n
-        if r > 100 and r< 126:
-            r = 1
-        if r > 100 and r> 126:
-            r = 1
-        if g > 100 and g< 126:
-            g = 1
-        if g > 100 and g> 126:
-            g = 0
 
-        if b > 100 and b< 126:
-            b = 1
-        if b > 100 and b> 126:
-            b = 0
+
+
         color3='('+str(r)+','+str(g)+','+str(b)+')'
         obj = Playcast.objects.get(id = str(request.POST['id']))
         obj.color1 = color1;

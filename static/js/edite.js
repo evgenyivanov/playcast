@@ -73,15 +73,23 @@ function VideoSet(arg){
 }
 
 function AddVideo(){
+
+
 url = $("#select_video_url")[0].value;
 url = url.replace('http://www.youtube.com/watch?v=','');
 $("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
 $("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
 var today = NewId();
-st2= "<div><div name = 'container' class='container'";
-st2 = st2 +'" id="'+today+'_container" style="position: absolute; z-index: 4; width : 245px; height : 185px" />';
+
+st2= "<div><div name = 'container' class='container' onclick=";
+st2=st2+'"';
+st2= st2+"Select('";
+st2= st2+today+"'"+');';
+st2=st2+'"';
+st2 = st2 +' id="'+today+'_container" style="position: absolute; z-index: 4; width : 245px; height : 185px" >';
 st2 = st2 + '<iframe class="content" id = "'+today+'" width="96%" height="96%" src="http://www.youtube.com/embed/'+url+'?autoplay=1" frameborder="0" allowfullscreen="allowfullscreen" data-link="http://www.youtube.com/watch?v='+url+'"></iframe>';
 st2 = st2 + '</div></div>';
+
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st2 + BodyF.innerHTML;
    $("#select_video").dialog("close");
@@ -203,7 +211,7 @@ $("#music_performer")[0].innerHTML=performer;
 $("#select_music").dialog("close");
 }
 
-function AddImage(arg){
+function AddImage(arg,w,h){
 
 $("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
 $("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
@@ -226,7 +234,8 @@ st = st +'" style=""></div>';
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
 obj = $("#myframe")[0].contentDocument.getElementById(today.toString());
-obj.width = 50;//*obj.naturalWidth/obj.naturalHeight;
+obj.width = w;//*obj.naturalWidth/obj.naturalHeight;
+obj.width = h;
 //alert(parseInt(obj.));
 $("#select_image").dialog("close");
 }
@@ -244,6 +253,7 @@ function EditeMyText(){
 
 function EditeText(arg){
 txt = $("#"+arg)[0].innerHTML;
+
 parent.$("#text_edite_id")[0].innerHTML = arg;
 parent.myNicEditor2.instanceById('text_edite_text').setContent(txt);
 parent.$("#text_edite").dialog("open");
@@ -314,6 +324,7 @@ $("#dialog").dialog("close");
 
 
 function Select(arg){
+
     var mybox =$('#mybox')[0];
     if (mybox.innerHTML == (arg)){
             return;
@@ -351,6 +362,7 @@ parent.document.getElementById("undostyle").innerHTML = document.body.style.cssT
     var offset = obj.offset();
     var objc =  $('#'+arg+'_container')[0];
 
+
 try{
 width = obj[0].width.toString();
 height = obj[0].height.toString();
@@ -363,6 +375,7 @@ top2 = offset.top.toString();
     top2 = 15;
 
 }
+
 
 
    st = '<div id="draggable_wrapper" style="width: '+ width +'px; height: '+height+'px;'+' left: '+ left2 + 'px; top: '+top2+'px;">'+'<div id="resizable-wrapper">'+objc.innerHTML+'</div></div>';
@@ -383,7 +396,9 @@ top2 = offset.top.toString();
 		});
 
 		elem.parent().rotatable();
+
 		elem.parent().parent().draggable();
+
 
 //elem.draggable();
     }

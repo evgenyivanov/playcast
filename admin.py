@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 #from django.db import models
-from models import Picture, Playcast,UserProfile,Readers,Music
+from models import *
 
 
 class PictureList(admin.ModelAdmin):
@@ -15,3 +15,4 @@ admin.site.register(Music)
 admin.site.register(Playcast)
 admin.site.register(UserProfile)
 admin.site.register(Readers)
+admin.site.register(LoginError)
