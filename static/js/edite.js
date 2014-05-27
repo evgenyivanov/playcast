@@ -106,7 +106,8 @@ function Put(){
     BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
     $("#wait").show();
 
-    var MyDict = {'active':active,'tid':tid,'style':BodyF.style.cssText ,'width': w,'height':h,'title': document.getElementById("title").value,'body': $('#myframe').contents().find("body").html(),'mtitle': document.getElementById("music_title").textContent,'murl': document.getElementById("music_url").textContent ,'mauthor': document.getElementById("music_author").textContent,'mperformer': document.getElementById("music_performer").textContent};
+    var MyDict = {'active':active,'tid':tid,'style':BodyF.style.cssText ,'width': w,'height':h,'title': document.getElementById("title").value,'body': $('#myframe').contents().find("body").html(),'mtitle': document.getElementById("music_title").textContent,'murl': document.getElementById("music_url").textContent ,'mauthor': document.getElementById("music_author").textContent,'mperformer': document.getElementById("music_performer").textContent,'comments': myNicEditor3.instanceById('comments_text').getContent()};
+
 
 $.ajax({
   type: "POST",
@@ -114,7 +115,7 @@ $.ajax({
   data: MyDict,
   success: function(msg){
 
-document.getElementById('myframe').contentWindow.Screen(msg);
+document.getElementById('myframe').contentWindow.Screen(msg,w,h);
   },
   error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -126,22 +127,19 @@ document.getElementById('myframe').contentWindow.Screen(msg);
     $("#wait").hide();
 }
 
-function Screen(arg){
+function Screen(arg,w,h){
 
- //  var html =  $('BODY')[0].innerHTML;
- //  document.body.innerHTML = document.body.innerHTML+'<div id ="screendiv"></div>';
-//
- //  div = $('#screendiv')[0];
- //  div.innerHTML=html;
-
- //  div.style.bacgroundColor = $('BODY')[0].style.backgroundColor;
-//   div.style.width = "340px";
- //  div.style.height = "340px";
-   //div.style.bacgroundImage = $('BODY')[0].style.backgroundImage;
+    document.body.innerHTML = document.body.innerHTML +'<div id="bgr"></div>';
+    obj=$("#bgr")[0];
+    obj.style.width = w;
+    obj.style.height = h;
+    obj.style.zindex = -3000;
+    obj.style.backgroundImage = document.body.style.backgroundImage;
+ //////////////////////////////////////////
 
 
    html2canvas(document.body, {
-   //html2canvas($('#screendiv')[0], {
+
        allowTaint: false,
             logging:true,
   onrendered: function(canvas) {
@@ -149,6 +147,8 @@ function Screen(arg){
     dataURL = canvas.toDataURL("image/png");
  obj=$(canvas);
 obj.remove();
+
+
 
 $.ajax({
   type: "POST",
@@ -235,7 +235,7 @@ BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
 obj = $("#myframe")[0].contentDocument.getElementById(today.toString());
 obj.width = w;//*obj.naturalWidth/obj.naturalHeight;
-obj.width = h;
+obj.height = h;
 //alert(parseInt(obj.));
 $("#select_image").dialog("close");
 }

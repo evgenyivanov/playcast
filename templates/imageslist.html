@@ -1,4 +1,4 @@
 {% for l in L%}
-<span><img src="{{l.url}}" width="{{l.width}}" height="102px"><span onclick="parent.parent.AddImage('{{l.url}}','{{l.width}}','102');"><img style="position :relative; top: -10px;"  src="/static/images/i-add.png"></span></span>
+<span><img src="{{l.url}}" width="{{l.width}}" height="102px"><span onclick="parent.parent.AddImage('{{l.url}}','{{l.w}}','{{l.h}}');"><img style="position :relative; top: -10px;"  src="/static/images/i-add.png"></span></span>
 {%endfor%}
 <br />{{links|safe}}

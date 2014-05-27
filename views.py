@@ -464,6 +464,7 @@ def put(request):
         obj.mperformer = request.POST['mperformer']
         obj.user = request.user
         obj.last = datetime.datetime.now()
+        obj.comment = request.POST['comments']
         obj.save()
         return HttpResponse(obj.id)
 
@@ -680,6 +681,8 @@ def images_list(request,arg=0):
             obj = Img()
             obj.url = '/media/'+ str(i.image)
             obj.width = str(102* i.image.width/i.image.height)
+            obj.w = i.image.width
+            obj.h = i.image.height
             L.append(obj)
         links = ''
         if int(arg) > 9:
@@ -700,6 +703,8 @@ def images_list(request,arg=0):
         obj = Img()
         obj.url = '/media/'+ str(i.image)
         obj.width = str(102* i.image.width/i.image.height)
+        obj.w = i.image.width
+        obj.h = i.image.height
         L.append(obj)
     links = ''
     if int(arg) > 9:
@@ -761,7 +766,7 @@ def designer(request, id = None):
     tid = ''
     tbody = ''
     title=''
-    tstyle = 'background-color:#e0ffff;'
+    tstyle = 'background-color:#FFFFB5;'
     twidth = '950px'
     theight = '750px'
     tmtitle =''
