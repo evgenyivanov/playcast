@@ -1,0 +1,12 @@
+
+to {{tuser.username}} <br />
+you balance: {{balance}}<br /> <br />
+{%for i in L%}
+<form action="/sendgift/{{id}}/" method="post" >{% csrf_token %}
+ &nbsp; &nbsp;{{i.title}}
+<input name = "gift" type = "hidden"  style='display:inline;' value="{{i.id}}"><br />
+<button  style='display:inline;'><img width="45" height="45" src={{i.gifts.url}} /></button><br />
+ &nbsp;Price: {{i.price}}
+</form>
+
+{%endfor%}

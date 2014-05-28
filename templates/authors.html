@@ -1,0 +1,14 @@
+<head>
+<title>Authors</title>
+<link href="/static/css/edite.css" rel="stylesheet" media="screen">
+</head>
+
+<body>
+<a href="/"><span style="color:brown;font-size:18px; font:bold;">Home page</span></a>
+<div class="title" style="position: absolute; top : 35px; left : 315px;">
+<span style="color:white;">A</span><span class="char2" style="color:yellow; position:relative; top:23px;">U</span><span style="color:blue;">T</span><span style="color:white;">H</span><span style="color:white;">O</span><span style="color:yellow;">R</span><span style="color:red;position:relative; top:-13px;">S</span>
+</div>
+<div style="position:absolute; left:50px; top: 200px">
+{%for i in L%}<a href="/author/{{i.id}}/"><span  style="color: black; font: bold;font-size:22px;">{{i.last_name}} {{i.first_name}} ({{i.username}})</span></a><br /> {%endfor%}
+<div>
+</body>

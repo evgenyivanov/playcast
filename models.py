@@ -34,6 +34,12 @@ class SendGifts(models.Model):
     price = models.IntegerField()
     date = models.DateTimeField()
 
+    def nameuser(self):
+        usr = User.objects.get(id = self.fuser)
+        if usr == None:
+            return 'None'
+        return usr.username
+
     def gift_thumbnail(self):
         if self.gifts:
             return u'<img width="45" height="45" src="%s" />' % (self.gift.gifts.url)

@@ -1,6 +1,28 @@
 <head></head>
 <link href="/static/css/edite.css" rel="stylesheet" media="screen">
 <title>{{user.first_name}} {{user.last_name}}</title>
+<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script>
+$(function(){
+        var theDialog = $("#dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '100',
+            height:'800',
+        });
+});
+</script>
+<script>
+    function SendPresent(){
+         $("#dialog").dialog("open");
+    }
+
+    function Account(){
+        document.location.href='/account';
+    }
+</script>
 </head>
 <body>
 <div>
@@ -13,7 +35,8 @@
 <b>About:</b>
 <div>{{p.about}}</div>
 </div>
-
+<div style="word-wrap:break-word;">{%for i in presents%}<img src="{{i.gift.gifts.url}}" width="45" height ="45" title="{{i.nameuser}}"  />&nbsp;&nbsp;{%endfor%}</div>
+<br /><div>{{controls|safe}}</div>
 <div style =" clear: both;" >
 {% for i in L%}
 
@@ -27,4 +50,8 @@
 <br />
 {%endfor%}
 </div>
+
+ <div id="dialog" title="Send gift" style="position: absolute;right:2">
+     <iframe id= "myframe" src="/sendgift/{{user.id}}/"  frameborder="no" width="100%" height="100%" align="left" >
+ </div>
 </body>

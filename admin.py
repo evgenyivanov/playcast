@@ -55,4 +55,5 @@ class AccountList(admin.ModelAdmin):
     fields = ('date', 'sum','text','username')
     list_display = ('date', 'sum','text','username')
 
+
 admin.site.register(Account,AccountList)

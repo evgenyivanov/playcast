@@ -21,6 +21,19 @@ import hashlib
 import numpy as np
 from datetime import timedelta
 #import urllib
+from django.db.models import Count, Min, Sum, Avg
+
+def authors(request):
+    list = User.objects.all().order_by('last_name','first_name')
+    L = []
+    for i in list:
+        L.append(i)
+    d = {'L':L}
+    t = get_template("authors.html")
+    c = Context(d)
+    html = t.render(c)
+    return HttpResponse(html)
+
 
 
 
@@ -33,6 +46,106 @@ class DivErrorList(ErrorList):
 
 
 ############################################################################
+
+def account(request):
+    list = Account.objects.filter(user = request.user).order_by('-date')
+    balance = 0
+    L=[]
+    for i in list:
+        L.append(i)
+        balance = balance + i.sum
+    d = {'user': request.user,'balance':balance,'L':L}
+    t = get_template("account.html")
+    c = Context(d)
+    html = t.render(c)
+    return HttpResponse(html)
+
+
+
+
+
+def credited(request):
+    if not request.user.is_superuser:
+        return redirect('/designer/')
+
+    if request.method == 'POST':
+        obj = Account()
+        obj.date = datetime.datetime.now()
+        obj.sum = int(request.POST['sum'])
+        obj.text = request.POST['text']
+        obj.user = User.objects.get(id = request.POST['user'])
+        obj.save()
+        return HttpResponse('OK')
+
+
+    else:
+
+
+        f = CreditedForm()
+        d = {'f': f}
+        d.update(csrf(request))
+        t = get_template("credited.html")
+        c = Context(d)
+        html = t.render(c)
+        return HttpResponse(html)
+
+
+
+
+def sendgift(request,id):
+    if request.method == 'POST':
+        user = User.objects.get(id = id)
+        if user == None:
+            return HttpResponse('<span style="color: red;">Error: user not found</span>')
+        balance = 0
+        l = Account.objects.filter(user = request.user)
+        for i in l:
+           balance = balance + i.sum
+        gift = Gifts.objects.get(id = request.POST['gift'])
+        if balance < gift.price:
+             return HttpResponse('<span style="color: red;">Error: balance is '+str(balance)+'</span>')
+        obj = SendGifts()
+        obj.tuser = id
+        obj.fuser = request.user.id
+        obj.gift = gift
+        obj.price = gift.price
+        obj.date = datetime.datetime.now()+datetime.timedelta(days = gift.period)
+        obj.save()
+
+        obj=Account()
+        obj.date = datetime.datetime.now()
+        obj.sum = -1*gift.price
+        obj.text = gift.title + ' to '+ user.username
+        obj.user = request.user
+        obj.save()
+
+        return HttpResponse('OK')
+
+
+
+    if request.method == 'GET':
+        tuser = User.objects.get(id = id)
+
+        #balance = Account.objects.filter(user = request.user).annotate(Sum('text'))
+        balance = 0
+        l = Account.objects.filter(user = request.user)
+        for i in l:
+           balance = balance + i.sum
+
+        list = Gifts.objects.all()
+        L = []
+        for i in list:
+            L.append(i)
+
+        d = {'tuser': tuser,'balance':balance,'L':L,'id':id}
+        d.update(csrf(request))
+        t = get_template("sendgift.html")
+        c = Context(d)
+        html = t.render(c)
+        return HttpResponse(html)
+
+
+
 @csrf_exempt
 def loginza(request):
     if request.method == 'POST':
@@ -181,7 +294,13 @@ def readers(request,id):
 
 def author(request,id):
     usr = User.objects.get(id = id)
-    profile = UserProfile.objects.filter(user = usr)[0]
+    if len(UserProfile.objects.filter(user = usr))==0:
+        obj = UserProfile()
+        obj.user = usr
+        obj.save()
+        profile = obj
+    else:
+        profile = UserProfile.objects.filter(user = usr)[0]
     if str(profile.photo) == '':
         url_img = '/static/images/no_image.gif'
         h = 250
@@ -196,7 +315,18 @@ def author(request,id):
 
     for i in list:
        L.append(i)
-    d = {'user':usr,'p':profile,'L':L,'url_img':url_img,'h':h}
+    presents = []
+    list = SendGifts.objects.filter(tuser = id)
+    now = datetime.datetime.now()
+    for i in list:
+        if i.date > now:
+            presents.append(i)
+    controls = ""
+    if str(request.user.id) == str(id):
+        controls = '<button  class="btn-editor" onclick = "Account();">Account</button>'
+    else:
+        controls = '<button  class="btn-editor" onclick = "SendPresent();">Send present</button>'
+    d = {'user':usr,'p':profile,'L':L,'url_img':url_img,'h':h,'presents':presents,'controls':controls}
     t = get_template("author.html")
     c = Context(d)
     html = t.render(c)
@@ -398,12 +528,22 @@ def playcast(request,id):
         reader = Readers()
         try:
             reader.user = request.user
+
         except:
             pass
         reader.ip = str(get_client_ip(request))
         reader.playcast = obj
         reader.date = datetime.datetime.now()
         reader.save()
+    cnt = len(Readers.objects.filter(playcast = obj))
+
+    if (cnt//50) == (float(cnt)/50) and cnt>0:
+        ac = Account()
+        ac.date= datetime.datetime.now()
+        ac.sum = 1
+        ac.text = obj.title
+        ac.user = obj.user
+        ac.save()
     author=''
     if obj.user == request.user:
 

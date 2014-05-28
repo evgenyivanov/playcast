@@ -1,4 +1,11 @@
 from django import forms
+from django.contrib.auth.models import User
+
+class CreditedForm(forms.Form):
+
+    sum = forms.IntegerField(required=True)
+    text = forms.CharField(max_length=200)
+    user = forms.ModelMultipleChoiceField(queryset=User.objects.all())
 
 class LoginForm(forms.Form):
     login = forms.CharField()
