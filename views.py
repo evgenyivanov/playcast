@@ -24,17 +24,12 @@ from datetime import timedelta
 from django.db.models import Count, Min, Sum, Avg
 
 def authors(request):
-    list = User.objects.all().order_by('last_name','first_name')
-    L = []
-    for i in list:
-        L.append(i)
+    L = list(User.objects.all().order_by('last_name','first_name'))
     d = {'L':L}
     t = get_template("authors.html")
     c = Context(d)
     html = t.render(c)
     return HttpResponse(html)
-
-
 
 
 class DivErrorList(ErrorList):
@@ -50,6 +45,7 @@ class DivErrorList(ErrorList):
 def account(request):
     list = Account.objects.filter(user = request.user).order_by('-date')
     balance = 0
+
     L=[]
     for i in list:
         L.append(i)
@@ -59,9 +55,6 @@ def account(request):
     c = Context(d)
     html = t.render(c)
     return HttpResponse(html)
-
-
-
 
 
 def credited(request):
@@ -79,8 +72,6 @@ def credited(request):
 
 
     else:
-
-
         f = CreditedForm()
         d = {'f': f}
         d.update(csrf(request))
@@ -125,18 +116,12 @@ def sendgift(request,id):
 
     if request.method == 'GET':
         tuser = User.objects.get(id = id)
-
-        #balance = Account.objects.filter(user = request.user).annotate(Sum('text'))
         balance = 0
         l = Account.objects.filter(user = request.user)
         for i in l:
            balance = balance + i.sum
 
-        list = Gifts.objects.all()
-        L = []
-        for i in list:
-            L.append(i)
-
+        L = list(Gifts.objects.all())
         d = {'tuser': tuser,'balance':balance,'L':L,'id':id}
         d.update(csrf(request))
         t = get_template("sendgift.html")
@@ -204,21 +189,13 @@ def login2(request):
         return HttpResponse(html)
 
 
-
-
-
-
-
-
 def register(request):
 
     captcha=  capthaGenerate(request)
     mm = hashlib.md5()
     mm.update(captcha[1])
 
-
-    if request.method == 'POST': # If the form has been submitted...
-
+    if request.method == 'POST':
         formUser = RegUserForm(request.POST)
         passw1 = request.POST['passw1']
         passw2 = request.POST['passw2']
@@ -230,8 +207,6 @@ def register(request):
 
 
         if formUser.is_valid() and (passw1 == passw2) and (captha_input == captcha_value) and (user_count == 0):
-
-
             new_user  = User.objects.create_user(username=formUser.cleaned_data['username'],
                                  email=formUser.cleaned_data['email'],
                                  password=passw1)
@@ -239,11 +214,11 @@ def register(request):
             new_user.first_name= formUser.cleaned_data['first_name'],
             new_user.last_name= formUser.cleaned_data['last_name'],
             new_user.save()
-
-
+            new_user.first_name = str(new_user.first_name).replace("(u'","").replace("',)","")
+            new_user.last_name = str(new_user.last_name).replace("(u'","").replace("(u'","").replace("',)","")
+            new_user.save()
             return redirect('/')
         else:
-
              d = {'formUser': formUser}
              if user_count > 0:
                  d.update({'username_error':"username is already used"})
@@ -260,7 +235,6 @@ def register(request):
              return HttpResponse(html)
 
     else:
-
         formUser = RegUserForm()
         d = {'captcha':captcha[0],'capcha_value': mm.hexdigest(),'formUser': formUser}
         d.update(csrf(request))
@@ -269,21 +243,11 @@ def register(request):
         html = t.render(c)
         return HttpResponse(html)
 
-
-
-
-
-
-
 def readers(request,id):
     playcast = Playcast.objects.get(id = id)
     if playcast.user == request.user:
-        list = Readers.objects.filter(playcast = playcast)
-        total=len(list)
-
-        L = []
-        for i in list:
-            L.append(i)
+        L = list(Readers.objects.filter(playcast = playcast))
+        total=len(L)
         d = {'L':L,'id':id,'title': playcast.title,'total': total}
         t = get_template("readers.html")
         c = Context(d)
@@ -325,7 +289,8 @@ def author(request,id):
     if str(request.user.id) == str(id):
         controls = '<button  class="btn-editor" onclick = "Account();">Account</button>'
     else:
-        controls = '<button  class="btn-editor" onclick = "SendPresent();">Send present</button>'
+        if str(request.user) != 'AnonymousUser':
+            controls = '<button  class="btn-editor" onclick = "SendPresent();">Send present</button>'
     d = {'user':usr,'p':profile,'L':L,'url_img':url_img,'h':h,'presents':presents,'controls':controls}
     t = get_template("author.html")
     c = Context(d)
@@ -649,9 +614,13 @@ def save(request):
         g = 255 - g //n
         b = 255 - b //n
 
+        if (r+g+b)/255 > 1.5:
+            color1= '(1,1,1)'
+        else:
+            color1 = '(0,0,0)'
 
 
-        color1='('+str(r)+','+str(g)+','+str(b)+')'
+        #color1='('+str(r)+','+str(g)+','+str(b)+')'
         r = 0
         g= 0
         b = 0
@@ -667,7 +636,12 @@ def save(request):
         g = 255 - g //n
         b = 255 - b //n
 
-        color2='('+str(r)+','+str(g)+','+str(b)+')'
+        if (r+g+b)/255 > 1.5:
+            color2= '(1,1,1)'
+        else:
+            color2 = '(0,0,0)'
+
+        #color2='('+str(r)+','+str(g)+','+str(b)+')'
         r = 0
         g= 0
         b = 0
@@ -683,9 +657,14 @@ def save(request):
         g = 255 - g //n
         b = 255 - b //n
 
+        if (r+g+b)/255 > 1.5:
+            color3= '(1,1,1)'
+        else:
+            color3 = '(0,0,0)'
 
 
-        color3='('+str(r)+','+str(g)+','+str(b)+')'
+
+       # color3='('+str(r)+','+str(g)+','+str(b)+')'
         obj = Playcast.objects.get(id = str(request.POST['id']))
         obj.color1 = color1;
         obj.color2 = color2;
@@ -810,11 +789,10 @@ def images_list(request,arg=0):
 
     if len(keywords) > 0:
         keys = keywords.split()
-        S= set()
+
         for i in keys:
-            images = list.filter(key_words__contains = i)
-            for j in images:
-                S.add(j)
+            S = set(list(list.filter(key_words__contains = i)))
+
 
         L=[]
         for i in S:
@@ -867,8 +845,8 @@ def upload_image(request):
             obj.title = form.cleaned_data['name']
             image = form.cleaned_data['file']
             if image:
-                if image._size > 1024*1024:
-                    return HttpResponse("Image file too large ( > 1M )")
+                if image._size > 1.5*1024*1024:
+                    return HttpResponse("Image file too large ( > 1.5M )")
 
             obj.image = image
             obj.key_words = form.cleaned_data['key_words'].lower()

@@ -41,6 +41,7 @@ Music "{{p.mtitle}}" autor's - {{p.mauthor}} performer - {{p.mperformer}}<br />
 {{p.comment}}<br />
 last edition {{p.last}}
 </div>
+<div>{{author|safe}}</div><br/>
 <div style="left: 150;"><script type="text/javascript">(function() {
   if (window.pluso)if (typeof window.pluso.start == "function") return;
   if (window.ifpluso==undefined) { window.ifpluso = 1;
@@ -51,7 +52,7 @@ last edition {{p.last}}
     h.appendChild(s);
   }})();</script>
 <div class="pluso" data-background="#ebebeb" data-options="big,square,line,horizontal,counter,theme=04" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"></div></div>
-<div>{{author|safe}}</div>
+
 
 <div id='dialog' class="delete">
     <p style = "font:bold;">Delete this is?</p>

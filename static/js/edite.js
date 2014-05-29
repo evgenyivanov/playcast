@@ -115,7 +115,7 @@ $.ajax({
   data: MyDict,
   success: function(msg){
 
-document.getElementById('myframe').contentWindow.Screen(msg,w,h);
+document.getElementById('myframe').contentWindow.Screen(msg,w,h,active);
   },
   error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -127,7 +127,7 @@ document.getElementById('myframe').contentWindow.Screen(msg,w,h);
     $("#wait").hide();
 }
 
-function Screen(arg,w,h){
+function Screen(arg,w,h,active){
 
     document.body.innerHTML = document.body.innerHTML +'<div id="bgr"></div>';
     obj=$("#bgr")[0];
@@ -155,7 +155,11 @@ $.ajax({
   url: "/save/",
   data: {'id':arg,'imageData':dataURL},
   success: function(msg){
-  parent.document.location.href = '/playcast/'+arg;
+  if (active){
+  parent.document.location.href = '/playcast/'+arg;}else{
+   parent.document.location.href = '/designer/'+arg+'/';
+  }
+
   },
   error: function(XMLHttpRequest, textStatus, errorThrown) {
 
@@ -229,7 +233,7 @@ st = st + '"Select(';
 st = st +"'"+today+"');"
 st = st +'" onclick="Select(';
 st = st +"'"+today+"');";
-st = st +'" id="'+today+'_container" style="position: absolute; z-index: 4;" />   <img  class="content" src="'+arg+'" width="50" height="50" alt="" id="'+today;
+st = st +'" id="'+today+'_container" style="position: absolute; z-index: 7;" />   <img  class="content" src="'+arg+'" width="50" height="50" alt="" id="'+today;
 st = st +'" style=""></div>';
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
@@ -292,6 +296,32 @@ function AddText(){
 $("#dialog_text").dialog("close");
 text = myNicEditor.instanceById('my_text').getContent();
 
+stop = true;
+
+while (1==1){
+    n = text.indexOf('<div>');
+
+    if (n>-1){
+        stop = false;
+        text = text.replace("<div>","<br />");
+    }
+
+
+    n = text.indexOf('</div>');
+    if (n>-1){
+        stop = false;
+        text = text.replace("</div>","");
+    }
+
+
+    if (stop){
+        break;
+    }
+    stop = true;
+}
+
+
+
 var today = NewId();
 st = '<div name = ';
 st =st+"'container' class='container' onclick=";
@@ -304,6 +334,7 @@ st = st + "'"+today+"');";
 st=st+'" id = "'+today+'_container" style="position: absolute; z-index: 10; opacity: 1;" ><div><p class="content" id="'+today+'">';
 st = st+text;
 st = st+'</p></div></div>';
+
 
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
@@ -342,11 +373,13 @@ function Select(arg){
       try{
       obj = $(this).find(".ui-wrapper")[0];
 
+
       this.style.left = (parseInt(this.style.left) + parseInt(obj.style.left)).toString();
       this.style.top =  (parseInt(this.style.top) + parseInt(obj.style.top)).toString();
       this.style.width = (parseInt(this.style.width) + parseInt(obj.style.width)).toString();
       this.style.height = (parseInt(this.style.height) + parseInt(obj.style.height)).toString();
       this.style.webkitTransform = obj.style.webkitTransform;
+
       this.innerHTML = cont;} catch(e){};
   }
       );
@@ -380,7 +413,6 @@ top2 = offset.top.toString();
 
    st = '<div id="draggable_wrapper" style="width: '+ width +'px; height: '+height+'px;'+' left: '+ left2 + 'px; top: '+top2+'px;">'+'<div id="resizable-wrapper">'+objc.innerHTML+'</div></div>';
 
-  // var st = '<div id="draggable_wrapper" style="width: '+ obj[0].width.toString() +'px; height: '+obj[0].height.toString()+'px; left: '+ offset.left.toString() + 'px; top: '+offset.top.toString()+'px;">'+'<div id="resizable-wrapper">'+objc.innerHTML+'</div></div>';
 
    obj.innerHTML = st;
 
@@ -391,7 +423,7 @@ top2 = offset.top.toString();
     	var   elem = $('#'+arg);
 
 		elem.resizable({
-			aspectRatio: true,
+		//	aspectRatio: true,
 			handles:     'ne, nw, se, sw'
 		});
 
@@ -414,8 +446,10 @@ if (myItem === ''){
 
   obj = $('#myframe').contents().find('#'+myItem);
   if (obj[0].tagName == 'IMG'){
-  AddImage(obj[0].src);
+
+  AddImage(obj[0].src,obj[0].width,obj[0].height);
   }
+
 
    if (obj[0].tagName == 'P'){
   var str =obj[0].innerHTML;
@@ -431,7 +465,7 @@ if (myItem === ''){
   st = st + "'"+today+"');";
 
 
-  st=st+'" id = "'+today+'_container" style="position: absolute; z-index: 10; opacity: 1;" ><div><p id="'+today+'">';
+  st=st+'" id = "'+today+'_container" style="position: absolute; z-index: 7; opacity: 1;" ><div><p id="'+today+'">';
   st = st+str;
   st = st+'</p></div></div>';
 
