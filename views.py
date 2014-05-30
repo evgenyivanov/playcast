@@ -581,9 +581,6 @@ def save(request):
 
     if request.method == "POST":
 
-
-        #path = os.path.join(os.path.dirname(__file__), 'static').replace('\\','/')
-        #path = os.path.join(path, 'img').replace('\\','/')
         path = '/home/playcards/playcast/media/screen/'
         name = str(request.POST['id']) + '.jpg'
         path = os.path.join(path, name).replace('\\','/')
@@ -596,75 +593,68 @@ def save(request):
         size = 420, 420
         img.thumbnail(size, Image.ANTIALIAS)
         img.save(path, "JPEG")
+
         data = np.array(img)
         x = len(data[:,1])-1
         y = len(data[1,:]) -1
+
+
+
+
         r = 0
         g= 0
         b = 0
         n = 0
-        hh = int(20*y/185)
+
         for i in range(x):
-            for j in range(10):
+            for j in range(y):
                 n = n + 1
                 r = r + data[i][j][0]
                 g = g + data[i][j][1]
                 b = b + data[i][j][2]
-        r = 255 - r // n
-        g = 255 - g //n
-        b = 255 - b //n
+        r = r //(x*y)
+        g =  g // (x*y)
+        b =  b //(x*y)
 
-        if (r+g+b)/255 > 1.5:
-            color1= '(1,1,1)'
-        else:
-            color1 = '(0,0,0)'
-
-
-        #color1='('+str(r)+','+str(g)+','+str(b)+')'
-        r = 0
-        g= 0
-        b = 0
-        n = 0
-        hh = int(170*y/185)
+        color1='('+str(r)+','+str(g)+','+str(b)+')'
         for i in range(x):
-            for j in range(10):
-                n = n + 1
-                r = r + data[i][j+hh][0]
-                g = g + data[i][j+hh][1]
-                b = b + data[i][j+hh][2]
-        r = 255 - r // n
-        g = 255 - g //n
-        b = 255 - b //n
+            for j in range(4):
+                data[i][j][0]= r
+                data[i][j][1]= g
+                data[i][j][2]= b
+                data[i][j-3+y][0]= r
+                data[i][j-3+y][1]= g
+                data[i][j-3+y][2]= b
 
-        if (r+g+b)/255 > 1.5:
-            color2= '(1,1,1)'
-        else:
-            color2 = '(0,0,0)'
-
-        #color2='('+str(r)+','+str(g)+','+str(b)+')'
-        r = 0
-        g= 0
-        b = 0
-        n = 0
-        hh = int(170*y/185)
-        for i in range(x):
-            for j in range(10):
-                n = n + 1
-                r = r + data[i][j+hh][0]
-                g = g + data[i][j+hh][1]
-                b = b + data[i][j+hh][2]
-        r = 255 - r // n
-        g = 255 - g //n
-        b = 255 - b //n
-
-        if (r+g+b)/255 > 1.5:
-            color3= '(1,1,1)'
-        else:
-            color3 = '(0,0,0)'
+        for j in range(y):
+            for i in range(4):
+                data[i][j][0]= r
+                data[i][j][1]= g
+                data[i][j][2]= b
+                data[x-3+i][j][0]= r
+                data[x-3+i][j][1]= g
+                data[x-3+i][j][2]= b
+        size = 420, 420
+        img.thumbnail(size, Image.ANTIALIAS)
+        im = Image.fromarray(data)
+        im.save(path,"JPEG")
 
 
+        r = 255 - r
+        g = 255 - g
+        b = 255 - b
+        if r > 100 and r < 200:
+            r = 255
+        if g > 100 and g < 200:
+            g = 255
+        if b > 100 and b < 200:
+            b = 255
 
-       # color3='('+str(r)+','+str(g)+','+str(b)+')'
+
+        color2='('+str(r)+','+str(g)+','+str(b)+')'
+
+        color3='(0,0,0)'
+
         obj = Playcast.objects.get(id = str(request.POST['id']))
         obj.color1 = color1;
         obj.color2 = color2;

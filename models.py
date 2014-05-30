@@ -73,7 +73,7 @@ class Playcast(models.Model):
     active = models.BooleanField()
     color1 = models.CharField(max_length=20)
     color2 = models.CharField(max_length=20)
-    color3 = models.CharField(max_length=20)
+    color3 = models.CharField(max_length=20) #del
 
     def username(self):
         return self.user.username
