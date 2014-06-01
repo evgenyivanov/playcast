@@ -20,8 +20,8 @@
             });
   //]]>
   </script>
-
 <script src="/static/js/edite.js"></script>
+<script src="/myjs"></script>
 
 
 
@@ -105,6 +105,14 @@ $(function(){
             height:'580',
         });
 
+
+        var theDialog10 = $("#matrix").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '610',
+            height:'100',
+        });
         $("#wait").hide();
 
 });
@@ -129,7 +137,8 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
 <button class="btn-editor" style="position:relative; top: -2px;" onclick='$("#comments").dialog("open")'>Comment</button>
 <button class="btn-editor" onclick='Undo("")'><img src="/static/images/undo.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <button class="btn-editor" style="position:relative; top: -2px;" onclick='Clone("")'>Clone</button>
-<button class="btn-editor" onclick='Preview("");'><img src="/static/images/preview.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
+<button class="btn-editor" onclick="Matrix1('');"  style="position:relative; top: -2px;">M</button>
+<button class="btn-editor" onclick="Preview('');"><img src="/static/images/preview.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <button class="btn-editor" onclick = "Publisher('');"><img src="/static/images/save.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Save</button>
 <input type="checkbox" id="active" {{active}}> Publish
 
@@ -187,7 +196,15 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
  <button onclick='$("#upload_music").dialog("close");document.getElementById("list_music").contentDocument.location.reload(true);'>Close</button>
  </div>
 
-
+ <div id="matrix" title="Matrix (default 1,0,0,1,0,0)">
+ <span style="text-align: center;">
+ <input id="m1" type="number" onchange="Matrix2('');" step="0.1" value="0.0000" style="width:80px;">
+ <input id="m2" type="number" onchange="Matrix2('');" step="0.1" value="0.0000" style="width:80px;">
+ <input id="m3" type="number" onchange="Matrix2('');" step="0.1" value="0.0000" style="width:80px;">
+ <input id="m4" type="number" onchange="Matrix2('');" step="0.1" value="0.0000" style="width:80px;">
+ <input id="m5" type="number" onchange="Matrix2('');" step="0.1" value="0.0000" style="width:80px;">
+ <input id="m6" type="number" onchange="Matrix2('');" step="0.1" value="0.0000" style="width:80px;"></span>
+ </div>
 
 <div id="comments" title="Comments">
 <textarea id="comments_text" style ="width: 450px; height: 300px;">{{tcomment}}</textarea>

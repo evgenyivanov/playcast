@@ -44,7 +44,7 @@ $(function(){
 {% for i in L%}
 
 <div {%if not i.active%}style="background:grey;"{%endif%}>
-<div style="border-width:2px; font-size: 31px; font: bold; bolder-color: black" onclick="var a = document.createElement('a'); a.href='/playcast/{{i.id}}';a.target = '_blank';document.body.appendChild(a);a.click();">
+<div style="border-width:2px; font-size: 31px; font: bold; bolder-color: black" onclick="var a = document.createElement('a'); a.href='/playcast/{{i.id}}';document.body.appendChild(a);a.click();">
 {{i.title}}  {%if not i.active%} (no active){%endif%}<br />
 <img src="/media/screen/{{i.id}}.jpg"><br /></div>
 <div style = "font-size: 12px;">; date {{i.datetime}} last edition {{i.last}}</div>

@@ -23,6 +23,26 @@ from datetime import timedelta
 #import urllib
 from django.db.models import Count, Min, Sum, Avg
 
+
+def myjs(request):
+    browser = str(request.META['HTTP_USER_AGENT'])
+   # return HttpResponse(browser)
+    brw = 'other'
+    if browser.find('Chrome')>-1 or browser.find('Opera')>-1:
+        d= {'Transform':'webkitTransform','cssTransform':'-webkit-transform'}
+    elif browser.find('Firefox')>-1:
+        d= {'Transform':'MozTransform','cssTransform':'-moz-transform'}
+    elif browser.find('Trident')>-1:
+        d= {'Transform':'msTransform','cssTransform':'-ms-transform'}
+    else:
+        d={}
+
+
+    t = get_template("myjs.js")
+    c = Context(d)
+    html = t.render(c)
+    return HttpResponse(html)
+
 def authors(request):
     L = list(User.objects.all().order_by('last_name','first_name'))
     d = {'L':L}
@@ -511,10 +531,18 @@ def playcast(request,id):
         ac.save()
     author=''
     if obj.user == request.user:
+        author = '<a href="/designer/'+str(id)+'/"><button class="btn-editor">Edite</button></a><button class="btn-editor-del" onclick="DelQuest();">Delete</button><button class="btn-editor" onclick="Readers('+str(id)+');">Readers</button>'
+    profile = UserProfile.objects.filter(id = obj.user.id)[0]
+    try:
+        url = profile.photo.url
+    except:
+        url='/static/images/no_image.gif'
 
-        author = '<a href="/designer/'+str(id)+'/"><button class="btn-editor">Edite</button></a><button class="btn-editor-del" onclick="DelQuest()">Delete</button><button class="btn-editor" onclick="Readers('+str(id)+');">Readers</button>'
-
-    d = {'p':obj,'author':author,'tid':id,'noactive':noactive}
+    browser = str(request.META['HTTP_USER_AGENT'])
+    body = obj.body
+    if browser.find('Chrome')>-1:
+        body = body.replace(' transform:',' -webkit-transform:')
+    d = {'p':obj,'author':author,'tid':id,'noactive':noactive,'url':url,'body':body}
     t = get_template("playcast.html")
     c = Context(d)
     html = t.render(c)
@@ -890,6 +918,9 @@ def designer(request, id = None):
             if obj.user == request.user:
                 title = obj.title
                 tbody = obj.body
+                browser = str(request.META['HTTP_USER_AGENT'])
+                if browser.find('Chrome')>-1:
+                    tbody = tbody.replace(' transform:',' -webkit-transform:')
                 tstyle = obj.style
                 tid = obj.id
                 twidth = obj.width

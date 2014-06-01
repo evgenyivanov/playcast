@@ -10,6 +10,10 @@ function NewId(){
   return st;
 }
 
+
+
+
+
 function DeleteBackgroundImage(){
 
     BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
@@ -49,6 +53,7 @@ function DeletePlayCast(id){
 }
 
 function DelQuest(){
+
     $("#dialog").dialog("open");
 }
 function FrameOnLoad(){
@@ -235,7 +240,7 @@ st = st + '"Select(';
 st = st +"'"+today+"');"
 st = st +'" onclick="Select(';
 st = st +"'"+today+"');";
-st = st +'" id="'+today+'_container" style="position: absolute; z-index: 7; top: 0px;  -webkit-transform:;" />   <img  class="content" src="'+arg+'" width="50" height="50" alt="" id="'+today;
+st = st +'" id="'+today+'_container" style="position: absolute; z-index: 7; top: 0px;  -webkit-transform:matrix(1,0,0,1,0,0);-moz-transform:matrix(1,0,0,1,0,0);-ms-transform:matrix(1,0,0,1,0,0);" />   <img  class="content" src="'+arg+'" width="50" height="50" alt="" id="'+today;
 st = st +'" style=""></div>';
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
@@ -334,7 +339,7 @@ st=st+'" ondblclick= "EditeText(';
 st = st + "'"+today+"');";
 
 
-st=st+'" id = "'+today+'_container" style="position: absolute; z-index: 10; opacity: 1;" ><div><p class="content" id="'+today+'">';
+st=st+'" id = "'+today+'_container" style="position: absolute; z-index: 10; opacity: 1; -webkit-transform:matrix(1,0,0,1,0,0);-moz-transform:matrix(1,0,0,1,0,0); -ms-transform:matrix(1,0,0,1,0,0);" ><div><p class="content" id="'+today+'">';
 st = st+text;
 st = st+'</p></div></div>';
 
@@ -356,128 +361,6 @@ $("#dialog").dialog("close");
 
 }
 
-function SumMatrix(a,b){
-a = a.replace('matrix(','').replace(')','');
-if (a.toString()===""){
-a = '1,1,1,1,1,1';}
-
-var resA = a.split(",");
-b = b.replace('matrix(','').replace(')','');
-if (b.toString()===""){
-b = '1,1,1,1,1,1';}
-
-
-
-var resB = b.split(",");
-if (parseInt(resB[0])==1 && parseInt(resB[1])==0 && parseInt(resB[2])==0 && parseInt(resB[3])== 1 && parseInt(resB[4]) == 0 && parseInt(resB[5]) == 0){
-    if (a !="1,1,1,1,1,1"){
-    resB[1]="1";
-    resB[2]="1";
-    resB[4]="1";
-    resB[5]="1";}
-
-}
-c0 = parseFloat(resA[0])*parseFloat(resB[0]);
-c1 = parseFloat(resA[1])*parseFloat(resB[1]);
-c2 = parseFloat(resA[2])*parseFloat(resB[2]);
-c3 = parseFloat(resA[3])*parseFloat(resB[3]);
-c4 = parseFloat(resA[4])*parseFloat(resB[4]);
-c5 = parseFloat(resA[5])*parseFloat(resB[5]);
-
-st = 'matrix('+c0.toString()+','+c1.toString()+','+c2.toString()+','+c3.toString()+','+c4.toString()+','+c5.toString()+ ')';
-
-return st;
-}
-
-
-function Select(arg){
-
-    var mybox =$('#mybox')[0];
-    if (mybox.innerHTML == (arg)){
-            return;
-         }
-
-
-  $(".ui-resizable-handle").remove();
-  $(".ui-rotatable-handle").remove();
-
-  $(".container").each(function a(){
-
-     cont = $(this).find(".content").parent()[0].innerHTML;
-
-
-
-      try{
-      obj = $(this).find(".ui-wrapper")[0];
-
-
-
-      if (obj.style.left == "auto"){obj.style.left ="0px";}
-      if (obj.style.top == "auto"){obj.style.top ="0px";}
-      this.style.left = (parseInt(this.style.left) + parseInt(obj.style.left)).toString()+"px";
-
-      this.style.top =  (parseInt(this.style.top) + parseInt(obj.style.top)).toString()+"px";
-      this.style.width = (parseInt(this.style.width) + parseInt(obj.style.width)).toString();
-      this.style.height = (parseInt(this.style.height) + parseInt(obj.style.height)).toString();
-      this.style.webkitTransform = SumMatrix(this.style.webkitTransform,obj.style.webkitTransform).toString();
-
-
-      this.innerHTML = cont;} catch(e){};
-  }
-      );
-
-
-
-parent.document.getElementById("undo").innerHTML = document.body.innerHTML;
-parent.document.getElementById("undostyle").innerHTML = document.body.style.cssText;
-   $('#mybox')[0].innerHTML = arg;
-
-
-    var obj = $('#'+arg);
-    var offset = obj.offset();
-    var objc =  $('#'+arg+'_container')[0];
-
-
-try{
-width = obj[0].width.toString();
-height = obj[0].height.toString();
-
-left2 = offset.left.toString();
-top2 = offset.top.toString();
-
-}catch(e) {
-    width = 425;
-    height = 25;
-    left2 = 1;
-    top2 = 15;
-
-}
-
-
-   st = '<div id="draggable_wrapper" style="width: '+ width +'px; height: '+height+'px;'+' left: '+ left2 + 'px; top: '+top2+'px;">'+'<div id="resizable-wrapper">'+objc.innerHTML+'</div></div>';
-
-
-   obj.innerHTML = st;
-
-    st =  '<div class="ui-resizeble-handle ui-resizeble-ne" unselecttable="on" style="z-index:1001;"></div><div class="ui-resizeble-handle ui-resizeble-nw" unselecttable="on" style="z-index:1002;"></div>';
-    st = st + '<div class="ui-resizeble-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" unselecttable="on" style="z-index:1003;"</div><div class="ui-resizeble-handle ui-resizeble-sw" unselecttable="on" style="z-index:1004;"></div>';
-    objc.innerHTML = objc.innerHTML + st;
-
-
-    	var   elem = $('#'+arg);
-
-		elem.resizable({
-		//	aspectRatio: true,
-			handles:     'ne, nw, se, sw'
-		});
-
-		elem.parent().rotatable();
-
-		elem.parent().parent().draggable();
-
-
-
-    }
 
 
 function Clone(){

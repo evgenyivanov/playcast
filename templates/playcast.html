@@ -2,12 +2,13 @@
 <title>{{p.title}} {{noactive}}</title>
 <link rel="stylesheet" href="/static/css/edite.css">
 <script src="/static/js/audio.min.js"></script>
-<script> audiojs.events.ready(function() {var as = audiojs.createAll(); });</script>
+<script> audiojs.events.ready(function() {var as = audiojs.createAll(); as[0].play();});</script>
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 <script>
 $(function(){
+
         var theDialog = $("#dialog").dialog({
             autoOpen: false,
             resizable: false,
@@ -19,22 +20,31 @@ $(function(){
 })
 
 $( document ).ready(function() {
+
     $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML = $("#mybox")[0].innerHTML;
-    //$("#myframe")[0].contentDocument.getElementById('mybox').innerHTML = '';
+
 })
 </script>
 <script src="/static/js/edite.js"></script>
 </head>
 
-<body>
+<body >
 <a href="/">Home page</a>
+<div style="position:absolute;right:15px;top: 15px; z-index:9999;">
 
-<h3>"{{p.title}}" author: <a href="/author/{{p.user.id}}/">{{p.user.first_name}} {{p.user.last_name}} {{p.author}}</a></h3>
+<center>
+<img src="{{url}}" width="75" height="75"/><br />
+<a href="/author/{{p.user.id}}/">{{p.user.username}}</a>
+</center>
+</div>
+<center>
+<h3>"{{p.title}}"  </h3>
 <br />
-<iframe id ="myframe" style="{{p.style}} width : {{p.width}}; height :{{p.height}}; border: none; border: 0; left: 150;"></iframe>
-<div id="mybox" style="visibility:hidden">{{p.body|safe}}</div>
 
-<div style="left: 150;"><audio   src="/media/{{p.murl}}" preload="auto" autoplay="true" loop="loop" /></div>
+<iframe id ="myframe" style="{{p.style}} width : {{p.width}}; height :{{p.height}}; scrolling='no';"></iframe>
+
+<div id="mybox" style="visibility:hidden; ">{{body|safe}}</div>
+<div style=""><audio   id="audio" src="/media/{{p.murl}}"   loop="loop" /></div>
 <div>
 <br />
 Music "{{p.mtitle}}" autor's - {{p.mauthor}} performer - {{p.mperformer}}<br />
@@ -52,11 +62,11 @@ last edition {{p.last}}
     h.appendChild(s);
   }})();</script>
 <div class="pluso" data-background="#ebebeb" data-options="big,square,line,horizontal,counter,theme=04" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"></div></div>
-
-
-<div id='dialog' class="delete">
+</center>
+<div id='dialog' class="delete" >
     <p style = "font:bold;">Delete this is?</p>
     <button onclick="DeletePlayCast({{tid}})">Yes</button> <button onclick='$("#dialog").dialog("close");'>No</button>
 </div>
+
 
 </body>
