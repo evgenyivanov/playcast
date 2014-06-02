@@ -99,9 +99,7 @@ function Select(arg){
       this.style.height = (parseInt(this.style.height) + parseInt(obj.style.height)).toString();
 
       transform = SumMatrix(this.style.{{Transform}},obj.style.{{Transform}}).toString();
-alert(this.style.{{Transform}});
-alert(obj.style.{{Transform}})
-alert(transform);
+
 
       this.style.webkitTransform = transform;
       this.style.MozTransform = transform;

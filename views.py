@@ -26,9 +26,9 @@ from django.db.models import Count, Min, Sum, Avg
 
 def myjs(request):
     browser = str(request.META['HTTP_USER_AGENT'])
-   # return HttpResponse(browser)
+    #return HttpResponse(browser)
     brw = 'other'
-    if browser.find('Chrome')>-1 or browser.find('Opera')>-1:
+    if browser.find('Chrome')>-1 or browser.find('Opera')>-1  or browser.find('Safari')>-1:
         d= {'Transform':'webkitTransform','cssTransform':'-webkit-transform'}
     elif browser.find('Firefox')>-1:
         d= {'Transform':'MozTransform','cssTransform':'-moz-transform'}
@@ -540,7 +540,7 @@ def playcast(request,id):
 
     browser = str(request.META['HTTP_USER_AGENT'])
     body = obj.body
-    if browser.find('Chrome')>-1:
+    if browser.find('Chrome')>-1 or  browser.find('Safari')>-1:
         #body = body.replace(' transform:',' -webkit-transform:')
         body = body.replace('-moz-transform:','-webkit-transform:')
         body = body.replace(' transform:','-webkit-transform:')
@@ -928,7 +928,7 @@ def designer(request, id = None):
                 title = obj.title
                 tbody = obj.body
                 browser = str(request.META['HTTP_USER_AGENT'])
-                if browser.find('Chrome')>-1:
+                if browser.find('Chrome')>-1 or  browser.find('Safari')>-1:
                     tbody = tbody.replace(' transform:',' -webkit-transform:')
                     tbody = tbody.replace('-moz-transform:','-webkit-transform:')
                     tbody = tbody.replace('-ms-transform:','-webkit-transform:')
