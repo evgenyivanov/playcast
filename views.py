@@ -541,7 +541,16 @@ def playcast(request,id):
     browser = str(request.META['HTTP_USER_AGENT'])
     body = obj.body
     if browser.find('Chrome')>-1:
-        body = body.replace(' transform:',' -webkit-transform:')
+        #body = body.replace(' transform:',' -webkit-transform:')
+        body = body.replace('-moz-transform:','-webkit-transform:')
+        body = body.replace(' transform:','-webkit-transform:')
+    elif browser.find('Firefox')>-1:
+        body = body.replace('-webkit-transform:','-moz-transform:')
+        body = body.replace(' transform:','-moz-transform:')
+   # elif browser.find('Trident')>-1:
+    #    body = body.replace(' -webkit-transform:'," -ms-transform:")
+     #   body = body.replace(' -moz-transform:'," -ms-transform:")
+
     d = {'p':obj,'author':author,'tid':id,'noactive':noactive,'url':url,'body':body}
     t = get_template("playcast.html")
     c = Context(d)
@@ -921,6 +930,17 @@ def designer(request, id = None):
                 browser = str(request.META['HTTP_USER_AGENT'])
                 if browser.find('Chrome')>-1:
                     tbody = tbody.replace(' transform:',' -webkit-transform:')
+                    tbody = tbody.replace('-moz-transform:','-webkit-transform:')
+                    tbody = tbody.replace('-ms-transform:','-webkit-transform:')
+                elif browser.find('Firefox')>-1:
+                    tbody = tbody.replace(' transform:',' -moz-transform:')
+                    tbody = tbody.replace('-webkit-transform:','-moz-transform:')
+                    tbody = tbody.replace('-ms-transform:','-moz-transform:')
+               # elif browser.find('Trident')>-1:
+                #    tbody = tbody.replace(' -webkit-transform:'," -ms-transform:")
+                 #   tbody = tbody.replace(' -moz-transform:'," -ms-transform:")
+
+
                 tstyle = obj.style
                 tid = obj.id
                 twidth = obj.width

@@ -28,25 +28,6 @@ function Matrix1(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function SumMatrix(a,b){
 a = a.replace('matrix(','').replace(')','');
 if (a.toString()==="" ){
@@ -58,7 +39,7 @@ if (b.toString()===""){
 b = '1,1,1,1,1,1';}
 var resB = b.split(",");
 
-if (parseInt(resA[0])==1 && parseInt(resA[1])==0 && parseInt(resA[2])==0 && parseInt(resA[3])== 1 && parseInt(resA[4]) == 0 && parseInt(resA[5]) == 0){
+if (parseFloat(resA[0])==1 && parseFloat(resA[1])==0 && parseFloat(resA[2])==0 && parseFloat(resA[3])== 1 && parseFloat(resA[4]) == 0 && parseFloat(resA[5]) == 0){
 
    st = 'matrix('+resB[0]+','+resB[1].toString()+','+resB[2].toString()+','+resB[3]+','+resB[4]+','+resB[5]+ ')';
 
@@ -67,7 +48,7 @@ if (parseInt(resA[0])==1 && parseInt(resA[1])==0 && parseInt(resA[2])==0 && pars
 
 
 
-if (parseInt(resB[0])==1 && parseInt(resB[1])==0 && parseInt(resB[2])==0 && parseInt(resB[3])== 1 && parseInt(resB[4]) == 0 && parseInt(resB[5]) == 0){
+if (parseFloat(resB[0])==1 && parseFloat(resB[1])==0 && parseFloat(resB[2])==0 && parseFloat(resB[3])== 1 && parseFloat(resB[4]) == 0 && parseFloat(resB[5]) == 0){
     st = 'matrix('+resA[0]+','+resA[1]+','+resA[2]+','+resA[3]+','+resA[4]+','+resA[5]+ ')';
 
     return st;}
