@@ -1,4 +1,5 @@
-<head></head>
+<head>
+
 <link href="/static/css/edite.css" rel="stylesheet" media="screen">
 <title>{{user.first_name}} {{user.last_name}}</title>
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
@@ -45,7 +46,7 @@ $(function(){
 
 <div {%if not i.active%}style="background:grey;"{%endif%}>
 <div style="border-width:2px; font-size: 31px; font: bold; bolder-color: black" onclick="var a = document.createElement('a'); a.href='/playcast/{{i.id}}';document.body.appendChild(a);a.click();">
-{{i.title}}  {%if not i.active%} (no active){%endif%}<br />
+{{i.title}}  {%if not i.active%} ('no active'){%endif%}<br />
 <img src="/media/screen/{{i.id}}.jpg"><br /></div>
 <div style = "font-size: 12px;">; date {{i.datetime}} last edition {{i.last}}</div>
 </div>

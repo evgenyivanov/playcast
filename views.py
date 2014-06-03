@@ -24,9 +24,20 @@ from datetime import timedelta
 from django.db.models import Count, Min, Sum, Avg
 
 
-def myjs(request):
+def browsers(request):
     browser = str(request.META['HTTP_USER_AGENT'])
-    #return HttpResponse(browser)
+    if browser.find('Chrome')==-1 and  browser.find('Safari')==-1 and browser.find('Opera')==-1 and browser.find('FireFox')==-1:
+        d={}
+        t = get_template("browsers.html")
+        c = Context(d)
+        html = t.render(c)
+        return html
+    else:
+        return ''
+
+def myjs(request):
+
+    browser = str(request.META['HTTP_USER_AGENT'])
     brw = 'other'
     if browser.find('Chrome')>-1 or browser.find('Opera')>-1  or browser.find('Safari')>-1:
         d= {'Transform':'webkitTransform','cssTransform':'-webkit-transform'}
@@ -397,10 +408,10 @@ def mylogin(request):
         if user.is_active:
             login(request, user)
             html = 'Hello, <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'+user.first_name+' '+user.last_name+'</a>!<br />'
-            html = html + '<button onclick="EditeProfile();" >Edite profile</button>'
+            html = html + '<button onclick="EditeProfile();" >' +'Edite profile'+'</button>'
             html = html +'<button type="button" onclick="document.location.href='
             html = html + "'/accounts/logout/?next=/';"
-            html = html +'">Log out</button>'
+            html = html +'">'+'Log out'+'</button>'
 
         else:
             pass
@@ -412,12 +423,12 @@ def mylogin(request):
             err.date = datetime.datetime.now()
             err.ip = get_client_ip(request)
             err.save()
-            errors="Error: login and password"
+            errors= "Error: login and password"
 
         html = '<span style="color: red;'+'">'+errors+'</span>'
         html = html + '<br />login <span style="position:relative;left:29px;"><input type="text" id ="login" value=""></span>'
         html = html +'password <input type="password" id = "password" value="">'
-        html = html +'<button type="button" onclick="LogIn();">OK</button> or <a href="/register">Sign up</a>'
+        html = html +'<button type="button" onclick="LogIn();">OK</button>'+'or'+' <a href="/register">'+'Sign up'+'</a>'
 
 
 
@@ -428,30 +439,30 @@ def CurrentUser(request):
 
     user = request.user
     if str(user) == 'AnonymousUser':
-        html = 'Hello, Guest!<br />login <span style="position:relative;left:29px;"><input type="text" id ="login" value=""></span>'
-        html = html +'password <input type="password" id = "password" value="">'
-        html = html +'<button type="button" onclick="LogIn();">OK</button> or <a href="/register">Sign up</a>'
+        html = 'Hello, Guest!'+'<br />login <span style="position:relative;left:29px;"><input type="text" id ="login" value=""></span>'
+        html = html +'password'+ '<input type="password" id = "password" value="">'
+        html = html +'<button type="button" onclick="LogIn();">OK</button> ' +'or'+' <a href="/register">'+'Sign up'+'</a>'
     else:
-        html = 'Hello, <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'
+        html = 'Hello'+', <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'
         html = html +  user.first_name+' ' + user.last_name
         html = html+ '</a>!<br />'
-        html = html + '<button onclick="EditeProfile();" >Edite profile</button>'
-        html = html +'<button type="button" onclick="logout();">Log out</button>'
+        html = html + '<button onclick="EditeProfile();" >'+'Edite profile'+'</button>'
+        html = html +'<button type="button" onclick="logout();">'+'Log out'+'</button>'
     return HttpResponse(html)
 
 def home(request):
 
     user = request.user
     if str(user) == 'AnonymousUser':
-        html = 'Hello, Guest!<br />login <span style="position:relative;left:29px;"><input type="text" id ="login" value=""></span>'
-        html = html +'password <input type="password" id = "password" value="">'
-        html = html +'<button type="button" onclick="LogIn();">OK</button> or <a href="/register">Sign up</a>'
+        html = 'Hello, Guest!'+'<br />login <span style="position:relative;left:29px;"><input type="text" id ="login" value=""></span>'
+        html = html +'password' +'<input type="password" id = "password" value="">'
+        html = html +'<button type="button" onclick="LogIn();">OK</button>'+ 'or' +'<a href="/register">'+'Sign up'+'</a>'
     else:
-        html = 'Hello, <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'
+        html = 'Hello'+', <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'
         html = html +  user.first_name+' ' + user.last_name
         html = html+ '</a>!<br />'
-        html = html + '<button onclick="EditeProfile();" >Edite profile</button>'
-        html = html +'<button type="button" onclick="logout();">Log out</button>'
+        html = html + '<button onclick="EditeProfile();" >' + 'Edite profile' + '</button>'
+        html = html +'<button type="button" onclick="logout();">'+ 'Log out'+ '</button>'
     d = {'mycode':html}
     t = get_template("index.html")
     c = Context(d)
@@ -472,9 +483,9 @@ def playcast_list(request,arg = 0):
     links = ''
 
     if int(arg) > 9:
-        links = '<a href = /playcast_list/'+str(int(arg)-10)+'/>Previos</a>  '
+        links = '<a href = /playcast_list/'+str(int(arg)-10)+'/><Previos</a>  '
     if len(Playcast.objects.all()) > (int(arg)+10):
-        links = links + '<a href = /playcast_list/'+str(int(arg)+10)+'/>Next </a>'
+        links = links + '<a href = /playcast_list/'+str(int(arg)+10)+'/>Next ></a>'
     d = {'L1':L1,'L2':L2,'links':links}
     t = get_template("playcast_list.html")
     c = Context(d)
@@ -531,7 +542,7 @@ def playcast(request,id):
         ac.save()
     author=''
     if obj.user == request.user:
-        author = '<a href="/designer/'+str(id)+'/"><button class="btn-editor">Edite</button></a><button class="btn-editor-del" onclick="DelQuest();">Delete</button><button class="btn-editor" onclick="Readers('+str(id)+');">Readers</button>'
+        author = '<a href="/designer/'+str(id)+'/"><button class="btn-editor">'+"Edite"+'</button></a><button class="btn-editor-del" onclick="DelQuest();">'+"Delete"+'</button><button class="btn-editor" onclick="Readers('+str(id)+');">'+'Readers'+'</button>'
     profile = UserProfile.objects.filter(id = obj.user.id)[0]
     try:
         url = profile.photo.url
@@ -540,7 +551,7 @@ def playcast(request,id):
 
     browser = str(request.META['HTTP_USER_AGENT'])
     body = obj.body
-    if browser.find('Chrome')>-1 or  browser.find('Safari')>-1:
+    if browser.find('Chrome')>-1 or  browser.find('Safari')>-1 or browser.find('Opera')>-1:
         #body = body.replace(' transform:',' -webkit-transform:')
         body = body.replace('-moz-transform:','-webkit-transform:')
         body = body.replace(' transform:','-webkit-transform:')
@@ -554,7 +565,7 @@ def playcast(request,id):
     d = {'p':obj,'author':author,'tid':id,'noactive':noactive,'url':url,'body':body}
     t = get_template("playcast.html")
     c = Context(d)
-    html = t.render(c)
+    html = browsers(request)+t.render(c)
     return HttpResponse(html)
 
 
@@ -730,10 +741,10 @@ def music_list(request,arg=0):
     #        L.append(i)
     #    links = ''
     #    if int(arg) > 9:
-    #        links = '<button onclick="refresh('+str(int(arg)-10)+');">Previos </button>'
+    #        links = '<button onclick="refresh('+str(int(arg)-10)+');"><Previos </button>'
 
      #   if len(Picture.objects.all()) > (int(arg)+10):
-     #       links = links + '<button onclick="refresh('+str(int(arg)+10)+');">Next </button>'
+     #       links = links + '<button onclick="refresh('+str(int(arg)+10)+');">Next> </button>'
      #   d = {'L':L[0+arg:10+arg],'links':links}
      #   t = get_template("musiclist.html")
      #   c = Context(d)
@@ -831,10 +842,10 @@ def images_list(request,arg=0):
             L.append(obj)
         links = ''
         if int(arg) > 9:
-            links = '<button onclick="refresh('+str(int(arg)-10)+');">Previos </button>'
+            links = '<button onclick="refresh('+str(int(arg)-10)+');">  Previos </button>'
 
         if len(Picture.objects.all()) > (int(arg)+10):
-            links = links + '<button onclick="refresh('+str(int(arg)+10)+');">Next </button>'
+            links = links + '<button onclick="refresh('+str(int(arg)+10)+');"> Next></button>'
         d = {'L':L[0+arg:10+arg],'links':links}
         t = get_template("imageslist.html")
         c = Context(d)
@@ -853,10 +864,10 @@ def images_list(request,arg=0):
         L.append(obj)
     links = ''
     if int(arg) > 9:
-        links = '<button onclick="refresh('+str(int(arg)-10)+');">Previos </button>'
+        links = '<button onclick="refresh('+str(int(arg)-10)+');"> Previos </button>'
 
     if len(Picture.objects.all()) > (int(arg)+10):
-        links = links + '<button onclick="refresh('+str(int(arg)+10)+');">Next </button>'
+        links = links + '<button onclick="refresh('+str(int(arg)+10)+');">Next> </button>'
 
     d = {'L':L[0+int(arg):10+int(arg)],'links':links}
     t = get_template("imageslist.html")
@@ -928,7 +939,7 @@ def designer(request, id = None):
                 title = obj.title
                 tbody = obj.body
                 browser = str(request.META['HTTP_USER_AGENT'])
-                if browser.find('Chrome')>-1 or  browser.find('Safari')>-1:
+                if browser.find('Chrome')>-1 or  browser.find('Safari')>-1 or browser.find('Opera')>-1:
                     tbody = tbody.replace(' transform:',' -webkit-transform:')
                     tbody = tbody.replace('-moz-transform:','-webkit-transform:')
                     tbody = tbody.replace('-ms-transform:','-webkit-transform:')
@@ -960,9 +971,8 @@ def designer(request, id = None):
     d= {'active':active,'tid':tid,'title':title,'tbody':tbody,'tstyle':tstyle,'twidth':twidth,'theight':theight,'tmtitle':tmtitle,'tmurl':tmurl,'tmauthor':tmauthor,'tmperformer':tmperformer,'tcomment':tcomment}
     t = get_template("designer.html")
     c = Context(d)
-    html = t.render(c)
-   # response = HttpResponse(html)
-#    response['Cache-Control'] = 'no-cache'
+    html = browsers(request)+t.render(c)
+
     return HttpResponse(html)
 
 def designer_body(request):

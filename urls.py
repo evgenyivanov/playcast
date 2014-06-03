@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
+   #  url(r'^i18n/', include('django.conf.urls.i18n')),
      url(r'^$', 'playcast.views.home'),
      url(r'^register/', 'playcast.views.register'),
      url(r'^about/', 'playcast.views.about'),

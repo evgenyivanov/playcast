@@ -1,4 +1,5 @@
 <head>
+
 <title>{{p.title}} {{noactive}}</title>
 <link rel="stylesheet" href="/static/css/edite.css">
 <script src="/static/js/audio.min.js"></script>
@@ -29,6 +30,7 @@ $( document ).ready(function() {
 </head>
 
 <body >
+
 <a href="/">Home page</a>
 <div style="position:absolute;right:15px;top: 15px; z-index:9999;">
 
@@ -47,7 +49,7 @@ $( document ).ready(function() {
 <div style=""><audio   id="audio" src="/media/{{p.murl}}"   loop="loop" /></div>
 <div>
 <br />
-Music "{{p.mtitle}}" autor's - {{p.mauthor}} performer - {{p.mperformer}}<br />
+Music  "{{p.mtitle}}" autor's - {{p.mauthor}} performer - {{p.mperformer}}<br />
 {{p.comment}}<br />
 last edition {{p.last}}
 </div>

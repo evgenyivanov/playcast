@@ -123,6 +123,7 @@ $(function(){
 </head>
 <body>
 
+
 Title: <input type="text" id="title" style= "width :1000px;" value="{{title}}"><br/>
 url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmtitle}}</span> author: <span id="music_author">{{tmauthor}}</span> performer: <span id="music_performer">{{tmperformer}}</span>
 <br />
@@ -131,7 +132,7 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
 <button class="btn-editor" onclick='$("#dialog_text").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Text</button>
 <button class="btn-editor" onclick='$("#select_music").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Music</button>
 <button class="btn-editor" onclick='$("#select_video").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Video</button>
-<button class="btn-editor-del"  onclick='DeleteItem("");'><img src="/static/images/trash.png" width="17px" height = "17px" style="position:relative; top: 2px;" >Delete</button>
+<button class="btn-editor-del"  onclick='DeleteItem("");'><img src="/static/images/trash.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Delete</button>
 <button class="btn-editor" onclick='Index(1);'><img src="/static/images/up.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <button class="btn-editor" onclick='Index(-1);'><img src="/static/images/down.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <button class="btn-editor" style="position:relative; top: -2px;" onclick='$("#comments").dialog("open")'>Comment</button>
@@ -139,8 +140,8 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
 <button class="btn-editor" style="position:relative; top: -2px;" onclick='Clone("")'>Clone</button>
 <button class="btn-editor" onclick="Matrix1('');"  style="position:relative; top: -2px;">M</button>
 <button class="btn-editor" onclick="Preview('');"><img src="/static/images/preview.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
-<button class="btn-editor" onclick = "Publisher('');"><img src="/static/images/save.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Save</button>
-<input type="checkbox" id="active" {{active}}> Publish
+<button class="btn-editor" onclick = "Publisher('');"><img src="/static/images/save.png" width="17px" height = "17px" style="position:relative; top: 2px;" >  Save </button>
+<input type="checkbox" id="active" {{active}}>  Publish
 
 <span id="wait"><img src="/static/images/wait.gif" width="20" height="20"></span>
 
@@ -169,7 +170,7 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
 
  </iframe>
   <button onclick='document.getElementById("upload2").contentDocument.location.reload(true);$("#upload_image").dialog("open");'>Upload</button>
- <button onclick='$("#select_image").dialog("close");'>Close</button>
+ <button onclick='$("#select_image").dialog("close");'> Close</button>
  </div>
 
  <div id="upload_image" title="uploas image">
