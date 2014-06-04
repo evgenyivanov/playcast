@@ -31,7 +31,7 @@ $( document ).ready(function() {
 
 <body >
 
-<a href="/">Home page</a>
+<a href="/">На главную</a>
 <div style="position:absolute;right:15px;top: 15px; z-index:9999;">
 
 <center>
@@ -43,15 +43,15 @@ $( document ).ready(function() {
 <h3>"{{p.title}}"  </h3>
 <br />
 
-<iframe id ="myframe" style="{{p.style}} width : {{p.width}}; height :{{p.height}}; scrolling='no';"></iframe>
+<iframe id ="myframe" style="{{p.style}} width : {{p.width}}; height :{{p.height}};" scrolling="no" frameBorder="0"></iframe>
 
 <div id="mybox" style="visibility:hidden; ">{{body|safe}}</div>
 <div style=""><audio   id="audio" src="/media/{{p.murl}}"   loop="loop" /></div>
 <div>
 <br />
-Music  "{{p.mtitle}}" autor's - {{p.mauthor}} performer - {{p.mperformer}}<br />
+Музыка  "{{p.mtitle}}" авторы - {{p.mauthor}} исполнитель - {{p.mperformer}}<br />
 {{p.comment}}<br />
-last edition {{p.last}}
+последняя редакция {{p.last}}
 </div>
 <div>{{author|safe}}</div><br/>
 <div style="left: 150;"><script type="text/javascript">(function() {
@@ -66,7 +66,7 @@ last edition {{p.last}}
 <div class="pluso" data-background="#ebebeb" data-options="big,square,line,horizontal,counter,theme=04" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"></div></div>
 </center>
 <div id='dialog' class="delete" >
-    <p style = "font:bold;">Delete this is?</p>
+    <p style = "font:bold;">Удалить?</p>
     <button onclick="DeletePlayCast({{tid}})">Yes</button> <button onclick='$("#dialog").dialog("close");'>No</button>
 </div>
 

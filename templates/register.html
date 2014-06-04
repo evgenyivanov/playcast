@@ -2,46 +2,46 @@
 <HEAD>
 
 <link href="/static/css/edite.css" rel="stylesheet" media="screen">
-<title>Welcom to "PlayCarcds </title>
+<title>Добро пожаловать на "PlayCarcds </title>
 </HEAD>
  <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
      <span style="color:red;">{{ formUser.non_field_errors }}</span>
      <br />
      <div class="fieldWrapper">
         <span style="color:red;">{{username_error}}</span><br/>
-        <label for="id_subject">Username:</label>
-      &nbsp;&nbsp;&nbsp; {{formUser.username }}
+        <label for="id_subject">Ник:</label>
+      &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{formUser.username }}
     </div>
 
     <div class="fieldWrapper">
         {{ formUser.fist_name.errors }}
-        <label for="id_subject">First name:</label>
-      &nbsp;&nbsp;&nbsp; {{ formUser.first_name }}
+        <label for="id_subject">Имя:</label>
+      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; {{ formUser.first_name }}
     </div>
 
      <div class="fieldWrapper">
         <span style="color:red;">{{ formUser.last_name.errors }}</span>
-        <label for="id_subject">Last name:</label>
-         &nbsp;&nbsp;&nbsp;&nbsp;{{ formUser.last_name }}
+        <label for="id_subject">Фамилия:</label>
+         &nbsp;&nbsp;{{ formUser.last_name }}
     </div>
 
      <div class="fieldWrapper">
         <span style="color:red;">{{ formUser.email.errors }}</span>
         <label for="id_subject">E-mail:</label>
-        &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{ formUser.email }}
+        &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;{{ formUser.email }}
     </div>
 
    <div style="color:red;">{{password_error}}</div>
 
     <div class="fieldWrapper">
         <span style="color:red;">{{ formUser.passw1.errors }}</span>
-        <label for="id_subject">password:</label>
-        &nbsp;&nbsp;&nbsp;&nbsp; {{ formUser.passw1 }}
+        <label for="id_subject">пароль:</label>
+        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;{{ formUser.passw1 }}
     </div>
 
     <div class="fieldWrapper">
         <span style="color:red;">{{ formUser.passw2.errors }}</span>
-        <label for="id_subject">{% 're-password' %}:</label>
+        <label for="id_subject">повторить:</label>
         {{formUser.passw2}}
     </div>
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.http import HttpResponse
 #from django import template
 from django.template import Context
@@ -238,25 +239,27 @@ def register(request):
 
 
         if formUser.is_valid() and (passw1 == passw2) and (captha_input == captcha_value) and (user_count == 0):
+
             new_user  = User.objects.create_user(username=formUser.cleaned_data['username'],
                                  email=formUser.cleaned_data['email'],
                                  password=passw1)
             new_user. is_active = True
-            new_user.first_name= formUser.cleaned_data['first_name'],
-            new_user.last_name= formUser.cleaned_data['last_name'],
+            new_user.first_name= formUser.cleaned_data['first_name'].encode('utf-8'),
+            new_user.last_name= formUser.cleaned_data['last_name'].encode('utf-8'),
+
             new_user.save()
-            new_user.first_name = str(new_user.first_name).replace("(u'","").replace("',)","")
-            new_user.last_name = str(new_user.last_name).replace("(u'","").replace("(u'","").replace("',)","")
-            new_user.save()
+           # new_user.first_name = str(new_user.first_name).replace("(u'","").replace("',)","")
+        #    new_user.last_name = str(new_user.last_name).replace("(u'","").replace("(u'","").replace("',)","")
+         #   new_user.save()
             return redirect('/')
         else:
              d = {'formUser': formUser}
              if user_count > 0:
-                 d.update({'username_error':"username is already used"})
+                 d.update({'username_error':"Имя пользователя уже используется"})
              if passw1 != passw2:
                  d.update({'password_error':"Passwords don't match"})
              if (captha_input != captcha_value):
-                 d.update({'captcha_error':"Captcha don't match"})
+                 d.update({'captcha_error':"Капча введена неправильно"})
 
              d.update({'captcha':captcha[0],'capcha_value': mm.hexdigest()})
              d.update(csrf(request))
@@ -318,10 +321,10 @@ def author(request,id):
             presents.append(i)
     controls = ""
     if str(request.user.id) == str(id):
-        controls = '<button  class="btn-editor" onclick = "Account();">Account</button>'
+        controls = '<button  class="btn-editor" onclick = "Account();">Ваш счет</button>'
     else:
         if str(request.user) != 'AnonymousUser':
-            controls = '<button  class="btn-editor" onclick = "SendPresent();">Send present</button>'
+            controls = '<button  class="btn-editor" onclick = "SendPresent();">Сделать подарок</button>'
     d = {'user':usr,'p':profile,'L':L,'url_img':url_img,'h':h,'presents':presents,'controls':controls}
     t = get_template("author.html")
     c = Context(d)
@@ -405,30 +408,30 @@ def mylogin(request):
 
 
     if user is not None and NonStop2:
-        if user.is_active:
-            login(request, user)
-            html = 'Hello, <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'+user.first_name+' '+user.last_name+'</a>!<br />'
-            html = html + '<button onclick="EditeProfile();" >' +'Edite profile'+'</button>'
-            html = html +'<button type="button" onclick="document.location.href='
-            html = html + "'/accounts/logout/?next=/';"
-            html = html +'">'+'Log out'+'</button>'
 
-        else:
-            pass
+        login(request, user)
+        html = 'Привет'+', <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'
+        html = html +  user.first_name.encode('utf8')+' ' + user.last_name.encode('utf8')
+        html = html+ '</a>!<br />'
+        html = html + '<button onclick="EditeProfile();" >' + 'Ваш профиль' + '</button>'
+        html = html +'<button type="button" onclick="logout();">'+ 'Выход'+ '</button>'
+        return HttpResponse(html)
+
+
     else:
         if NonStop2 == False:
-            errors ="Plese, try again later (~15 minut)"
+            errors ="Подождите (~15 минут)"
         else:
             err = LoginError()
             err.date = datetime.datetime.now()
             err.ip = get_client_ip(request)
             err.save()
-            errors= "Error: login and password"
+            errors= "Ошибка: логин и пароль"
 
         html = '<span style="color: red;'+'">'+errors+'</span>'
-        html = html + '<br />login <span style="position:relative;left:29px;"><input type="text" id ="login" value=""></span>'
-        html = html +'password <input type="password" id = "password" value="">'
-        html = html +'<button type="button" onclick="LogIn();">OK</button>'+'or'+' <a href="/register">'+'Sign up'+'</a>'
+        html = html + '<br />логин <span style="position:relative;left:6px;"><input type="text" id ="login" value=""></span>'
+        html = html +'пароль <input type="password" id = "password" value="">'
+        html = html +'<button type="button" onclick="LogIn();">OK</button>'+'или'+' <a href="/register">'+'Зарегистрироваться'+'</a>'
 
 
 
@@ -439,30 +442,30 @@ def CurrentUser(request):
 
     user = request.user
     if str(user) == 'AnonymousUser':
-        html = 'Hello, Guest!'+'<br />login <span style="position:relative;left:29px;"><input type="text" id ="login" value=""></span>'
-        html = html +'password'+ '<input type="password" id = "password" value="">'
-        html = html +'<button type="button" onclick="LogIn();">OK</button> ' +'or'+' <a href="/register">'+'Sign up'+'</a>'
+        html = 'Привет, Гость!'+'<br />логин <span style="position:relative;left:5px;"><input type="text" id ="login" value=""></span>'
+        html = html +'пароль'+ '<input type="password" id = "password" value="">'
+        html = html +'<button type="button" onclick="LogIn();">OK</button> ' +'или'+' <a href="/register">'+'зарегестрироваться'+'</a>'
     else:
-        html = 'Hello'+', <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'
+        html = 'Привет'+', <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'
         html = html +  user.first_name+' ' + user.last_name
         html = html+ '</a>!<br />'
-        html = html + '<button onclick="EditeProfile();" >'+'Edite profile'+'</button>'
-        html = html +'<button type="button" onclick="logout();">'+'Log out'+'</button>'
+        html = html + '<button onclick="EditeProfile();" >'+'Ваш профиль'+'</button>'
+        html = html +'<button type="button" onclick="logout();">'+'Выход'+'</button>'
     return HttpResponse(html)
 
 def home(request):
 
     user = request.user
     if str(user) == 'AnonymousUser':
-        html = 'Hello, Guest!'+'<br />login <span style="position:relative;left:29px;"><input type="text" id ="login" value=""></span>'
-        html = html +'password' +'<input type="password" id = "password" value="">'
-        html = html +'<button type="button" onclick="LogIn();">OK</button>'+ 'or' +'<a href="/register">'+'Sign up'+'</a>'
+        html = 'Привет, Гость!'+'<br />логин <span style="position:relative;left:5px;"><input type="text" id ="login" value=""></span>'
+        html = html +'пароль' +'<input type="password" id = "password" value="">'
+        html = html +'<button type="button" onclick="LogIn();">OK</button>'+ 'или ' +'<a href="/register">'+'Зарегистрироваться'+'</a>'
     else:
-        html = 'Hello'+', <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'
-        html = html +  user.first_name+' ' + user.last_name
+        html = 'Привет'+', <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'
+        html = html +  user.first_name.encode('utf8')+' ' + user.last_name.encode('utf8')
         html = html+ '</a>!<br />'
-        html = html + '<button onclick="EditeProfile();" >' + 'Edite profile' + '</button>'
-        html = html +'<button type="button" onclick="logout();">'+ 'Log out'+ '</button>'
+        html = html + '<button onclick="EditeProfile();" >' + 'Ваш профиль' + '</button>'
+        html = html +'<button type="button" onclick="logout();">'+ 'Выход'+ '</button>'
     d = {'mycode':html}
     t = get_template("index.html")
     c = Context(d)
@@ -483,9 +486,9 @@ def playcast_list(request,arg = 0):
     links = ''
 
     if int(arg) > 9:
-        links = '<a href = /playcast_list/'+str(int(arg)-10)+'/><Previos</a>  '
+        links = '<a href = /playcast_list/'+str(int(arg)-10)+'/><Предыдущие</a>  '
     if len(Playcast.objects.all()) > (int(arg)+10):
-        links = links + '<a href = /playcast_list/'+str(int(arg)+10)+'/>Next ></a>'
+        links = links + '<a href = /playcast_list/'+str(int(arg)+10)+'/>Следующие ></a>'
     d = {'L1':L1,'L2':L2,'links':links}
     t = get_template("playcast_list.html")
     c = Context(d)
@@ -517,7 +520,7 @@ def playcast(request,id):
         if obj.user != request.user:
             return redirect('/')
         else:
-            noactive = ' (no active)'
+            noactive = ' (не активна)'
 
 
     if obj.user != request.user:
@@ -542,7 +545,7 @@ def playcast(request,id):
         ac.save()
     author=''
     if obj.user == request.user:
-        author = '<a href="/designer/'+str(id)+'/"><button class="btn-editor">'+"Edite"+'</button></a><button class="btn-editor-del" onclick="DelQuest();">'+"Delete"+'</button><button class="btn-editor" onclick="Readers('+str(id)+');">'+'Readers'+'</button>'
+        author = '<a href="/designer/'+str(id)+'/"><button class="btn-editor">'+"Редактировать"+'</button></a><button class="btn-editor-del" onclick="DelQuest();">'+"Удалить"+'</button><button class="btn-editor" onclick="Readers('+str(id)+');">'+'Читатели'+'</button>'
     profile = UserProfile.objects.filter(id = obj.user.id)[0]
     try:
         url = profile.photo.url
@@ -558,9 +561,7 @@ def playcast(request,id):
     elif browser.find('Firefox')>-1:
         body = body.replace('-webkit-transform:','-moz-transform:')
         body = body.replace(' transform:','-moz-transform:')
-   # elif browser.find('Trident')>-1:
-    #    body = body.replace(' -webkit-transform:'," -ms-transform:")
-     #   body = body.replace(' -moz-transform:'," -ms-transform:")
+
 
     d = {'p':obj,'author':author,'tid':id,'noactive':noactive,'url':url,'body':body}
     t = get_template("playcast.html")
@@ -727,33 +728,6 @@ def music_list(request,arg=0):
         list = Music.objects.all().order_by('-datetime')
 
 
-    #keywords = request.GET['words'].lower()
-    #if len(keywords) > 0:
-    #    keys = keywords.split()
-    #    S= set()
-    #    for i in keys:
-    #        songs = list.filter(mtitles__contains = i)
-    #        for j in songs:
-    #            S.add(j)
-
-    #    L=[]
-    #    for i in S:
-    #        L.append(i)
-    #    links = ''
-    #    if int(arg) > 9:
-    #        links = '<button onclick="refresh('+str(int(arg)-10)+');"><Previos </button>'
-
-     #   if len(Picture.objects.all()) > (int(arg)+10):
-     #       links = links + '<button onclick="refresh('+str(int(arg)+10)+');">Next> </button>'
-     #   d = {'L':L[0+arg:10+arg],'links':links}
-     #   t = get_template("musiclist.html")
-     #   c = Context(d)
-      #  html = t.render(c)
-       # return HttpResponse(html)
-
-
-
-
     for i in list:
        L.append(i)
     links = ''
@@ -767,7 +741,23 @@ def music_list(request,arg=0):
 def upload_music(request):
     if request.method == 'POST': # If the form has been submitted...
         form = UploadMusicForm(request.POST,request.FILES) # A form bound to the POST data
-        if form.is_valid():
+        filename = request.FILES['file'].name.lower()
+        NonStop = True
+        err = ''
+        if filename[len(filename)-3:len(filename)] != "mp3":
+            NonStop = False
+            err = 'Только MP3 файлы'
+        for i in filename:
+            if not i in ['0','1','2','3','4','5','6','7','8','9','q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m']:
+                NonStop = False
+                err = "Nолько из цифры и латинских буквы"
+                break
+
+
+      #  return HttpResponse(filename[len(filename)-4:len(filename)-1])
+
+
+        if form.is_valid() and NonStop:
             obj = Music()
             obj.title = form.cleaned_data['title']
             obj.file = form.cleaned_data['file']
@@ -785,8 +775,10 @@ def upload_music(request):
 
         else:
             d = form.errors
+            if err != '':
+                d['file'] = err
             form = UploadMusicForm()
-            d = {'form': form}
+            d.update({'form': form})
             d.update(csrf(request))
             t = get_template("upload_music.html")
             c = Context(d)
@@ -842,10 +834,10 @@ def images_list(request,arg=0):
             L.append(obj)
         links = ''
         if int(arg) > 9:
-            links = '<button onclick="refresh('+str(int(arg)-10)+');">  Previos </button>'
+            links = '<button onclick="refresh('+str(int(arg)-10)+');">  Предыдущие </button>'
 
         if len(Picture.objects.all()) > (int(arg)+10):
-            links = links + '<button onclick="refresh('+str(int(arg)+10)+');"> Next></button>'
+            links = links + '<button onclick="refresh('+str(int(arg)+10)+');"> Следующие></button>'
         d = {'L':L[0+arg:10+arg],'links':links}
         t = get_template("imageslist.html")
         c = Context(d)
@@ -864,10 +856,10 @@ def images_list(request,arg=0):
         L.append(obj)
     links = ''
     if int(arg) > 9:
-        links = '<button onclick="refresh('+str(int(arg)-10)+');"> Previos </button>'
+        links = '<button onclick="refresh('+str(int(arg)-10)+');"> Предыдущие </button>'
 
     if len(Picture.objects.all()) > (int(arg)+10):
-        links = links + '<button onclick="refresh('+str(int(arg)+10)+');">Next> </button>'
+        links = links + '<button onclick="refresh('+str(int(arg)+10)+');">Следующие> </button>'
 
     d = {'L':L[0+int(arg):10+int(arg)],'links':links}
     t = get_template("imageslist.html")
@@ -901,7 +893,7 @@ def upload_image(request):
             d = form.errors
 
             form = UploadImageForm()
-            d = {'form': form}
+            d.update({'form': form})
             d.update(csrf(request))
             t = get_template("upload.html")
             c = Context(d)
@@ -922,8 +914,8 @@ def designer(request, id = None):
     tid = ''
     tbody = ''
     title=''
-    tstyle = 'background-color:#FFFFB5;'
-    twidth = '950px'
+    tstyle = 'background-color:#FFFFB5; background-image: url(/static/images/metr.jpg);'
+    twidth = '1150px'
     theight = '750px'
     tmtitle =''
     tmurl = ''
@@ -947,9 +939,7 @@ def designer(request, id = None):
                     tbody = tbody.replace(' transform:',' -moz-transform:')
                     tbody = tbody.replace('-webkit-transform:','-moz-transform:')
                     tbody = tbody.replace('-ms-transform:','-moz-transform:')
-               # elif browser.find('Trident')>-1:
-                #    tbody = tbody.replace(' -webkit-transform:'," -ms-transform:")
-                 #   tbody = tbody.replace(' -moz-transform:'," -ms-transform:")
+
 
 
                 tstyle = obj.style

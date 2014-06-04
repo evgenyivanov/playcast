@@ -6,13 +6,13 @@
      <span style="color:red;">{{ formUser.non_field_errors }}</span>
     <div class="fieldWrapper">
         {{ formUser.fist_name.errors }}
-        <label for="id_subject">First name:</label>
+        <label for="id_subject">Имя:</label>
         {{ formUser.first_name }}
     </div>
 
      <div class="fieldWrapper">
         <span style="color:red;">{{ formUser.last_name.errors }}</span>
-        <label for="id_subject">Last name:</label>
+        <label for="id_subject">Фамилия:</label>
         {{ formUser.last_name }}
     </div>
 
@@ -26,19 +26,19 @@
      <span style="color:red;">{{ formProfile.non_field_errors }}</span>
      <div class="fieldWrapper">
         <span style="color:red;">{{ formProfile.photo.errors }}</span>
-        <label for="id_subject">Photo:</label>
+        <label for="id_subject">Фотография:</label>
         {{ formProfile.photo }}
     </div>
 
      <div class="fieldWrapper">
         <span style="color:red;">{{ formProfile.url.errors }}</span>
-        <label for="id_subject">Home page:</label>
+        <label for="id_subject">Домашняя страница:</label>
         {{ formProfile.url }}
     </div>
 
     <div class="fieldWrapper"  >
         <span style="color:red;">{{ formProfile.about.errors }}</span>
-        <label for="id_subject">about:</label>
+        <label for="id_subject">О себе:</label>
         {{ formProfile.about }}
     </div>
      <p><button type="submit">OK</button></p>

@@ -1,15 +1,15 @@
 <head>
 
 <link href="/static/css/edite.css" rel="stylesheet" media="screen">
-<title>Account user</title>
+<title>Ваш счет</title>
 </head>
 <body>
 
-<h2>Your account</h2>
-<b>  Balance: {{balance}} <br /></b>
+<h2>Ваш счет</h2>
+<b>  Остаток: {{balance}} <br /></b>
 <table>
 <thead>
-<tr><td>Date</td><td>Summa</td><td>Text</td></td>
+<tr><td>Дата</td><td>Сумма</td><td>Содержание операции</td></td>
 </thead>
 {%for i in L%}
 <tr style="font: bold;"><td>{{i.date}}</td><td style="text-align : right;">{{i.sum}}</td><td>{{i.text}}</td></td>

@@ -11,7 +11,12 @@ function NewId(){
 }
 
 
-
+function uploadmusicClose(){
+$("#upload_music").dialog("close");
+document.getElementById("list_music").contentDocument.location.reload(true);
+$("#upload_music")[0].innerHTML='<iframe  id="upload3" src="/upload_music" width="450" height="280"></iframe>';
+$("#upload_music")[0].innerHTML = $("#upload_music")[0].innerHTML + '<button style="font-size: 12px; position: relative; left:350px;" onclick="uploadmusicClose();">Закрыть</button>';
+}
 
 
 function DeleteBackgroundImage(){
@@ -200,16 +205,20 @@ obj = $('#myframe_conteiner')[0];
 w = obj.style.width;
 h = obj.style.height;
 newdocument.write('<BODY>');
+//newdocument.write('<center>');
+//newdocument.write('<iframe  style="width:'+w+'; height :'+h+'" >');
 st = "<div style='"+mystyle+" width :"+w+"; height :"+h+";'>";
 newdocument.write(st);
-
 newdocument.write('<title>'+title+'</title>');
 newdocument.write('<div>'+body+'</div><br />');
 newdocument.write('</div>');
 newdocument.write('<br /><audio  preload="auto" autoplay="true" loop="loop" src=/media/'+$("#music_url")[0].innerHTML+'  /><br />');
 comment = myNicEditor3.instanceById('comments_text').getContent();
 newdocument.write('<div>'+comment+'</div>');
+//newdocument.write('</iframe>');
+//newdocument.write('</center>');
 newdocument.write('</BODY>');
+
 newdocument.close();
 }
 

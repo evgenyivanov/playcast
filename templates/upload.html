@@ -1,5 +1,27 @@
-
+<link rel="stylesheet" href="/static/css/edite.css">
 <form action="/upload_image/" enctype="multipart/form-data" method="post">{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
+
+ <span style="color:red;">{{ form.non_field_errors }}</span>
+     <div class="fieldWrapper">
+        <span style="color:red;">{{name}}</span><br/>
+        <label for="id_subject">Название:</label>
+    {{form.name }}
+    </div>
+
+
+     <div class="fieldWrapper">
+        <span style="color:red;">{{file}}</span><br/>
+        <label for="id_subject">Изображение</label>
+    {{form.file }}
+    </div>
+
+
+     <div class="fieldWrapper">
+        <span style="color:red;">{{key_words}}</span><br/>
+        <label for="id_subject">Ключевые слова:</label>
+    {{form.key_words}}
+    </div>
+
+
+<input type="submit" class="btn-editor" value="Загрузить" />
 </form>

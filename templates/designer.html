@@ -124,24 +124,24 @@ $(function(){
 <body>
 
 
-Title: <input type="text" id="title" style= "width :1000px;" value="{{title}}"><br/>
-url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmtitle}}</span> author: <span id="music_author">{{tmauthor}}</span> performer: <span id="music_performer">{{tmperformer}}</span>
+Название: <input type="text" id="title" style= "width :1000px;" value="{{title}}"><br/>
+url: <span id="music_url">{{tmurl}}</span>   название: <span id="music_title">{{tmtitle}}</span> автор: <span id="music_author">{{tmauthor}}</span> исполнитель: <span id="music_performer">{{tmperformer}}</span>
 <br />
-<button class="btn-editor"  style="position:relative; top: -2px;" onclick='$("#type_select_image").html(0);$("#list_img2")[0].src= $("#list_img2")[0].src;$("#dialog").dialog("open")'>Background</button>
-<button class="btn-editor" onclick='$("#type_select_image").html(1);$("#select_image").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Image</button>
-<button class="btn-editor" onclick='$("#dialog_text").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Text</button>
-<button class="btn-editor" onclick='$("#select_music").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Music</button>
-<button class="btn-editor" onclick='$("#select_video").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Video</button>
-<button class="btn-editor-del"  onclick='DeleteItem("");'><img src="/static/images/trash.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Delete</button>
+<button class="btn-editor"  style="position:relative; top: -2px;" onclick='$("#type_select_image").html(0);$("#list_img2")[0].src= $("#list_img2")[0].src;$("#dialog").dialog("open")'>Фон</button>
+<button class="btn-editor" onclick='$("#type_select_image").html(1);$("#select_image").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" >Изображение</button>
+<button class="btn-editor" onclick='$("#dialog_text").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Текст</button>
+<button class="btn-editor" onclick='$("#select_music").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Музыка</button>
+<button class="btn-editor" onclick='$("#select_video").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Видео</button>
+<button class="btn-editor-del"  onclick='DeleteItem("");'><img src="/static/images/trash.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Удалить</button>
 <button class="btn-editor" onclick='Index(1);'><img src="/static/images/up.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <button class="btn-editor" onclick='Index(-1);'><img src="/static/images/down.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
-<button class="btn-editor" style="position:relative; top: -2px;" onclick='$("#comments").dialog("open")'>Comment</button>
+<button class="btn-editor" style="position:relative; top: -2px;" onclick='$("#comments").dialog("open")'>Комментарий</button>
 <button class="btn-editor" onclick='Undo("")'><img src="/static/images/undo.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
-<button class="btn-editor" style="position:relative; top: -2px;" onclick='Clone("")'>Clone</button>
+<button class="btn-editor" style="position:relative; top: -2px;" onclick='Clone("")'>Скопировать</button>
 <button class="btn-editor" onclick="Matrix1('');"  style="position:relative; top: -2px;">M</button>
 <button class="btn-editor" onclick="Preview('');"><img src="/static/images/preview.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
-<button class="btn-editor" onclick = "Publisher('');"><img src="/static/images/save.png" width="17px" height = "17px" style="position:relative; top: 2px;" >  Save </button>
-<input type="checkbox" id="active" {{active}}>  Publish
+<button class="btn-editor" onclick = "Publisher('');"><img src="/static/images/save.png" width="17px" height = "17px" style="position:relative; top: 2px;" >  Сохранить </button>
+<input type="checkbox" id="active" {{active}}>  Опубликовать
 
 <span id="wait"><img src="/static/images/wait.gif" width="20" height="20"></span>
 
@@ -165,39 +165,39 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
 
  	<div id="type_select_image" style="visibility:hidden"></div>
 
- <div id="select_image" title="Select image">
+ <div id="select_image" title="Выбрать изображение">
  <iframe  id="list_img" src="/select_image" width="950" height="280">
 
  </iframe>
-  <button onclick='document.getElementById("upload2").contentDocument.location.reload(true);$("#upload_image").dialog("open");'>Upload</button>
+  <button onclick='document.getElementById("upload2").contentDocument.location.reload(true);$("#upload_image").dialog("open");'>Загрузить</button>
  <button onclick='$("#select_image").dialog("close");'> Close</button>
  </div>
 
- <div id="upload_image" title="uploas image">
+ <div id="upload_image" title="Загрузить изображение">
  <iframe  id="upload2" src="/upload_image" width="420" height="190">
 
  </iframe>
- <button onclick='$("#upload_image").dialog("close");document.getElementById("list_img").contentDocument.location.reload(true);'>Close</button>
+ <button style="font-size: 12px; position: relative; left:250px;" onclick='$("#upload_image").dialog("close");document.getElementById("list_img").contentDocument.location.reload(true);'>Закрыть</button>
  </div>
 
 
 
-<div id="select_music" title="Select music">
+<div id="select_music" title="Выбрать музыку">
  <iframe  id="list_music" src="/select_music" width="1350" height="470">
 
  </iframe>
-  <button onclick='$("#upload_music").dialog("open");'>Upload</button>
- <button onclick='$("#select_music").dialog("close");'>Close</button>
+  <button onclick='$("#upload_music").dialog("open");'>Загрузить</button>
+ <button onclick='$("#select_music").dialog("close");'>Закрыть</button>
  </div>
 
- <div id="upload_music" title="uploas music">
+ <div id="upload_music" title="Загрузить MP3">
  <iframe  id="upload3" src="/upload_music" width="450" height="280">
 
  </iframe>
- <button onclick='$("#upload_music").dialog("close");document.getElementById("list_music").contentDocument.location.reload(true);'>Close</button>
+ <button style="font-size: 12px; position: relative; left:350px;" onclick="uploadmusicClose();">Закрыть</button>
  </div>
 
- <div id="matrix" title="Matrix (default 1,0,0,1,0,0)">
+ <div id="matrix" title="Матрица (по умолчанию 1,0,0,1,0,0)">
  <span style="text-align: center;">
  <input id="m1" type="number" onchange="Matrix2('');" step="0.1" value="0.0000" style="width:80px;">
  <input id="m2" type="number" onchange="Matrix2('');" step="0.1" value="0.0000" style="width:80px;">
@@ -207,46 +207,45 @@ url: <span id="music_url">{{tmurl}}</span>   title: <span id="music_title">{{tmt
  <input id="m6" type="number" onchange="Matrix2('');" step="0.1" value="0.0000" style="width:80px;"></span>
  </div>
 
-<div id="comments" title="Comments">
+<div id="comments" title="Комментарий">
 <textarea id="comments_text" style ="width: 450px; height: 300px;">{{tcomment}}</textarea>
- <button onclick='$("#comments").dialog("close");'>Close</button>
+ <button onclick='$("#comments").dialog("close");'>Закрыть</button>
 </div>
 
- <div id="dialog" title="Select background">
+ <div id="dialog" title="Выбрать фон">
 
 <input id="selectedColor" class="color">
 <button onclick="ColorBackground('')">OK</button>
-<button onclick='$("#dialog").dialog("close");'>Close</button>
-<button onclick="DeleteBackgroundImage();">Delete Background Image</button>
-<br/><br/><br/><br/><br/><br/><br/>or select image:
+<button onclick='$("#dialog").dialog("close");'>Закрыть</button>
+<button onclick="DeleteBackgroundImage();">Без картинки</button>
+<br/><br/><br/><br/><br/><br/><br/>или выбрать картинку:
 <iframe  id="list_img2" src="/select_image" width="950" height="410"></iframe>
  </div>
 
-<div id="select_video" title="Please, input URl">
-example: http://www.youtube.com/watch?v=nnnn</br>
+<div id="select_video" title="Пожалуйста, введите URl">
+Например: http://www.youtube.com/watch?v=nnnn</br>
 <input type="text" id ="select_video_url" value ="" size ="50" ><br />
 <button onclick="AddVideo('')">OK</button>
-<button onclick='$("#select_video").dialog("close");'>Close</button>
+<button onclick='$("#select_video").dialog("close");'>Закрыть</button>
 </div>
 
-<div id="dialog_text" title="Add text">
+<div id="dialog_text" title="Добавить текст">
 
  <textarea id="my_text" style ="width: 650px; height: 100px;" >
 
 </textarea><br />
 
 <button onclick="AddText('')">OK</button>
-<button onclick='$("#dialog_text").dialog("close");'>Close</button>
+<button onclick='$("#dialog_text").dialog("close");'>Закрыть</button>
  </div>
 
 
-
- <div id="text_edite" title="Edite text">
+ <div id="text_edite" title="Редактировать текст">
  <div id="text_edite_id" style="visibility:hidden"></div>
  <textarea id="text_edite_text" style ="width: 650px; height: 100px;" >
 </textarea><br />
 <button onclick="EditeMyText('')">OK</button>
-<button onclick='$("#text_edite").dialog("close");'>Close</button>
+<button onclick='$("#text_edite").dialog("close");'>Закрыть</button>
  </div>
 
 <div id = "undo" style="visibility:hidden">{{tbody|safe}}</div>
