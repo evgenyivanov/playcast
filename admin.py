@@ -57,3 +57,12 @@ class AccountList(admin.ModelAdmin):
 
 
 admin.site.register(Account,AccountList)
+
+
+
+class UsersOnLineList(admin.ModelAdmin):
+    readonly_fields = ['username']
+    list_display = ('username',"date","ip")
+
+admin.site.register(UsersOnLine,UsersOnLineList)
+

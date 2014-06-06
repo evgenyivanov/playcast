@@ -38,6 +38,7 @@ $(function(){
 <div>{{p.about}}</div>
 </div>
 
+
  <div id="dialog" title="Сделать подарок" style="position: absolute; top: 10px; z-index:9999; right:2;top:100px;">
      <iframe id= "myframe" src="/sendgift/{{user.id}}/"  frameborder="no" width="100%" height="100%" align="left" ></iframe>
  </div>
@@ -46,6 +47,7 @@ $(function(){
     <legend>Подарки</legend>
 <div style="word-wrap:break-word;">{%for i in presents%}<img src="{{i.gift.gifts.url}}" width="45" height ="45" title="{{i.nameuser}}"  />&nbsp;&nbsp;{%endfor%}</div>
 </fieldset><br /> <br /><div>{{controls|safe}}</div>
+<div>{{last}}</div>
 <div style =" clear: both;" >
 {% for i in L%}
 

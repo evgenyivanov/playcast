@@ -24,6 +24,20 @@ from datetime import timedelta
 #import urllib
 from django.db.models import Count, Min, Sum, Avg
 
+def Online(request):
+    date_= datetime.datetime.now()-datetime.timedelta(minutes = 10)
+    list = UsersOnLine.objects.all()
+    L = []
+    for i in list:
+        if i.user != None and i.date>date_:
+            L.append((str(i.user.id),str(i.user.username)))
+
+    S = set(L)
+    result = 'online: '
+    for i in S:
+        result = result + '<a href=/author/'+str(i[0])+'/>'+str(i[1])+'</a> '
+    return result
+
 
 def browsers(request):
     browser = str(request.META['HTTP_USER_AGENT'])
@@ -57,6 +71,7 @@ def myjs(request):
 
 def authors(request):
     L = list(User.objects.all().order_by('last_name','first_name'))
+    last = ''
     d = {'L':L}
     t = get_template("authors.html")
     c = Context(d)
@@ -292,6 +307,15 @@ def readers(request,id):
 
 def author(request,id):
     usr = User.objects.get(id = id)
+    if  request.user.is_superuser:
+        obj = UsersOnLine.objects.filter(user = User.objects.get(id = id)).order_by('-date')
+        try:
+            last = 'last: '+ str(obj[0].date)
+        except:
+            last = ''
+    else:
+        last = ''
+
     if len(UserProfile.objects.filter(user = usr))==0:
         obj = UserProfile()
         obj.user = usr
@@ -325,7 +349,7 @@ def author(request,id):
     else:
         if str(request.user) != 'AnonymousUser':
             controls = '<button  class="btn-editor" onclick = "SendPresent();">Сделать подарок</button>'
-    d = {'user':usr,'p':profile,'L':L,'url_img':url_img,'h':h,'presents':presents,'controls':controls}
+    d = {'user':usr,'p':profile,'L':L,'url_img':url_img,'h':h,'presents':presents,'controls':controls,'last':last}
     t = get_template("author.html")
     c = Context(d)
     html = t.render(c)
@@ -466,7 +490,12 @@ def home(request):
         html = html+ '</a>!<br />'
         html = html + '<button onclick="EditeProfile();" >' + 'Ваш профиль' + '</button>'
         html = html +'<button type="button" onclick="logout();">'+ 'Выход'+ '</button>'
-    d = {'mycode':html}
+    if  request.user.is_superuser:
+        online = Online(request)
+    else:
+        online = ''
+
+    d = {'mycode':html,'online':online}
     t = get_template("index.html")
     c = Context(d)
     html = t.render(c)

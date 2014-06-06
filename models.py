@@ -2,6 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import permalink
 
+
+class UsersOnLine(models.Model):
+
+    user = models.ForeignKey(User, blank = True, null = True)
+    ip = models.CharField(max_length=100)
+    date = models.DateTimeField()
+
+    def username(self):
+        return self.user.username
+
+
+
 class Account(models.Model):
     date = models.DateTimeField()
     sum = models.IntegerField()
