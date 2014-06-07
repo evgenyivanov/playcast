@@ -31,11 +31,19 @@ def Online(request):
     for i in list:
         if i.user != None and i.date>date_:
             L.append((str(i.user.id),str(i.user.username)))
+        if i.date < date_:
+            try:
+                i.delete()
+            except:
+                pass
+
 
     S = set(L)
     result = 'online: '
     for i in S:
         result = result + '<a href=/author/'+str(i[0])+'/>'+str(i[1])+'</a> '
+    if result == 'online: ':
+        result = result + '<a href=/author/'+str(request.user.id)+'/>'+str(request.user.username)+'</a> '
     return result
 
 
