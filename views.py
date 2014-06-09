@@ -267,13 +267,11 @@ def register(request):
                                  email=formUser.cleaned_data['email'],
                                  password=passw1)
             new_user. is_active = True
-            new_user.first_name= formUser.cleaned_data['first_name'].encode('utf-8'),
-            new_user.last_name= formUser.cleaned_data['last_name'].encode('utf-8'),
+            new_user.first_name= formUser.cleaned_data['first_name']
+            new_user.last_name= formUser.cleaned_data['last_name']
 
             new_user.save()
-           # new_user.first_name = str(new_user.first_name).replace("(u'","").replace("',)","")
-        #    new_user.last_name = str(new_user.last_name).replace("(u'","").replace("(u'","").replace("',)","")
-         #   new_user.save()
+
             return redirect('/')
         else:
              d = {'formUser': formUser}
@@ -303,7 +301,7 @@ def register(request):
 def readers(request,id):
     playcast = Playcast.objects.get(id = id)
     if playcast.user == request.user:
-        L = list(Readers.objects.filter(playcast = playcast))
+        L = list(Readers.objects.filter(playcast = playcast).order_by('-date'))
         total=len(L)
         d = {'L':L,'id':id,'title': playcast.title,'total': total}
         t = get_template("readers.html")
@@ -599,8 +597,11 @@ def playcast(request,id):
         body = body.replace('-webkit-transform:','-moz-transform:')
         body = body.replace(' transform:','-moz-transform:')
 
-
-    d = {'p':obj,'author':author,'tid':id,'noactive':noactive,'url':url,'body':body}
+    if obj.murl == '':
+        mp3 = False
+    else:
+        mp3 = True
+    d = {'p':obj,'author':author,'tid':id,'noactive':noactive,'url':url,'body':body,'mp3':mp3,'comment':obj.comment.replace('<br>','')}
     t = get_template("playcast.html")
     c = Context(d)
     html = browsers(request)+t.render(c)

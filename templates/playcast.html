@@ -2,8 +2,10 @@
 
 <title>{{p.title}} {{noactive}}</title>
 <link rel="stylesheet" href="/static/css/edite.css">
+{%if mp3%}
 <script src="/static/js/audio.min.js"></script>
 <script> audiojs.events.ready(function() {var as = audiojs.createAll(); as[0].play();});</script>
+{%endif%}
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
@@ -46,11 +48,13 @@ $( document ).ready(function() {
 <iframe id ="myframe" style="{{p.style}} width : {{p.width}}; height :{{p.height}};" scrolling="no" frameBorder="0"></iframe>
 
 <div id="mybox" style="visibility:hidden; ">{{body|safe}}</div>
+{%if mp3%}
 <div style=""><audio   id="audio" src="/media/{{p.murl}}"   loop="loop" /></div>
+{%endif%}
 <div>
 <br />
 Музыка  "{{p.mtitle}}" авторы - {{p.mauthor}} исполнитель - {{p.mperformer}}<br />
-{{p.comment}}<br />
+{{comment}}<br />
 последняя редакция {{p.last}}
 </div>
 <div>{{author|safe}}</div><br/>
