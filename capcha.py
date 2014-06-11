@@ -3,7 +3,6 @@ from PIL import Image, ImageDraw, ImageFont
 import random
 from StringIO import StringIO
 import os
-#from models import Capcha
 
 def capthaGenerate(request):
     path=os.path.join(os.path.dirname(__file__), 'fonts').replace('\\','/')
@@ -60,8 +59,6 @@ def capthaGenerate(request):
         else:
             a = str(b)
 
-
-
         draw.text((margin_left,margin_top), a,fill=str(font_color),font=font)
         rand_x11 = random.randint(0,100)
         rand_x12 = random.randint(100,200)
@@ -79,8 +76,4 @@ def capthaGenerate(request):
     contents = output.getvalue().encode("base64").replace("\n", "")
     img_tag = '<img value="'+key+'" src="data:image/png;base64,{0}">'.format(contents)
     output.close()
-    #ob = Capcha()
-    #ob.ip= request.META['REMOTE_ADDR']
-    #ob.capcha=number
-    #ob.save()
     return [img_tag, number]

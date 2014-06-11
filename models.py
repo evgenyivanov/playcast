@@ -1,7 +1,7 @@
+#  coding: utf-8
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import permalink
-
 
 class UsersOnLine(models.Model):
 
@@ -11,8 +11,6 @@ class UsersOnLine(models.Model):
 
     def username(self):
         return self.user.username
-
-
 
 class Account(models.Model):
     date = models.DateTimeField()
@@ -64,8 +62,6 @@ class SendGifts(models.Model):
 class LoginError(models.Model):
     ip =  models.CharField(max_length=100)
     date = models.DateTimeField()
-
-
 
 class Playcast(models.Model):
 

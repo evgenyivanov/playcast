@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
-from models import  UsersOnLine
+#  coding: utf-8
 import datetime
+from models import  UsersOnLine
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')

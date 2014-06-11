@@ -1,30 +1,26 @@
-# -*- coding: utf-8 -*-
+#  coding: utf-8
+import datetime
+import os, re
+from PIL import Image
+import numpy as np
+from datetime import timedelta
 from django.http import HttpResponse
-#from django import template
 from django.template import Context
 from django.template.loader import get_template
-from forms import *
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.forms.util import ErrorList
-#from django.shortcuts import render_to_response
-import datetime
-from models import *
-import os, re
-from PIL import Image
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-#from django.core.exceptions import ValidationError
 from capcha import capthaGenerate
 import hashlib
-import numpy as np
-from datetime import timedelta
-#import urllib
 from django.db.models import Count, Min, Sum, Avg
+from models import *
+from forms import *
 
-def Online(request):
+def online(request):
     date_= datetime.datetime.now()-datetime.timedelta(minutes = 10)
     list = UsersOnLine.objects.all()
     L = []
@@ -497,11 +493,11 @@ def home(request):
         html = html + '<button onclick="EditeProfile();" >' + 'Ваш профиль' + '</button>'
         html = html +'<button type="button" onclick="logout();">'+ 'Выход'+ '</button>'
     if  request.user.is_superuser:
-        online = Online(request)
+        online_ = online(request)
     else:
-        online = ''
+        online_ = ''
 
-    d = {'mycode':html,'online':online}
+    d = {'mycode':html,'online':online_}
     t = get_template("index.html")
     c = Context(d)
     html = t.render(c)
