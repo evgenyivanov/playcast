@@ -109,13 +109,16 @@ $("#myframe")[0].contentWindow.Select(today.toString());
 
 function Put(){
     active = $('#active')[0].checked;
+    $('#publisher_block').hide();
+    $('#wait').show();
 
     obj = $('#myframe_conteiner')[0];
     w = obj.style.width;
     h = obj.style.height;
     tid = $("#object_id")[0].innerHTML;
     BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
-    $("#wait").show();
+    $(BodyF).find("#bgr").remove();
+
 
     var MyDict = {'active':active,'tid':tid,'style':BodyF.style.cssText ,'width': w,'height':h,'title': document.getElementById("title").value,'body': $('#myframe').contents().find("body").html(),'mtitle': document.getElementById("music_title").textContent,'murl': document.getElementById("music_url").textContent ,'mauthor': document.getElementById("music_author").textContent,'mperformer': document.getElementById("music_performer").textContent,'comments': myNicEditor3.instanceById('comments_text').getContent()};
 

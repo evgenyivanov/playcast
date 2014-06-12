@@ -140,8 +140,10 @@ url: <span id="music_url">{{tmurl}}</span>   название: <span id="music_t
 <button class="btn-editor" style="position:relative; top: -2px;" onclick='Clone("")'>Скопировать</button>
 <button class="btn-editor" onclick="Matrix1('');"  style="position:relative; top: -2px;">M</button>
 <button class="btn-editor" onclick="Preview('');"><img src="/static/images/preview.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
-<button class="btn-editor" onclick = "Publisher('');"><img src="/static/images/save.png" width="17px" height = "17px" style="position:relative; top: 2px;" >  Сохранить </button>
+<span id= "publisher_block">
+<button class="btn-editor"  onclick = "Publisher('');"><img src="/static/images/save.png" width="17px" height = "17px" style="position:relative; top: 2px;" >  Сохранить </button>
 <input type="checkbox" id="active" {{active}}>  Опубликовать
+</span>
 
 <span id="wait"><img src="/static/images/wait.gif" width="20" height="20"></span>
 

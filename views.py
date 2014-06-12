@@ -411,9 +411,6 @@ def editeprofile(request):
         html = t.render(c)
         return HttpResponse(html)
 
-
-
-
 def mylogin(request):
 
     login2 = request.GET['login']
@@ -640,7 +637,8 @@ def put(request):
         st = st.replace('<div class="ui-resizeble-handle ui-resizeble-ne" unselecttable="on" style="z-index:1001;"></div>','')
         st = st.replace('<div class="ui-resizeble-handle ui-resizeble-nw" unselecttable="on" style="z-index:1002;"></div>','')
         st = st.replace('<div class="ui-resizeble-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" unselecttable="on" style="z-index:1003;" <="" div=""><div class="ui-resizeble-handle ui-resizeble-sw" unselecttable="on" style="z-index:1004;"></div></div>','')
-
+        st = st.replace('<script src="/static/js/edite.js"></script>','')
+        st = st.replace('<script type="text/javascript" src="/myjs"></script>','')
         re.sub(r'\s+', ' ', st)
         obj.body = st
         obj.murl = request.POST['murl']
@@ -652,7 +650,7 @@ def put(request):
         obj.mperformer = request.POST['mperformer']
         obj.user = request.user
         obj.last = datetime.datetime.now()
-        obj.comment = request.POST['comments']
+        obj.comment = request.POST['comments'].replace('<div>','').replace('</div>','').replace('&nbsp;','')
         obj.save()
         return HttpResponse(obj.id)
 
@@ -782,7 +780,7 @@ def upload_music(request):
             NonStop = False
             err = 'Только MP3 файлы'
         for i in filename:
-            if not i in ['0','1','2','3','4','5','6','7','8','9','q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m']:
+            if not i in ['_','-','.','',' ','0','1','2','3','4','5','6','7','8','9','q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m']:
                 NonStop = False
                 err = "Nолько из цифры и латинских буквы"
                 break
