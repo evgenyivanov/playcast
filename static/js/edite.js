@@ -1,3 +1,23 @@
+function MaxZindex() {
+    result = 4;
+
+    BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
+    collection = $(BodyF).find(".container");
+
+    len = collection.length;
+
+    for (0; i < len; i++) {
+
+    z =parseInt(collection[i].style.zIndex);
+    if (result < z){
+        result = z;
+    }
+
+}
+
+    return (result+1).toString();
+}
+
 function NewId(){
   var today = new Date();
   st = today.getFullYear().toString()+today.getMonth().toString();
@@ -104,6 +124,8 @@ BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st2 + BodyF.innerHTML;
    $("#select_video").dialog("close");
 document.getElementById("myframe").contentWindow.VideoSet(today+'_container');
+myobj=$(BodyF).find("#"+today+"_container")[0];
+myobj.style.zIndex = MaxZindex();
 $("#myframe")[0].contentWindow.Select(today.toString());
 }
 
@@ -252,16 +274,17 @@ st = st + '"Select(';
 st = st +"'"+today+"');"
 st = st +'" onclick="Select(';
 st = st +"'"+today+"');";
-st = st +'" id="'+today+'_container" style="position: absolute; z-index: 7; top: 0px;  -webkit-transform:matrix(1,0,0,1,0,0);-moz-transform:matrix(1,0,0,1,0,0);-ms-transform:matrix(1,0,0,1,0,0);" />   <img  class="content" src="'+arg+'" width="50" height="50" alt="" id="'+today;
+st = st +'" id="'+today+'_container" style="position: absolute; z-index:4; top: 0px;  -webkit-transform:matrix(1,0,0,1,0,0);-moz-transform:matrix(1,0,0,1,0,0);-ms-transform:matrix(1,0,0,1,0,0);" />   <img  class="content" src="'+arg+'" width="50" height="50" alt="" id="'+today;
 st = st +'" style=""></div>';
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
+myobj=$(BodyF).find("#"+today+"_container")[0];
+myobj.style.zIndex = MaxZindex();
 obj = $("#myframe")[0].contentDocument.getElementById(today.toString());
 obj.width = w;
 obj.height = h;
 $("#select_image").dialog("close");
 $("#myframe")[0].contentWindow.Select(today.toString());
-
 }
 }
 
@@ -358,6 +381,8 @@ st = st+'</p></div></div>';
 
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
+myobj=$(BodyF).find("#"+today+"_container")[0];
+myobj.style.zIndex = MaxZindex();
 $("#myframe")[0].contentWindow.Select(today.toString());
 
 }

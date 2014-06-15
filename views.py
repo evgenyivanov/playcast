@@ -773,20 +773,27 @@ def music_list(request,arg=0):
 def upload_music(request):
     if request.method == 'POST': # If the form has been submitted...
         form = UploadMusicForm(request.POST,request.FILES) # A form bound to the POST data
-        filename = request.FILES['file'].name.lower()
         NonStop = True
         err = ''
-        if filename[len(filename)-3:len(filename)] != "mp3":
+        try:
+            filename = request.FILES['file'].name.lower()
+        except:
             NonStop = False
-            err = 'Только MP3 файлы'
-        for i in filename:
-            if not i in ['_','-','.','',' ','0','1','2','3','4','5','6','7','8','9','q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m']:
+
+        if NonStop:
+            err = ''
+            if filename[len(filename)-3:len(filename)] != "mp3":
                 NonStop = False
-                err = "Nолько из цифры и латинских буквы"
-                break
+                err = 'Только MP3 файлы'
+
+            for i in filename:
+                if not i in ['_','-','.','',' ','0','1','2','3','4','5','6','7','8','9','q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m']:
+                    NonStop = False
+                    err = "Nолько из цифры и латинских буквы"
+                    break
 
 
-      #  return HttpResponse(filename[len(filename)-4:len(filename)-1])
+
 
 
         if form.is_valid() and NonStop:
@@ -809,7 +816,7 @@ def upload_music(request):
             d = form.errors
             if err != '':
                 d['file'] = err
-            form = UploadMusicForm()
+
             d.update({'form': form})
             d.update(csrf(request))
             t = get_template("upload_music.html")
@@ -923,8 +930,6 @@ def upload_image(request):
             return HttpResponse(resault)
         else:
             d = form.errors
-
-            form = UploadImageForm()
             d.update({'form': form})
             d.update(csrf(request))
             t = get_template("upload.html")
