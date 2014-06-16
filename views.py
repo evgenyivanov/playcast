@@ -45,7 +45,7 @@ def online(request):
 
 def browsers(request):
     browser = str(request.META['HTTP_USER_AGENT'])
-    if browser.find('Chrome')==-1 and  browser.find('Safari')==-1 and browser.find('Opera')==-1 and browser.find('FireFox')==-1:
+    if browser.find('Chrome')==-1 and  browser.find('Safari')==-1 and browser.find('Opera')==-1 and browser.find('Firefox')==-1:
         d={}
         t = get_template("browsers.html")
         c = Context(d)
@@ -184,6 +184,7 @@ def sendgift(request,id):
 
 @csrf_exempt
 def loginza(request):
+    #return HttpResponse(str(request.META['HTTP_USER_AGENT']))
     if request.method == 'POST':
         token = request.POST.get('token', None)
         if token is None:
