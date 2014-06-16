@@ -100,8 +100,8 @@ function Select(arg){
 
       transform = SumMatrix(this.style.{{Transform}},obj.style.{{Transform}}).toString();
 
-
       this.style.webkitTransform = transform;
+
       this.style.MozTransform = transform;
       this.style.msTransform = transform;
 

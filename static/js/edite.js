@@ -1,14 +1,11 @@
 function MaxZindex() {
     result = 4;
-
     BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
     collection = $(BodyF).find(".container");
-
-    len = collection.length;
-
-    for (0; i < len; i++) {
-
+    len = parseInt(collection.length);
+    for (var i = 0; i < len; i++) {
     z =parseInt(collection[i].style.zIndex);
+
     if (result < z){
         result = z;
     }
@@ -278,9 +275,11 @@ st = st +'" id="'+today+'_container" style="position: absolute; z-index:4; top: 
 st = st +'" style=""></div>';
 BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
+obj = $("#myframe")[0].contentDocument.getElementById(today.toString());
 myobj=$(BodyF).find("#"+today+"_container")[0];
 myobj.style.zIndex = MaxZindex();
-obj = $("#myframe")[0].contentDocument.getElementById(today.toString());
+
+
 obj.width = w;
 obj.height = h;
 $("#select_image").dialog("close");
@@ -432,10 +431,13 @@ if (myItem === ''){
   st=st+'" id = "'+today+'_container" style="position: absolute; z-index: 7; opacity: 1;" ><div><p id="'+today+'">';
   st = st+str;
   st = st+'</p></div></div>';
-
+ myobj=$(BodyF).find("#"+today+"_container")[0];
+myobj.style.zIndex = MaxZindex();
   BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
   BodyF.innerHTML = st + BodyF.innerHTML;
-
+  myobj=$(BodyF).find("#"+today+"_container")[0];
+myobj.style.zIndex = MaxZindex();
+$("#myframe")[0].contentWindow.Select(today.toString());
 
   }
 }
