@@ -516,7 +516,7 @@ def playcast_list(request,arg = 0):
 
     if int(arg) > 9:
         links = '<a href = /playcast_list/'+str(int(arg)-10)+'/><Предыдущие</a>  '
-    if len(Playcast.objects.all()) > (int(arg)+10):
+    if len(Playcast.objects.filter(active = True)) > (int(arg)+10):
         links = links + '<a href = /playcast_list/'+str(int(arg)+10)+'/>Следующие ></a>'
     d = {'L1':L1,'L2':L2,'links':links}
     t = get_template("playcast_list.html")
