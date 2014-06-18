@@ -1,3 +1,29 @@
+function OpacitySelect() {
+ myframe = $("#myframe")[0].contentWindow;
+id = myframe.$("#mybox")[0].innerHTML;
+obj = myframe.$("#"+id)[0];
+slider = $("#opacity_value")[0];
+obj.style.opacity = slider.value/100;
+label = $("#opacity_label")[0];
+label.innerHTML = slider.value.toString()+" %";
+}
+function Opacity(){
+
+myframe = $("#myframe")[0].contentWindow;
+id = myframe.$("#mybox")[0].innerHTML;
+obj = myframe.$("#"+id)[0];
+
+if (obj.style.opacity.toString() == ''){
+   obj.style.opacity = 1.00;
+}
+slider = $("#opacity_value")[0];
+slider.value = parseFloat(obj.style.opacity)*100;
+label = $("#opacity_label")[0];
+label.innerHTML = slider.value.toString()+" %";
+$("#opacity").dialog("open");
+}
+
+
 function MaxZindex() {
     result = 4;
     BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];

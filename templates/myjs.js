@@ -6,6 +6,9 @@ function Matrix2(){
     st = 'matrix('+ $('#m1')[0].value.toString()+','+ $('#m2')[0].value.toString()+','+ $('#m3')[0].value.toString()+',';
     st = st + + $('#m4')[0].value.toString()+','+ $('#m5')[0].value.toString()+','+ $('#m6')[0].value.toString()+')';
     ob.style.{{Transform}} = st;
+
+
+
 }
 
 function Matrix1(){
@@ -71,7 +74,7 @@ function Select(arg){
 
     var mybox =$('#mybox')[0];
     if (mybox.innerHTML == (arg)){
-            return;
+        return;
          }
  $("#matrix").dialog("close");
 

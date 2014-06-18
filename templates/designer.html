@@ -113,6 +113,15 @@ $(function(){
             width: '610',
             height:'100',
         });
+
+         var theDialog11 = $("#opacity").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '250',
+            height:'150',
+        });
+
         $("#wait").hide();
 
 });
@@ -137,8 +146,9 @@ url: <span id="music_url">{{tmurl}}</span>   название: <span id="music_t
 <button class="btn-editor" onclick='Index(-1);'><img src="/static/images/down.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <button class="btn-editor" style="position:relative; top: -2px;" onclick='$("#comments").dialog("open")'>Комментарий</button>
 <button class="btn-editor" onclick='Undo("")'><img src="/static/images/undo.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
-<button class="btn-editor" style="position:relative; top: -2px;" onclick='Clone("")'>Скопировать</button>
+<button class="btn-editor" style="position:relative; top: px;" onclick='Clone("");'><img src="/static/images/copy.png" width="17px" height = "17px" style="position:relative; top: 2px;" >Клонировать</button>
 <button class="btn-editor" onclick="Matrix1('');"  style="position:relative; top: -2px;">M</button>
+<button class="btn-editor" style="position:relative; top: 0px;" onclick='Opacity("")'><img src="/static/images/drop.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <button class="btn-editor" onclick="Preview('');"><img src="/static/images/preview.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <span id= "publisher_block">
 <button class="btn-editor"  onclick = "Publisher('');"><img src="/static/images/save.png" width="17px" height = "17px" style="position:relative; top: 2px;" >  Сохранить </button>
@@ -249,6 +259,13 @@ url: <span id="music_url">{{tmurl}}</span>   название: <span id="music_t
 <button onclick="EditeMyText('')">OK</button>
 <button onclick='$("#text_edite").dialog("close");'>Закрыть</button>
  </div>
+
+<div id="opacity" title="Прозрачность">
+<input id = "opacity_value" onchange ="OpacitySelect('');" type="range" min="0" max="100" step="1" value="100">
+<span id="opacity_label"></span>
+<br /><br />
+ <button onclick='$("#opacity").dialog("close");'>Закрыть</button>
+</div>
 
 <div id = "undo" style="visibility:hidden">{{tbody|safe}}</div>
 <div id = "undostyle" style="visibility:hidden">{{tstyle}}</div>
