@@ -578,8 +578,10 @@ def playcast(request,id):
     profile = UserProfile.objects.filter(id = obj.user.id)[0]
     try:
         url = profile.photo.url
+        h = 75 * profile.photo.height / profile.photo.width
     except:
         url='/static/images/no_image.gif'
+        h=75
 
     browser = str(request.META['HTTP_USER_AGENT'])
     body = obj.body
@@ -595,7 +597,7 @@ def playcast(request,id):
         mp3 = False
     else:
         mp3 = True
-    d = {'p':obj,'author':author,'tid':id,'noactive':noactive,'url':url,'body':body,'mp3':mp3,'comment':obj.comment.replace('<br>','')}
+    d = {'p':obj,'author':author,'tid':id,'noactive':noactive,'url':url,'h':h,'body':body,'mp3':mp3,'comment':obj.comment.replace('<br>','')}
     t = get_template("playcast.html")
     c = Context(d)
     html = browsers(request)+t.render(c)
