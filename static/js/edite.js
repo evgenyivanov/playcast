@@ -1,3 +1,23 @@
+function BrightnessSelect() {
+ myframe = $("#myframe")[0].contentWindow;
+id = myframe.$("#mybox")[0].innerHTML;
+obj = myframe.$("#"+id)[0];
+slider = $("#brightness_value")[0];
+obj.style.webkitFilter = "brightness("+slider.value.toString()+"%)";
+label = $("#brightness_label")[0];
+label.innerHTML = slider.value.toString()+" %";
+}
+
+function ContrastSelect() {
+ myframe = $("#myframe")[0].contentWindow;
+id = myframe.$("#mybox")[0].innerHTML;
+obj = myframe.$("#"+id)[0];
+slider = $("#contrast_value")[0];
+obj.style.webkitFilter = "contrast("+slider.value.toString()+"%)";
+label = $("#contrast_label")[0];
+label.innerHTML = slider.value.toString()+" %";
+}
+
 function OpacitySelect() {
  myframe = $("#myframe")[0].contentWindow;
 id = myframe.$("#mybox")[0].innerHTML;
@@ -7,6 +27,7 @@ obj.style.opacity = slider.value/100;
 label = $("#opacity_label")[0];
 label.innerHTML = slider.value.toString()+" %";
 }
+
 function Opacity(){
 
 myframe = $("#myframe")[0].contentWindow;
