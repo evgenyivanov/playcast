@@ -1,3 +1,23 @@
+function To_undo_conteiner(){
+  $("#undo7")[0].innerHTML = $("#undo6")[0].innerHTML;
+  $("#undo6")[0].innerHTML = $("#undo5")[0].innerHTML;
+  $("#undo5")[0].innerHTML = $("#undo4")[0].innerHTML;
+  $("#undo4")[0].innerHTML = $("#undo3")[0].innerHTML;
+  $("#undo3")[0].innerHTML = $("#undo2")[0].innerHTML;
+  $("#undo2")[0].innerHTML = $("#undo1")[0].innerHTML;
+  $("#undo1")[0].innerHTML = $("#undo")[0].innerHTML;
+  $("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
+
+
+  $("#undostyle7")[0].innerHTML = $("#undostyle6")[0].innerHTML;
+  $("#undostyle6")[0].innerHTML = $("#undostyle5")[0].innerHTML;
+  $("#undostyle5")[0].innerHTML = $("#undostyle4")[0].innerHTML;
+  $("#undostyle4")[0].innerHTML = $("#undostyle3")[0].innerHTML;
+  $("#undostyle3")[0].innerHTML = $("#undostyle2")[0].innerHTML;
+  $("#undostyle2")[0].innerHTML = $("#undostyle1")[0].innerHTML;
+  $("#undostyle1")[0].innerHTML = $("#undostyle")[0].innerHTML;
+  $("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
+}
 
 function Matrix2(){
 
@@ -73,11 +93,15 @@ return st;
 function Select(arg){
 
     var mybox =$('#mybox')[0];
+
     if (mybox.innerHTML == (arg)){
+
         return;
          }
- $("#matrix").dialog("close");
+    $('#mybox')[0].innerHTML = arg;
 
+ $("#matrix").dialog("close");
+parent.To_undo_conteiner();
 
   $(".ui-resizable-handle").remove();
   $(".ui-rotatable-handle").remove();
@@ -116,7 +140,7 @@ function Select(arg){
 
 
 
-   $('#mybox')[0].innerHTML = arg;
+
 
 
     var obj = $('#'+arg);
@@ -160,8 +184,6 @@ top2 = offset.top.toString();
 		elem.parent().rotatable();
 
 		elem.parent().parent().draggable();
-
-
 
     }
 

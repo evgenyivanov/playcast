@@ -4,26 +4,7 @@
 <title>{{user.first_name}} {{user.last_name}}</title>
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-<script>
-$(function(){
-        var theDialog = $("#dialog").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '100',
-            height:'800',
-        });
-});
-</script>
-<script>
-    function SendPresent(){
-         $("#dialog").dialog("open");
-    }
-
-    function Account(){
-        document.location.href='/account';
-    }
-</script>
+<script src="/static/js/author.js"></script>
 
 <meta name="google-translate-customization" content="eb92e7f6b9bb4463-543d894337de50d4-g4a1504b706c121ee-1d"></meta>
 </head>
@@ -60,7 +41,7 @@ function googleTranslateElementInit() {
 {% for i in L%}
 
 <div {%if not i.active%}style="background:grey;"{%endif%}>
-<div style="border-width:2px; font-size: 31px; font: bold; bolder-color: black" onclick="var a = document.createElement('a'); a.href='/playcast/{{i.id}}';document.body.appendChild(a);a.click();">
+<div class="collection" data-href="/playcast/{{i.id}}" style="border-width:2px; font-size: 31px; font: bold; bolder-color: black">
 {{i.title}}  {%if not i.active%} ('no active'){%endif%}<br />
 <img src="/media/screen/{{i.id}}.jpg"><br /></div>
 <div style = "font-size: 12px;">; date {{i.datetime}} last edition {{i.last}}</div>
@@ -69,6 +50,4 @@ function googleTranslateElementInit() {
 <br />
 {%endfor%}
 </div>
-
-
 </body>

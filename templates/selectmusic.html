@@ -3,20 +3,15 @@
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
 <script>
 function refresh(arg){
-
 var myDict ={'my': $("#onlymy").prop("checked"), 'author': $("#author").val(), 'performer': $("#performer").val(), 'words' : $("#keywords").val()};
-
 $.get("/music_list/"+arg.toString()+"/",myDict,function(data,status){
      $("#conteiner").html(data);
   });
     }
 </script>
-
 </head>
 
 <body onload="refresh(0);">
-
-
    Только мои файлы <input onchange="refresh(0);" type="checkbox" id="onlymy" checked>
    автор <input onchange="refresh(0);" type="text" id="author" checked>
    исполнитель <input onchange="refresh(0);" type="text" id="performer" checked>

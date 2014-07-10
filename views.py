@@ -101,6 +101,7 @@ def account(request):
     for i in list:
         L.append(i)
         balance = balance + i.sum
+
     d = {'user': request.user,'balance':balance,'L':L}
     t = get_template("account.html")
     c = Context(d)

@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="/static/css/edite.css">
 
-
 <form  action="/upload_music/" enctype="multipart/form-data" method="post">{% csrf_token %}
  <span style="color:red;">{{ form.non_field_errors }}</span>
      <div class="fieldWrapper">
@@ -36,7 +35,6 @@
         <label for="id_subject">Ключевые слова:</label>
     {{form.key_words}}
     </div>
-
 
 
 <input type="submit" class="btn-editor" value="Загрузить" />

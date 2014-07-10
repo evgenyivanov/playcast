@@ -86,8 +86,7 @@ $("#upload_music")[0].innerHTML = $("#upload_music")[0].innerHTML + '<button sty
 function DeleteBackgroundImage(){
 
     BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
-    $("#undo")[0].innerHTML = BodyF.innerHTML;
-    $("#undostyle")[0].innerHTML = BodyF.style.cssText;
+    To_undo_conteiner();
     BodyF.style.backgroundImage = "none";
     $("#dialog").dialog("close");
 
@@ -132,9 +131,31 @@ document.body.style.cssText = parent.$("#undostyle")[0].innerHTML;
 }
 
 function Undo(){
+
     $("#myframe")[0].contentDocument.getElementsByTagName("body")[0].innerHTML = $("#undo")[0].innerHTML;
-    var css = $("#undostyle")[0].innerHTML;
-    $("#myframe")[0].contentDocument.getElementsByTagName("body")[0].setAttribute("style", css);
+    $("#undo")[0].innerHTML = $("#undo1")[0].innerHTML;
+    $("#undo1")[0].innerHTML = $("#undo2")[0].innerHTML;
+    $("#undo2")[0].innerHTML = $("#undo3")[0].innerHTML;
+    $("#undo3")[0].innerHTML = $("#undo4")[0].innerHTML;
+    $("#undo4")[0].innerHTML = $("#undo5")[0].innerHTML;
+    $("#undo5")[0].innerHTML = $("#undo6")[0].innerHTML;
+    $("#undo6")[0].innerHTML = $("#undo7")[0].innerHTML;
+
+
+    $("#myframe")[0].contentDocument.getElementsByTagName("body")[0].setAttribute("style", $("#undostyle")[0].innerHTML);
+    $("#undostyle")[0].innerHTML =  $("#undostyle1")[0].innerHTML;
+    $("#undostyle1").innerHTML = $("#undostyle2")[0].innerHTML;
+    $("#undostyle2")[0].innerHTML =  $("#undostyle3")[0].innerHTML;
+    $("#undostyle3")[0].innerHTML =  $("#undostyle4")[0].innerHTML;
+    $("#undostyle4")[0].innerHTML =  $("#undostyle5")[0].innerHTML;
+    $("#undostyle5")[0].innerHTML =  $("#undostyle6")[0].innerHTML;
+    $("#undostyle6")[0].innerHTML =  $("#undostyle7")[0].innerHTML;
+
+
+    BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
+    id = $(BodyF).find("#mybox")[0].innerHTML;
+    $(BodyF).find("#mybox")[0].innerHTML="XXX";
+    $("#myframe")[0].contentWindow.Select(id);
 }
 
 function VideoSet(arg){
@@ -151,8 +172,7 @@ function AddVideo(){
 
 url = $("#select_video_url")[0].value;
 url = url.replace('http://www.youtube.com/watch?v=','');
-$("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
-$("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
+To_undo_conteiner();
 var today = NewId();
 
 st2= "<div><div name = 'container' class='container' onclick=";
@@ -301,9 +321,7 @@ $("#select_music").dialog("close");
 }
 
 function AddImage(arg,w,h){
-
-$("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
-$("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
+To_undo_conteiner();
 if ($("#type_select_image").html() === '0'){
 obj= $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 obj.style.backgroundImage = 'url(' + arg + ')';
@@ -358,6 +376,7 @@ alert(bodyF.html());
 }
 
 function Index(arg){
+To_undo_conteiner();
 myItem =  $('#myframe').contents().find('#mybox')[0].innerHTML;
 
 if (myItem === ''){
@@ -434,9 +453,7 @@ $("#myframe")[0].contentWindow.Select(today.toString());
 }
 
 function ColorBackground(){
-
-$("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
-$("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
+To_undo_conteiner();
 var color = $("#selectedColor")[0].value;
 obj =  $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 obj.style.backgroundColor = '#'+color;
@@ -489,4 +506,3 @@ $("#myframe")[0].contentWindow.Select(today.toString());
   }
 }
 ////////////////////////////////////////////////////////////////////////////////
-

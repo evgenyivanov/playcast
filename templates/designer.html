@@ -11,7 +11,6 @@
 <link href="/static/css/edite.css" rel="stylesheet" media="screen">
 <script src="/static/js/jscolor.js"></script>
 
-
  <script type="text/javascript" src="/static/js/NicEdit.js"></script> <script type="text/javascript">
 //<![CDATA[
         bkLib.onDomLoaded(function() {
@@ -23,130 +22,22 @@
   </script>
 <script src="/static/js/edite.js"></script>
 <script src="/myjs"></script>
-
-
-
-<script>
-
-
-$(function(){
-        var theDialog = $("#dialog").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '1000',
-            height:'700',
-        });
-
-
-            var theDialog2 = $("#dialog_text").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '800',
-            height:'330',
-        });
-
-           var theDialog3 = $("#text_edite").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '800',
-            height:'330',
-        });
-
-
-         var theDialog4 = $("#select_image").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '960',
-            height:'380',
-        });
-
-
-          var theDialog5 = $("#upload_image").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '420',
-            height:'290',
-        });
-
-
-  var theDialog6 = $("#select_music").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '960',
-            height:'580',
-        });
-
-
-          var theDialog7 = $("#upload_music").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '560',
-            height:'380',
-        });
-
-
-         var theDialog8 = $("#comments").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '560',
-            height:'510',
-        });
-
-        var theDialog9 = $("#select_video").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '960',
-            height:'580',
-        });
-
-
-        var theDialog10 = $("#matrix").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '610',
-            height:'100',
-        });
-
-         var theDialog11 = $("#opacity").dialog({
-            autoOpen: false,
-            resizable: false,
-            modal: true,
-            width: '250',
-            height:'300',
-        });
-
-        $("#wait").hide();
-
-});
-
-</script>
-
-
+<script src="/static/js/designer.js"></script>
 </head>
 <body>
 
 Название: <input type="text" id="title" style= "width :1000px;" value="{{title}}"><br/>
 url: <span id="music_url">{{tmurl}}</span>   название: <span id="music_title">{{tmtitle}}</span> автор: <span id="music_author">{{tmauthor}}</span> исполнитель: <span id="music_performer">{{tmperformer}}</span>
 <br />
-<button class="btn-editor"  style="position:relative; top: -2px;" onclick='$("#type_select_image").html(0);$("#list_img2")[0].src= $("#list_img2")[0].src;$("#dialog").dialog("open")'>Фон</button>
-<button class="btn-editor" onclick='$("#type_select_image").html(1);$("#select_image").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" >Изображение</button>
-<button class="btn-editor" onclick='$("#dialog_text").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Текст</button>
-<button class="btn-editor" onclick='$("#select_music").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Музыка</button>
-<button class="btn-editor" onclick='$("#select_video").dialog("open")'><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Видео</button>
+<button class="btn-editor"  style="position:relative; top: -2px;" onclick="Background_()">Фон</button>
+<button class="btn-editor" onclick="Images_();"><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" >Изображение</button>
+<button class="btn-editor" onclick="Text_();"><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Текст</button>
+<button class="btn-editor" onclick="Music_();"><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Музыка</button>
+<button class="btn-editor" onclick="Video_();"><img src="/static/images/add-icon.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Видео</button>
 <button class="btn-editor-del"  onclick='DeleteItem("");'><img src="/static/images/trash.png" width="17px" height = "17px" style="position:relative; top: 2px;" > Удалить</button>
 <button class="btn-editor" onclick='Index(1);'><img src="/static/images/up.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <button class="btn-editor" onclick='Index(-1);'><img src="/static/images/down.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
-<button class="btn-editor" style="position:relative; top: -2px;" onclick='$("#comments").dialog("open")'>Комментарий</button>
+<button class="btn-editor" style="position:relative; top: -2px;" onclick="Comm_()">Комментарий</button>
 <button class="btn-editor" onclick='Undo("")'><img src="/static/images/undo.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <button class="btn-editor" style="position:relative; top: px;" onclick='Clone("");'><img src="/static/images/copy.png" width="17px" height = "17px" style="position:relative; top: 2px;" >Клонировать</button>
 <button class="btn-editor" onclick="Matrix1('');"  style="position:relative; top: -2px;">M</button>
@@ -164,33 +55,21 @@ url: <span id="music_url">{{tmurl}}</span>   название: <span id="music_t
 </iframe>
 </div>
 
- <script>
- $('#myframe_conteiner')
-    .resizable({
-        stop: function(e, ui) {
-
-            BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
-            BodyF.width = ui.size['width'];
-            BodyF.height = ui.size['height'];
-            }
-    });
- </script>
-
- 	<div id="type_select_image" style="visibility:hidden"></div>
+<div id="type_select_image" style="visibility:hidden"></div>
 
  <div id="select_image" title="Выбрать изображение">
  <iframe   id="list_img" src="/select_image" width="950" height="280">
 
  </iframe>
-  <button onclick='document.getElementById("upload2").contentDocument.location.reload(true);$("#upload_image").dialog("open");'>Загрузить</button>
- <button onclick='$("#select_image").dialog("close");'> Close</button>
+  <button onclick="UpImg_();">Загрузить</button>
+ <button onclick="UpImgClose_();"> Close</button>
  </div>
 
  <div id="upload_image" title="Загрузить изображение">
  <iframe  id="upload2" src="/upload_image" width="420" height="190">
 
  </iframe>
- <button style="font-size: 12px; position: relative; left:250px;" onclick='$("#upload_image").dialog("close");document.getElementById("list_img").contentDocument.location.reload(true);'>Закрыть</button>
+ <button style="font-size: 12px; position: relative; left:250px;" onclick="UpImgClose2_();">Закрыть</button>
  </div>
 
 
@@ -199,8 +78,8 @@ url: <span id="music_url">{{tmurl}}</span>   название: <span id="music_t
  <iframe  id="list_music" src="/select_music" width="1350" height="470">
 
  </iframe>
-  <button onclick='$("#upload_music").dialog("open");'>Загрузить</button>
- <button onclick='$("#select_music").dialog("close");'>Закрыть</button>
+  <button onclick="UpMusic_();">Загрузить</button>
+ <button onclick="UpMusicClose_();">Закрыть</button>
  </div>
 
  <div id="upload_music" title="Загрузить MP3">
@@ -279,7 +158,23 @@ url: <span id="music_url">{{tmurl}}</span>   название: <span id="music_t
 </div>
 
 <div id = "undo" style="visibility:hidden">{{tbody|safe}}</div>
+<div id = "undo1" style="visibility:hidden"></div>
+<div id = "undo2" style="visibility:hidden"></div>
+<div id = "undo3" style="visibility:hidden"></div>
+<div id = "undo4" style="visibility:hidden"></div>
+<div id = "undo5" style="visibility:hidden"></div>
+<div id = "undo6" style="visibility:hidden"></div>
+<div id = "undo7" style="visibility:hidden"></div>
+
 <div id = "undostyle" style="visibility:hidden">{{tstyle}}</div>
+<div id = "undostyle1" style="visibility:hidden"></div>
+<div id = "undostyle2" style="visibility:hidden"></div>
+<div id = "undostyle3" style="visibility:hidden"></div>
+<div id = "undostyle4" style="visibility:hidden"></div>
+<div id = "undostyle5" style="visibility:hidden"></div>
+<div id = "undostyle6" style="visibility:hidden"></div>
+<div id = "undostyle7" style="visibility:hidden"></div>
+
 <div id = "object_id" style="visibility:hidden">{{tid}}</div>
 </body>
 </html>
