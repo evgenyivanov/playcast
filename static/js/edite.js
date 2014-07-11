@@ -143,8 +143,8 @@ function Undo(){
 
 
     $("#myframe")[0].contentDocument.getElementsByTagName("body")[0].setAttribute("style", $("#undostyle")[0].innerHTML);
-    $("#undostyle")[0].innerHTML =  $("#undostyle1")[0].innerHTML;
-    $("#undostyle1").innerHTML = $("#undostyle2")[0].innerHTML;
+    $("#undostyle")[0].innerHTML =   $("#undostyle1")[0].innerHTML;
+    $("#undostyle1").innerHTML    =  $("#undostyle2")[0].innerHTML;
     $("#undostyle2")[0].innerHTML =  $("#undostyle3")[0].innerHTML;
     $("#undostyle3")[0].innerHTML =  $("#undostyle4")[0].innerHTML;
     $("#undostyle4")[0].innerHTML =  $("#undostyle5")[0].innerHTML;
@@ -348,6 +348,7 @@ myobj.style.zIndex = MaxZindex();
 obj.width = w;
 obj.height = h;
 $("#select_image").dialog("close");
+To_undo_conteiner();
 $("#myframe")[0].contentWindow.Select(today.toString());
 }
 }
@@ -360,6 +361,7 @@ function EditeMyText(){
     myDiv = $("#myframe")[0].contentDocument.getElementById(id);
     myDiv.innerHTML = myNicEditor2.instanceById('text_edite_text').getContent();
     parent.$("#text_edite").dialog("close");
+    To_undo_conteiner();
 }
 
 function EditeText(arg){
@@ -448,6 +450,7 @@ BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 BodyF.innerHTML = st + BodyF.innerHTML;
 myobj=$(BodyF).find("#"+today+"_container")[0];
 myobj.style.zIndex = MaxZindex();
+
 $("#myframe")[0].contentWindow.Select(today.toString());
 
 }

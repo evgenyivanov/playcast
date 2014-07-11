@@ -100,9 +100,7 @@ function Select(arg){
          }
     $('#mybox')[0].innerHTML = arg;
 
- $("#matrix").dialog("close");
-parent.To_undo_conteiner();
-
+  $("#matrix").dialog("close");
   $(".ui-resizable-handle").remove();
   $(".ui-rotatable-handle").remove();
 
@@ -138,14 +136,10 @@ parent.To_undo_conteiner();
       );
 
 
-
-
-
-
-
     var obj = $('#'+arg);
     var offset = obj.offset();
     var objc =  $('#'+arg+'_container')[0];
+
 
 
 try{
@@ -178,12 +172,19 @@ top2 = offset.top.toString();
 
 		elem.resizable({
 		//	aspectRatio: true,
-			handles:     'ne, nw, se, sw'
+			handles:     'ne, nw, se, sw',
+			stop: function( event, ui ) { parent.To_undo_conteiner();}
+			});
+
+
+
+		elem.parent().rotatable({
+		   stop: function( event, ui ) { parent.To_undo_conteiner();}
 		});
 
-		elem.parent().rotatable();
-
-		elem.parent().parent().draggable();
+		elem.parent().parent().draggable({
+		    stop: function( event, ui ) { parent.To_undo_conteiner();}
+		});
 
     }
 
