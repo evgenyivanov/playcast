@@ -1,22 +1,22 @@
 function To_undo_conteiner(){
-  $("#undo7")[0].innerHTML = $("#undo6")[0].innerHTML;
-  $("#undo6")[0].innerHTML = $("#undo5")[0].innerHTML;
-  $("#undo5")[0].innerHTML = $("#undo4")[0].innerHTML;
-  $("#undo4")[0].innerHTML = $("#undo3")[0].innerHTML;
-  $("#undo3")[0].innerHTML = $("#undo2")[0].innerHTML;
-  $("#undo2")[0].innerHTML = $("#undo1")[0].innerHTML;
-  $("#undo1")[0].innerHTML = $("#undo")[0].innerHTML;
-  $("#undo")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
+  window.undo7 = window.undo6;
+  window.undo6 = window.undo5;
+  window.undo5 = window.undo4;
+  window.undo4 = window.undo3;
+  window.undo3 = window.undo2;
+  window.undo2 = window.undo1;
+  window.undo1 = window.undo;
+  window.undo = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].innerHTML;
 
 
-  $("#undostyle7")[0].innerHTML = $("#undostyle6")[0].innerHTML;
-  $("#undostyle6")[0].innerHTML = $("#undostyle5")[0].innerHTML;
-  $("#undostyle5")[0].innerHTML = $("#undostyle4")[0].innerHTML;
-  $("#undostyle4")[0].innerHTML = $("#undostyle3")[0].innerHTML;
-  $("#undostyle3")[0].innerHTML = $("#undostyle2")[0].innerHTML;
-  $("#undostyle2")[0].innerHTML = $("#undostyle1")[0].innerHTML;
-  $("#undostyle1")[0].innerHTML = $("#undostyle")[0].innerHTML;
-  $("#undostyle")[0].innerHTML = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
+  window.undostyle7 = window.undostyle6;
+  window.undostyle6 = window.undostyle5;
+  window.undostyle5 = window.undostyle4;
+  window.undostyle4 = window.undostyle3;
+  window.undostyle3 = window.undostyle2;
+  window.undostyle2 = window.undostyle1;
+  window.undostyle1 = window.undostyle;
+  window.undostyle = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0].style.cssText;
 }
 
 function Matrix2(){
@@ -24,7 +24,7 @@ function Matrix2(){
     myItem =  $('#myframe').contents().find('#mybox')[0].innerHTML;
     ob=$("#myframe")[0].contentDocument.getElementById(myItem+'_container');
     st = 'matrix('+ $('#m1')[0].value.toString()+','+ $('#m2')[0].value.toString()+','+ $('#m3')[0].value.toString()+',';
-    st = st + + $('#m4')[0].value.toString()+','+ $('#m5')[0].value.toString()+','+ $('#m6')[0].value.toString()+')';
+    st = st  + $('#m4')[0].value.toString()+','+ $('#m5')[0].value.toString()+','+ $('#m6')[0].value.toString()+')';
     ob.style.{{Transform}} = st;
 
 

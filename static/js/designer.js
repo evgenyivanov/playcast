@@ -107,6 +107,24 @@ $(function(){
             }
     });
 
+ window.undo = $("#undo")[0].innerHTML;
+ window.undo1 = "";
+ window.undo2 = "";
+ window.undo3 = "";
+ window.undo4 = "";
+ window.undo5 = "";
+ window.undo6 = "";
+ window.undo7 = "";
+
+ window.undostyle = $("#undostyle")[0].innerHTML;
+ window.undostyle1 = "";
+ window.undostyle2 = "";
+ window.undostyle3 = "";
+ window.undostyle4 = "";
+ window.undostyle5 = "";
+ window.undostyle6 = "";
+ window.undostyle7 = "";
+
 
 });
 

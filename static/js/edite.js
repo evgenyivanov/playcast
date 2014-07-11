@@ -125,31 +125,30 @@ function DelQuest(){
     $("#dialog").dialog("open");
 }
 function FrameOnLoad(){
-
 document.body.innerHTML = parent.$("#undo")[0].innerHTML + document.body.innerHTML;
 document.body.style.cssText = parent.$("#undostyle")[0].innerHTML;
 }
 
 function Undo(){
 
-    $("#myframe")[0].contentDocument.getElementsByTagName("body")[0].innerHTML = $("#undo")[0].innerHTML;
-    $("#undo")[0].innerHTML = $("#undo1")[0].innerHTML;
-    $("#undo1")[0].innerHTML = $("#undo2")[0].innerHTML;
-    $("#undo2")[0].innerHTML = $("#undo3")[0].innerHTML;
-    $("#undo3")[0].innerHTML = $("#undo4")[0].innerHTML;
-    $("#undo4")[0].innerHTML = $("#undo5")[0].innerHTML;
-    $("#undo5")[0].innerHTML = $("#undo6")[0].innerHTML;
-    $("#undo6")[0].innerHTML = $("#undo7")[0].innerHTML;
+    $("#myframe")[0].contentDocument.getElementsByTagName("body")[0].innerHTML = window.undo;
+    window.undo = window.undo1;
+    window.undo1 = window.undo2;
+    window.undo2 = window.undo3;
+    window.undo3 = window.undo4;
+    window.undo4 = window.undo5;
+    window.undo5 = window.undo6;
+    window.undo6 = window.undo7;
 
 
-    $("#myframe")[0].contentDocument.getElementsByTagName("body")[0].setAttribute("style", $("#undostyle")[0].innerHTML);
-    $("#undostyle")[0].innerHTML =   $("#undostyle1")[0].innerHTML;
-    $("#undostyle1").innerHTML    =  $("#undostyle2")[0].innerHTML;
-    $("#undostyle2")[0].innerHTML =  $("#undostyle3")[0].innerHTML;
-    $("#undostyle3")[0].innerHTML =  $("#undostyle4")[0].innerHTML;
-    $("#undostyle4")[0].innerHTML =  $("#undostyle5")[0].innerHTML;
-    $("#undostyle5")[0].innerHTML =  $("#undostyle6")[0].innerHTML;
-    $("#undostyle6")[0].innerHTML =  $("#undostyle7")[0].innerHTML;
+    $("#myframe")[0].contentDocument.getElementsByTagName("body")[0].setAttribute("style", window.undostyle);
+    window.undostyle =   window.undostyle1;
+    window.undostyle1    =  window.undostyle2;
+    window.undostyle2 =  window.undostyle3;
+    window.undostyle3 =  window.undostyle4;
+    window.undostyle4 =  window.undostyle5;
+    window.undostyle5 =  window.undostyle6;
+    window.undostyle6 =  window.undostyle7;
 
 
     BodyF = $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
