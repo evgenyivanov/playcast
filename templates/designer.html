@@ -42,6 +42,7 @@ url: <span id="music_url">{{tmurl}}</span>   название: <span id="music_t
 <button class="btn-editor" style="position:relative; top: px;" onclick='Clone("");'><img src="/static/images/copy.png" width="17px" height = "17px" style="position:relative; top: 2px;" >Клонировать</button>
 <button class="btn-editor" onclick="Matrix1('');"  style="position:relative; top: -2px;">M</button>
 <button class="btn-editor" style="position:relative; top: 0px;" onclick='Opacity("")'><img src="/static/images/drop.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
+<button class="btn-editor" style="position:relative; top: 0px;" onclick='Border("")'><img src="/static/images/border.jpg" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <button class="btn-editor" onclick="Preview('');"><img src="/static/images/preview.png" width="17px" height = "17px" style="position:relative; top: 2px;" ></button>
 <span id= "publisher_block">
 <button class="btn-editor"  onclick = "Publisher('');"><img src="/static/images/save.png" width="17px" height = "17px" style="position:relative; top: 2px;" >  Сохранить </button>
@@ -155,6 +156,17 @@ url: <span id="music_url">{{tmurl}}</span>   название: <span id="music_t
 <br />
 <br />
  <button onclick='$("#opacity").dialog("close");'>Закрыть</button>
+</div>
+
+<div id="border" title="Рамка">
+Толщина <br />
+<input id = "border_value" onchange ="BorderSelect();" type="range" min="0" max="36" step="1" value="0">
+<span id="border_label"></span>
+<br />
+<input id="selectedColor2" onchange ="BorderColorSelect();" class="color">
+<br />
+<br />
+ <button onclick='$("#border").dialog("close");'>Закрыть</button>
 </div>
 
 <div id = "undo" style="visibility:hidden">{{tbody|safe}}</div>

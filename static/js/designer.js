@@ -94,6 +94,15 @@ $(function(){
             height:'300',
         });
 
+
+         var theDialog12 = $("#border").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '250',
+            height:'300',
+        });
+
         $("#wait").hide();
 
 

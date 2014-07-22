@@ -1,3 +1,48 @@
+function BorderColorSelect() {
+
+myframe = $("#myframe")[0].contentWindow;
+id = myframe.$("#mybox")[0].innerHTML;
+obj = myframe.$("#"+id)[0];
+obj.style.borderColor = "#"+$("#selectedColor2")[0].value;
+
+}
+
+function BorderSelect() {
+
+myframe = $("#myframe")[0].contentWindow;
+id = myframe.$("#mybox")[0].innerHTML;
+obj = myframe.$("#"+id)[0];
+slider = $("#border_value")[0];
+
+if (obj.style.borderWidth == "0"){
+obj.style.borderStyle = "";}else{
+   obj.style.borderStyle = "solid";
+}
+
+obj.style.borderWidth = slider.value+"px";
+
+label = $("#border_label")[0];
+label.innerHTML = slider.value.toString()+" px";
+
+
+
+}
+
+function Border(){
+myframe = $("#myframe")[0].contentWindow;
+id = myframe.$("#mybox")[0].innerHTML;
+obj = myframe.$("#"+id)[0];
+
+if (obj.style.borderWidth.toString() == ''){
+   obj.style.borderWidth = 0;
+}
+slider = $("#border_value")[0];
+slider.value = parseFloat(obj.style.borderWidth);
+label = $("#border_label")[0];
+label.innerHTML = slider.value.toString()+"px";
+$("#border").dialog("open");
+}
+
 function BrightnessSelect() {
  myframe = $("#myframe")[0].contentWindow;
 id = myframe.$("#mybox")[0].innerHTML;
@@ -179,7 +224,7 @@ st2=st2+'"';
 st2= st2+"Select('";
 st2= st2+today+"'"+');';
 st2=st2+'"';
-st2 = st2 +' id="'+today+'_container" style="position: absolute; z-index: 4; width : 245px; height : 185px" >';
+st2 = st2 +' id="'+today+'_container" style="position: absolute; z-index: 4; width : 245px; height : 185px;" >';
 st2 = st2 + '<iframe class="content" id = "'+today+'" width="96%" height="96%" src="http://www.youtube.com/embed/'+url+'?autoplay=1" frameborder="0" allowfullscreen="allowfullscreen" data-link="http://www.youtube.com/watch?v='+url+'"></iframe>';
 st2 = st2 + '</div></div>';
 
