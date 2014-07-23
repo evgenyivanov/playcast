@@ -99,7 +99,7 @@ $(function(){
             autoOpen: false,
             resizable: false,
             modal: true,
-            width: '250',
+            width: '300',
             height:'300',
         });
 

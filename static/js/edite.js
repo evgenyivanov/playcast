@@ -7,6 +7,19 @@ obj.style.borderColor = "#"+$("#selectedColor2")[0].value;
 
 }
 
+function BorderRadiusSelect() {
+
+myframe = $("#myframe")[0].contentWindow;
+id = myframe.$("#mybox")[0].innerHTML;
+obj = myframe.$("#"+id)[0];
+slider = $("#border_radius")[0];
+obj.style.borderRadius = slider.value+"px";
+label = $("#border_radius_label")[0];
+label.innerHTML = slider.value.toString()+" px";
+}
+
+
+
 function BorderSelect() {
 
 myframe = $("#myframe")[0].contentWindow;
@@ -23,9 +36,6 @@ obj.style.borderWidth = slider.value+"px";
 
 label = $("#border_label")[0];
 label.innerHTML = slider.value.toString()+" px";
-
-
-
 }
 
 function Border(){
@@ -40,6 +50,17 @@ slider = $("#border_value")[0];
 slider.value = parseFloat(obj.style.borderWidth);
 label = $("#border_label")[0];
 label.innerHTML = slider.value.toString()+"px";
+
+slider = $("#border_radius")[0];
+if (obj.style.borderRadius.toString()==""){
+   slider.value = 0;
+   label = $("#border_radius")[0];
+   label.innerHTML = "0px";
+}else{
+slider.value = parseFloat(obj.style.borderRadius);
+label = $("#border_radius")[0];
+label.innerHTML = slider.value.toString()+"px";}
+
 $("#border").dialog("open");
 }
 
