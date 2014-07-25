@@ -109,11 +109,8 @@ function Select(arg){
      cont = $(this).find(".content").parent()[0].innerHTML;
 
 
-
       try{
       obj = $(this).find(".ui-wrapper")[0];
-
-
 
       if (obj.style.left == "auto"){obj.style.left ="0px";}
       if (obj.style.top == "auto"){obj.style.top ="0px";}
@@ -171,7 +168,7 @@ top2 = offset.top.toString();
     	var   elem = $('#'+arg);
 
 		elem.resizable({
-		//	aspectRatio: true,
+
 			handles:     'ne, nw, se, sw',
 			stop: function( event, ui ) { parent.To_undo_conteiner();}
 			});
@@ -179,11 +176,13 @@ top2 = offset.top.toString();
 
 
 		elem.parent().rotatable({
-		   stop: function( event, ui ) { parent.To_undo_conteiner();}
+		   stop: function( event, ui ) { parent.To_undo_conteiner();},
 		});
 
+
 		elem.parent().parent().draggable({
-		    stop: function( event, ui ) { parent.To_undo_conteiner();}
+		    stop: function( event, ui ) { parent.To_undo_conteiner();},
+
 		});
 
     }

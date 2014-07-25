@@ -522,13 +522,13 @@ $("#myframe")[0].contentWindow.Select(today.toString());
 
 function ColorBackground(){
 To_undo_conteiner();
+DeleteBackgroundImage();
 var color = $("#selectedColor")[0].value;
 obj =  $("#myframe")[0].contentDocument.getElementsByTagName('body')[0];
 obj.style.backgroundColor = '#'+color;
 $("#dialog").dialog("close");
 
 }
-
 
 
 function Clone(){

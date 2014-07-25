@@ -790,14 +790,6 @@ def upload_music(request):
                 NonStop = False
                 err = 'Только MP3 файлы'
 
-            for i in filename:
-                if not i in ['_','-','.','',' ','0','1','2','3','4','5','6','7','8','9','q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m']:
-                    NonStop = False
-                    err = "Nолько из цифры и латинских буквы"
-                    break
-
-
-
 
 
         if form.is_valid() and NonStop:
@@ -918,8 +910,8 @@ def upload_image(request):
             obj.title = form.cleaned_data['name']
             image = form.cleaned_data['file']
             if image:
-                if image._size > 1.5*1024*1024:
-                    return HttpResponse("Image file too large ( > 1.5M )")
+                if image._size > 4*1024*1024:
+                    return HttpResponse("Image file too large ( > 4M )")
 
             obj.image = image
             obj.key_words = form.cleaned_data['key_words'].lower()
