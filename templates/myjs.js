@@ -146,6 +146,7 @@ height = obj[0].height.toString();
 left2 = offset.left.toString();
 top2 = offset.top.toString();
 
+
 }catch(e) {
     width = 425;
     height = 25;

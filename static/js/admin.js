@@ -9,7 +9,7 @@ function EndEditeProfile(){
 
 function EditeProfile(){
     $("#editprofile")[0].src = $("#editprofile")[0].src;
-    $("#dialog").dialog("open");
+    $("#dialogPF").dialog("open");
     }
 
 function LogIn(){

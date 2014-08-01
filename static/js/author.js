@@ -6,6 +6,15 @@ $(function(){
             width: '100',
             height:'800',
         });
+
+
+        var theDialog2 = $("#dialogPF").dialog({
+            autoOpen: false,
+            resizable: false,
+            modal: true,
+            width: '100',
+            height:'800',
+        });
 })
 
 function SendPresent(){

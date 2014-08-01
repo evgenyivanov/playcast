@@ -353,7 +353,26 @@ def author(request,id):
     else:
         if str(request.user) != 'AnonymousUser':
             controls = '<button  class="btn-editor" onclick = "SendPresent();">Сделать подарок</button>'
-    d = {'user':usr,'p':profile,'L':L,'url_img':url_img,'h':h,'presents':presents,'controls':controls,'last':last}
+
+
+    user = request.user
+    if str(user) == 'AnonymousUser':
+        html = 'Привет, Гость!'+'<br />логин <span style="position:relative;left:5px;"><input type="text" id ="login" value=""></span>'
+        html = html +'пароль' +'<input type="password" id = "password" value="">'
+        html = html +'<button type="button" onclick="LogIn();">OK</button>'+ 'или ' +'<a href="/register">'+'Зарегистрироваться'+'</a>'
+    else:
+        html = 'Привет'+', <a href="/author/'+str(user.id)+'/" target = "_blank'+'">'
+        html = html +  user.first_name.encode('utf8')+' ' + user.last_name.encode('utf8')
+        html = html+ '</a>!<br />'
+        html = html + '<button onclick="EditeProfile();" >' + 'Ваш профиль' + '</button>'
+        html = html +'<button type="button" onclick="logout();">'+ 'Выход'+ '</button>'
+    if  request.user.is_superuser:
+        online_ = online(request)
+    else:
+        online_ = ''
+
+
+    d = {'user':usr,'p':profile,'L':L,'url_img':url_img,'h':h,'presents':presents,'controls':controls,'last':last,'mycode':html}
     t = get_template("author.html")
     c = Context(d)
     html = t.render(c)
